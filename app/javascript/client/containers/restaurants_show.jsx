@@ -41,7 +41,7 @@ class RestaurantsShow extends Component {
           {this.props.offers.map((offer) => {
             if (offer.available === false) {
               return (
-                <div className="col-6">
+                <div className="col-6 col-sm-4">
                   <div className="inactive">
                     <i className="fas fa-lock" />
                   </div>
@@ -55,7 +55,7 @@ class RestaurantsShow extends Component {
                 </div>);
             } else {
               return [
-                <div className="col-6">
+                <div className="col-6 col-sm-4">
                   <div key={offer.id} className="card-offer" data-toggle="modal" data-target={`#ModalCenter${offer.id}`} >
                     <div className="card-offer-img" style={{backgroundImage: 'url(https://picky-palate.com/wp-content/uploads/2020/04/IMG_7790-scaled-e1588014500955.jpg)'}} />
                     <h2>{offer.title}</h2>
