@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import Navbar from '../components/navbar';
 
-import { fetchOffers, fetchCode } from '../actions';
+import { fetchRestaurant, fetchCode } from '../actions';
 
 // import Aside from '../components/aside';
 
@@ -20,6 +20,11 @@ class RestaurantsShow extends Component {
     ],
     code: 'XXXX-XXXX'
   };
+
+  componentDidMount() {
+    console.log(this)
+    this.props.fetchRestaurant(this.props.match.params.id);
+  }
 
 
   render () {
@@ -130,7 +135,7 @@ function mapStateToProps(state, ownProps) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchOffers }, dispatch);
+  return bindActionCreators({ fetchRestaurant }, dispatch);
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RestaurantsShow));

@@ -43,7 +43,7 @@ const reducers = combineReducers({
 
 const middlewares = applyMiddleware(reduxPromise, logger);
 
-// render an instance of the component in the DOM
+// render an instance of the component in restaurants/1the DOM
 ReactDOM.render(
 
   <Provider store={createStore(reducers, initialState, middlewares)}>

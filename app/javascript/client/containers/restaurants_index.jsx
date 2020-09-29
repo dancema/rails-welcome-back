@@ -3,24 +3,17 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link } from 'react-router-dom';
 
-import { fetchRestaurants } from '../actions';
+import { fetchRestaurants } from '../actions/index';
 
 import Navbar from '../components/navbar';
 
 class RestaurantsIndex extends Component {
-  // componentWillMount() {
-  //   this.props.fetchCars(this.props.garage);
-  // }
+  componentDidMount() {
+    this.props.fetchRestaurants();
+  }
 
   render () {
-    // if (this.props.cars.length === 0) {
-    //   return [
-    //     <Aside key="aside" garage={this.props.garage}>
-    //       <Link to="/cars/new">Add a car</Link>
-    //     </Aside>,
-    //     <div className="no-car" key="nocar">No car yet</div>
-    //   ];
-    // }
+
     return [
       <div className="container" key="cars">
         <h2>Mes Restaurants</h2>
