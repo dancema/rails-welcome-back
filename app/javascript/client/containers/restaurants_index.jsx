@@ -25,7 +25,7 @@ class RestaurantsIndex extends Component {
                 <div className="card-restaurant-infos">
                   <div>
                     <h2>{restaurant.name}</h2>
-                    <p>Solde : 8 <i class="fas fa-star"></i></p>
+                    <p>Solde : 8 <i className="fas fa-star"></i></p>
                   </div>
                   <p className="card-restauant-pricing">3 offres disponibles</p>
                 </div>

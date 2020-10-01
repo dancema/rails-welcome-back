@@ -30,9 +30,11 @@ const offers = [
   { id: 6, title: 'Bière Mythos', stars_required: 3, available: false }
 ];
 
+const root = document.getElementById('root')
+
 const initialState = {
-  restaurants: restaurants,
-  offers: offers
+  restaurants: JSON.parse(root.dataset.restaurants),
+  offers: []
 };
 
 
@@ -42,6 +44,7 @@ const reducers = combineReducers({
 });
 
 const middlewares = applyMiddleware(reduxPromise, logger);
+
 
 // render an instance of the component in restaurants/1the DOM
 ReactDOM.render(
@@ -59,5 +62,5 @@ ReactDOM.render(
       </div>
     </Router>
   </Provider>,
-  document.getElementById('root')
+  root
 );

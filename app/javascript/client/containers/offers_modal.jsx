@@ -35,9 +35,8 @@ class OffersModal extends Component {
 
 function mapStateToProps(state, ownProps) {
   const id = parseInt(ownProps.match.params.id);
-  console.log(ownProps.match.params)
   return {
-    restaurant: state.restaurants.find((restaurant) => restaurant.id === id),
+    restaurant: state.restaurants.find((restaurant) => restaurant.id === id)
   };
 }
 

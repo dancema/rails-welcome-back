@@ -4,26 +4,15 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import Navbar from '../components/navbar';
 
-import { fetchRestaurant, fetchCode } from '../actions';
+import { fetchRestaurants, fetchOffers } from '../actions';
 
 // import Aside from '../components/aside';
 
 class RestaurantsShow extends Component {
-  static defaultProps = {
-    offers: [
-      { id: 1, title: 'Bière Mythos', stars_required: 2, available: true, code: 'XXXX-XXXX' },
-      { id: 2, title: "Frites maison à l'origan", stars_required: 3, available: true, code: 'XXXX-XXXX' },
-      { id: 3, title: 'Souvlaki de poulet citronné', stars_required: 5, available: true, code: 'XXXX-XXXX' },
-      { id: 4, title: "Gyros ap'ola", stars_required: 6, available: false, code: 'XXXX-XXXX' },
-      { id: 5, title: 'Souvlaki de poulet citronné + Boisson + Dessert', stars_required: 9, available: false, code: 'XXXX-XXXX' },
-      { id: 6, title: '2 Gyros + 2 Boissons + 2 Desserts', stars_required: 12, available: false, code: 'XXXX-XXXX' }
-    ],
-    code: 'XXXX-XXXX'
-  };
 
   componentDidMount() {
-    console.log(this)
-    this.props.fetchRestaurant(this.props.match.params.id);
+    // this.props.fetchRestaurants();
+    this.props.fetchOffers(this.props.match.params.id);
   }
 
 
@@ -131,11 +120,12 @@ function mapStateToProps(state, ownProps) {
   const id = parseInt(ownProps.match.params.id);
   return {
     restaurant: state.restaurants.find((restaurant) => restaurant.id === id),
+    offers: state.offers
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchRestaurant }, dispatch);
+  return bindActionCreators({ fetchRestaurants, fetchOffers }, dispatch);
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RestaurantsShow));
