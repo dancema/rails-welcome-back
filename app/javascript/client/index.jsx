@@ -9,7 +9,8 @@ import { createHistory as history } from 'history';
 
 import RestaurantsIndex from './containers/restaurants_index';
 import RestaurantsShow from './containers/restaurants_show';
-import OffersModal from './containers/offers_modal';
+import OffersShow from './containers/offers_show';
+
 import Navbar from './components/navbar';
 
 import restaurantsReducer from './reducers/restaurants_reducer';
@@ -45,6 +46,7 @@ ReactDOM.render(
           <Switch>
             <Route path="/" exact component={RestaurantsIndex} />
             <Route path="/restaurants/:id" exact component={RestaurantsShow} />
+            <Route path="/restaurants/:restaurant_id/offers/:id" exact component={OffersShow} />
           </Switch>
         </div>
       </div>

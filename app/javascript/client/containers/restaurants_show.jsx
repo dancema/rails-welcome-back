@@ -3,9 +3,9 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import CodeForm from './code_form';
-import OffersModal from './offers_modal';
+import OffersShow from './offers_show';
 
-import { fetchRestaurants, fetchOffers, createCode } from '../actions';
+import { fetchRestaurant, fetchOffers, createCode } from '../actions';
 
 // import Aside from '../components/aside';
 
@@ -13,7 +13,9 @@ class RestaurantsShow extends Component {
 
 
   componentDidMount() {
-    this.props.fetchRestaurants();
+    if (!this.props.restaurant) {
+      this.props.fetchRestaurant(this.props.match.params.id);
+    }
     this.props.fetchOffers(this.props.match.params.id);
   }
 
@@ -52,17 +54,18 @@ class RestaurantsShow extends Component {
                 </div>);
             } else {
               return [
-                <div className="col-6 col-sm-4">
-                  <div key={offer.id} className="card-offer" data-toggle="modal" data-target={`#ModalCenter${offer.id}`} >
+              <div className="col-6 col-sm-4">
+                <Link to={`${this.props.restaurant.id}/offers/${offer.id}`} className="link">
+                  <div key={offer.id} className="card-offer" >
                     <div className="card-offer-img" style={{backgroundImage: 'url(https://picky-palate.com/wp-content/uploads/2020/04/IMG_7790-scaled-e1588014500955.jpg)'}} />
                     <h2>{offer.title}</h2>
                     <div className="card-offer-stars-required">
                       {offer.stars_required} <i className="fas fa-star"></i>
                     </div>
                     </div>
-                </div>,
-                <OffersModal offer={offer} />
-                ];
+                </Link>
+              </div>
+            ];
             }
           })}
         </div>
@@ -109,7 +112,7 @@ function mapStateToProps(state, ownProps) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchRestaurants, fetchOffers, createCode }, dispatch);
+  return bindActionCreators({ fetchRestaurant, fetchOffers, createCode }, dispatch);
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RestaurantsShow));

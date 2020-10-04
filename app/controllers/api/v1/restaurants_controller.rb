@@ -5,7 +5,7 @@ class Api::V1::RestaurantsController < ActionController::Base
   end
 
   def show
-    offers = Offer.where(restaurant: Restaurant.find(params[:id]))
-    render json: offers
+    restaurant = Restaurant.find(params[:id])
+    render json: restaurant
   end
 end
