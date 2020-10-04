@@ -7,7 +7,6 @@ import logger from 'redux-logger';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { createHistory as history } from 'history';
 
-
 import RestaurantsIndex from './containers/restaurants_index';
 import RestaurantsShow from './containers/restaurants_show';
 import OffersModal from './containers/offers_modal';
@@ -15,32 +14,21 @@ import Navbar from './components/navbar';
 
 import restaurantsReducer from './reducers/restaurants_reducer';
 import offersReducer from './reducers/offers_reducer';
-
-const restaurants = [
-  { id: 1, name: 'Kali Greek Food', street: '1, rue Montera', city: 'Paris', postal_code: 75012 },
-  { id: 2, name: 'Elsy', street: '1, rue Montera', city: 'Paris', postal_code: 75012 }
-];
-
-const offers = [
-  { id: 1, title: 'Bière Mythos', stars_required: 3, available: true },
-  { id: 2, title: 'Bièr', stars_required: 3, available: true },
-  { id: 3, title: 'Bière Mythos', stars_required: 3, available: true },
-  { id: 4, title: 'Bière Mythos', stars_required: 3, available: false },
-  { id: 5, title: 'Bière Mythos', stars_required: 3, available: false },
-  { id: 6, title: 'Bière Mythos', stars_required: 3, available: false }
-];
+import codesReducer from './reducers/codes_reducer';
 
 const root = document.getElementById('root')
 
 const initialState = {
   restaurants: JSON.parse(root.dataset.restaurants),
-  offers: []
+  offers: [],
+  code: ""
 };
 
 
 const reducers = combineReducers({
   restaurants: restaurantsReducer,
-  offers: offersReducer
+  offers: offersReducer,
+  code: codesReducer
 });
 
 const middlewares = applyMiddleware(reduxPromise, logger);

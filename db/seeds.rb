@@ -19,3 +19,4 @@ Offer.create({ title: "Gyros ap'ola", stars_required: 6, restaurant:kali})
 Offer.create({ title: 'Souvlaki de poulet citronné + Boisson + Dessert', stars_required: 9, restaurant:kali})
 Offer.create({ title: '2 Gyros + 2 Boissons + 2 Desserts', stars_required: 12, restaurant:kali})
 
+User.create(email:"hello@hello.fr",password:"hellohello")
