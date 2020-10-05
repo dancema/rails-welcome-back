@@ -7,6 +7,13 @@ import { fetchOffer } from '../actions';
 
 
 class OffersShow extends Component {
+  constructor(props){
+    super(props),
+    this.state = {
+    }
+  }
+
+
   componentDidMount() {
     if (!this.props.offer) {
       this.props.fetchOffer(this.props.match.params.restaurant_id,this.props.match.params.id);
