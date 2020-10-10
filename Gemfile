@@ -34,6 +34,7 @@ gem 'simple_form'
 gem 'devise'
 gem 'securerandom'
 gem 'rails_admin', '~> 2.0'
+gem 'rqrcode'
 
 group :development, :test do
   gem 'pry-byebug'

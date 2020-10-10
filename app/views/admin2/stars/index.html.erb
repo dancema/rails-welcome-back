@@ -1,0 +1,28 @@
+
+<div class="container">
+  <h2>INDEX</h2>
+
+  <%= form_tag admin2_stars_path, method: :get do %>
+    <%= text_field_tag :query,
+      params[:query],
+      class: "form-control",
+      placeholder: "Find a movie"
+    %>
+    <%= submit_tag "Search", class: "btn btn-primary" %>
+  <% end %>
+
+
+    <table class="qr">
+    <% @qr.modules.each_index do |x| %>
+        <tr>
+          <% @qr.modules.each_index do |y| %>
+              <% if @qr.qrcode.checked?(x,y) %>
+                  <td class="black"/>
+              <% else %>
+                  <td class="white"/>
+              <% end %>
+          <% end %>
+        </tr>
+    <% end %>
+  </table>
+</div>

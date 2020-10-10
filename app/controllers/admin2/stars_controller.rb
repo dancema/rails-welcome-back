@@ -13,9 +13,18 @@ class Admin2::StarsController < ApplicationController
     nb_qr.times {
       star = Star.create(restaurant:restaurant, amount:amount, status:"valid", code: SecureRandom.hex(4))
     }
+
+    redirect_to action: "index"
   end
 
-  def show
+  def index
+    if params[:query].present?
+      @stars = Star.where(title: params[:query])
+    else
+      @stars = Star.all
+      @qr = RQRCode::QRCode.new("http://github.com/")
+
+    end
   end
 
 end
