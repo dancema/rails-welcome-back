@@ -1,9 +1,8 @@
 class Api::V1::CodesController < ApplicationController
-  skip_before_action :verify_authenticity_token
 
   def create
     offer = Offer.find(params[:offer_id])
-    user = User.first
+    user = current_user
     password = SecureRandom.hex(4)
 
     Code.where(user: user, status: 'active').each do |code|

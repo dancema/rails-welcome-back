@@ -10,6 +10,8 @@ import { createHistory as history } from 'history';
 import RestaurantsIndex from './containers/restaurants_index';
 import RestaurantsShow from './containers/restaurants_show';
 import OffersShow from './containers/offers_show';
+import Settings from './containers/settings';
+
 
 import Navbar from './components/navbar';
 
@@ -48,6 +50,7 @@ ReactDOM.render(
             <Route path="/" exact component={RestaurantsIndex} />
             <Route path="/restaurants/:id" exact component={RestaurantsShow} />
             <Route path="/restaurants/:restaurant_id/offers/:id" exact component={OffersShow} />
+            <Route path="/settings" exact component={Settings} />
           </Switch>
         </div>
       </div>

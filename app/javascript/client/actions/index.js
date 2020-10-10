@@ -8,7 +8,7 @@ export const CREATE_CODE = 'CREATE_CODE'
 export const CANCEL_CODE = 'CANCEL_CODE'
 
 export function fetchRestaurants() {
-  const promise = fetch('/api/v1/restaurants').then(r => r.json())
+  const promise = fetch('/api/v1/restaurants', { credentials: "same-origin" }).then(r => r.json())
 
   return {
     type: FETCH_RESTAURANTS,
@@ -17,7 +17,7 @@ export function fetchRestaurants() {
 }
 
 export function fetchRestaurant(id) {
-  const promise = fetch(`/api/v1/restaurants/${id}`).then(r => r.json())
+  const promise = fetch(`/api/v1/restaurants/${id}`, { credentials: "same-origin" }).then(r => r.json())
 
   return {
     type: FETCH_RESTAURANT,
@@ -26,7 +26,7 @@ export function fetchRestaurant(id) {
 }
 
 export function fetchOffers(restaurant_id) {
-  const promise = fetch(`/api/v1/restaurants/${restaurant_id}/offers`)
+  const promise = fetch(`/api/v1/restaurants/${restaurant_id}/offers`, { credentials: "same-origin" })
     .then(r => r.json())
 
   return {
@@ -36,7 +36,7 @@ export function fetchOffers(restaurant_id) {
 }
 
 export function fetchOffer(restaurant_id,id) {
-  const promise = fetch(`/api/v1/restaurants/${restaurant_id}/offers/${id}`)
+  const promise = fetch(`/api/v1/restaurants/${restaurant_id}/offers/${id}`, { credentials: "same-origin" })
     .then(r => r.json())
 
   return {
@@ -48,11 +48,13 @@ export function fetchOffer(restaurant_id,id) {
 
 export function createCode(offer_id) {
   const body = { offer_id };
+  const csrfToken = document.querySelector('meta[name="csrf-token"]').attributes.content.value;
   const promise = fetch('/api/v1/codes', {
     method: 'POST',
     headers: {
       credentials:'include',
       Accept: 'application/json',
+      'X-CSRF-Token': csrfToken,
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(body)
@@ -68,6 +70,6 @@ export function cancelCode() {
 
   return {
     type: CANCEL_CODE,
-    payload: "" // Will be resolved by redux-promise
+    payload: ""
   };
 }

@@ -16,10 +16,6 @@ class OffersShow extends Component {
     // }
   }
 
-  handleClick = () => {
-    return <Redirect to={`restaurants/${this.props.restaurant.id}`} />
-  }
-
 
   render () {
 
