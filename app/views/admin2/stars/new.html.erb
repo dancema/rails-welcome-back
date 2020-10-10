@@ -1,0 +1,26 @@
+<div class="container">
+<h2>NEW QR CODES</h2>
+
+  <form action="/admin2/stars" method="post">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <label for="inputRestaurant">Restaurant</label>
+    <select id="inputRestaurant" name="restaurant_id" class="form-control">
+      <%= @restaurants.each do |restaurant| %>
+        <option value="<%= restaurant.id %>"><%= restaurant.name %></option>
+      <% end %>
+    </select>
+
+    <label for="inputNbStarsPerQR">Number stars per QR</label>
+    <select id="inputNbStarsPerQR" name="nb_stars_per_qr" class="form-control">
+      <option selected>1</option>
+      <option>2</option>
+      <option>3</option>
+    </select>
+
+    <label for="inputNbStars">Number QR to create</label>
+    <input id="inputNbStars" type="number" name="nb_qr" class="form-control" />
+
+
+    <button type="submit" class="btn btn-primary">Create</button>
+  </form>
+</div>

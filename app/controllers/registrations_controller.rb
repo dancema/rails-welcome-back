@@ -8,7 +8,6 @@ class RegistrationsController < Devise::RegistrationsController
   end
 
 
-
   private
 
   def sign_up_params

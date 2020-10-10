@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users, :controllers => { registrations: 'registrations' }
+  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
   #API
 
@@ -11,7 +12,13 @@ Rails.application.routes.draw do
         resources :offers, only: [:index, :show]
       end
     end
+
   end
+
+  namespace :admin2 do
+    resources :stars, only: [:new, :create, :show]
+  end
+
 
   get "/restaurants/:restaurant_id/offers/:id", to: 'pages#home'
   get "/restaurants/:id", to: 'pages#home'
