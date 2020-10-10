@@ -22,7 +22,6 @@ class RestaurantsShow extends Component {
 
 
   render () {
-
     return [
       <div className="card-restaurant no-shadow" >
         <img src="https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/greece.jpg" />

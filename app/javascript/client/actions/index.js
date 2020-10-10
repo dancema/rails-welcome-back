@@ -64,9 +64,10 @@ export function createCode(offer_id) {
   };
 }
 
-// export function CANCEL_CODE() {
-//   return {
-//     type: CANCEL_CODE,
-//     payload: ""
-//   };
-// }
+export function cancelCode() {
+
+  return {
+    type: CANCEL_CODE,
+    payload: "" // Will be resolved by redux-promise
+  };
+}

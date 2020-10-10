@@ -22,7 +22,7 @@ const root = document.getElementById('root')
 const initialState = {
   restaurants: JSON.parse(root.dataset.restaurants),
   offers: [],
-  code: ""
+  code: []
 };
 
 
@@ -33,12 +33,13 @@ const reducers = combineReducers({
 });
 
 const middlewares = applyMiddleware(reduxPromise, logger);
+const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 
 // render an instance of the component in restaurants/1the DOM
 ReactDOM.render(
 
-  <Provider store={createStore(reducers, initialState, middlewares)}>
+  <Provider store={createStore(reducers, initialState, composeEnhancers(middlewares))}>
     <Router history={history}>
       <div className="app">
         <Navbar />
