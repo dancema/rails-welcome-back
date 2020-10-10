@@ -1,5 +1,7 @@
 class Admin2::StarsController < ApplicationController
+
   before_action :authenticate_user!
+  before_action :is_admin?
 
   def new
     @restaurants = Restaurant.all
@@ -27,4 +29,9 @@ class Admin2::StarsController < ApplicationController
     end
   end
 
+  private
+
+  def is_admin?
+    redirect_to main_app.root_path unless current_user.role === "admin"
+  end
 end

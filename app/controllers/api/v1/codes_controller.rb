@@ -14,5 +14,4 @@ class Api::V1::CodesController < ApplicationController
 
     render json: [code.password]
   end
-
 end
