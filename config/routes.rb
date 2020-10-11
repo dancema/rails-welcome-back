@@ -9,6 +9,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :codes, only: [:create]
       post "/stars" => "stars#activate"
+      resources :stars, only: [:index]
       resources :restaurants, only: [:index, :show] do
         resources :offers, only: [:index, :show]
       end

@@ -32,17 +32,20 @@ class StarsEdit extends Component {
 
   render() {
     return (
-      <form onSubmit={this.handleSubmit} className="channel-editor">
-        <input
-          ref={input => this.messageBox = input}
-          type="text"
-          className="form-control"
-          autoComplete="off"
-          value={this.state.value}
-          onChange={this.handleChange}
-        />
-        <button type="submit">Send</button>
-      </form>
+
+      <div className="container">
+        <form onSubmit={this.handleSubmit} className="channel-editor">
+          <input
+            ref={input => this.messageBox = input}
+            type="text"
+            className="form-control"
+            autoComplete="off"
+            value={this.state.value}
+            onChange={this.handleChange}
+          />
+          <button type="submit" className="scan-qr">Valider</button>
+        </form>
+      </div>
     );
   }
 }

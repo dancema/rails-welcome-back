@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_10_151550) do
+ActiveRecord::Schema.define(version: 2020_10_11_190123) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -51,7 +51,7 @@ ActiveRecord::Schema.define(version: 2020_10_10_151550) do
     t.bigint "user_id"
     t.string "status"
     t.string "code"
-    t.string "amount"
+    t.integer "amount"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
     t.index ["restaurant_id"], name: "index_stars_on_restaurant_id"
@@ -75,5 +75,4 @@ ActiveRecord::Schema.define(version: 2020_10_10_151550) do
   add_foreign_key "codes", "users"
   add_foreign_key "offers", "restaurants"
   add_foreign_key "stars", "restaurants"
-  add_foreign_key "stars", "users"
 end

@@ -35,7 +35,9 @@ class RestaurantsIndex extends Component {
         })}
       </div>,
       <div className="container text-center">
-        <button className="scan-qr">Scanner QR Code</button>
+        <Link to="/stars" >
+          <button className="scan-qr">Scanner QR Code</button>
+        </Link>
         <p>Pour chaque commande passée auprès des restaurants partenaires, vous trouverez dans le sac un QR code donnant 1 étoile</p>
       </div>];
   }
