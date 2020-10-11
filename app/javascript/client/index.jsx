@@ -11,6 +11,7 @@ import RestaurantsIndex from './containers/restaurants_index';
 import RestaurantsShow from './containers/restaurants_show';
 import OffersShow from './containers/offers_show';
 import Settings from './containers/settings';
+import StarsEdit from './containers/stars_edit';
 
 
 import Navbar from './components/navbar';
@@ -51,6 +52,8 @@ ReactDOM.render(
             <Route path="/restaurants/:id" exact component={RestaurantsShow} />
             <Route path="/restaurants/:restaurant_id/offers/:id" exact component={OffersShow} />
             <Route path="/settings" exact component={Settings} />
+            <Route path="/stars/:code" exact component={StarsEdit} />
+            <Route path="/stars" exact component={StarsEdit} />
           </Switch>
         </div>
       </div>

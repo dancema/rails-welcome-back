@@ -7,6 +7,9 @@ export const FETCH_OFFER = 'FETCH_OFFER'
 export const CREATE_CODE = 'CREATE_CODE'
 export const CANCEL_CODE = 'CANCEL_CODE'
 
+export const EDIT_STAR = 'EDIT_STAR'
+
+
 export function fetchRestaurants() {
   const promise = fetch('/api/v1/restaurants', { credentials: "same-origin" }).then(r => r.json())
 
@@ -71,5 +74,26 @@ export function cancelCode() {
   return {
     type: CANCEL_CODE,
     payload: ""
+  };
+}
+
+export function editStar(code) {
+  const body = { code };
+  const csrfToken = document.querySelector('meta[name="csrf-token"]').attributes.content.value;
+  const promise = fetch(`/api/v1/stars`, {
+    method: 'POST',
+    headers: {
+      credentials:'include',
+      Accept: 'application/json',
+      'X-CSRF-Token': csrfToken,
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify(body)
+  }).then(r => r.json());
+
+
+  return {
+    type: EDIT_STAR,
+    payload: promise
   };
 }

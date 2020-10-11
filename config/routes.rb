@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :codes, only: [:create]
+      post "/stars" => "stars#activate"
       resources :restaurants, only: [:index, :show] do
         resources :offers, only: [:index, :show]
       end
@@ -22,6 +23,8 @@ Rails.application.routes.draw do
 
   get "/restaurants/:restaurant_id/offers/:id", to: 'pages#home'
   get "/restaurants/:id", to: 'pages#home'
+  get "/stars/:code", to: 'pages#home'
+  get "/stars", to: 'pages#home'
   root to: 'pages#home'
 
 
