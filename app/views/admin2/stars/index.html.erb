@@ -2,15 +2,28 @@
 <div class="container">
   <h2>INDEX</h2>
 
-  <%= form_tag admin2_stars_path, method: :get do %>
-    <%= text_field_tag :query,
-      params[:query],
-      class: "form-control",
-      placeholder: "Find a movie"
-    %>
-    <%= submit_tag "Search", class: "btn btn-primary" %>
-  <% end %>
 
+  <form action="/admin2/stars?query=" method="get">
+    <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
+    <label for="inputBatchName">Batch Name</label>
+    <select id="inputBatchName" name="batch_name" class="form-control">
+      <%= @batch_names.each do |batch_name| %>
+        <option value="<%= batch_name %>"><%= batch_name %></option>
+      <% end %>
+    </select>
+
+    <button type="submit" class="btn btn-primary">Display</button>
+  </form>
+
+  <% if  !@stars.nil? %>
+    <%= @stars.each do |star| %>
+      <div class="card-flyer">
+        <h2><%= star.code %></h2>
+
+      </div>
+    <% end %>
+
+  <% end %>
 
     <table class="qr">
     <% @qr.modules.each_index do |x| %>
