@@ -1,5 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users, :controllers => { registrations: 'registrations' }
+
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
   #API
@@ -9,12 +10,13 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :codes, only: [:create]
       post "/stars" => "stars#activate"
-      resources :stars, only: [:index]
+      resources :stars, only: [:index, :show]
       resources :restaurants, only: [:index, :show] do
         resources :offers, only: [:index, :show]
       end
-    end
+      get "/offers" => "offers#available"
 
+    end
   end
 
   namespace :admin2 do
@@ -27,7 +29,5 @@ Rails.application.routes.draw do
   get "/stars/:code", to: 'pages#home'
   get "/stars", to: 'pages#home'
   root to: 'pages#home'
-
-
 
 end

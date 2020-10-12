@@ -5,7 +5,7 @@ import { Link, withRouter } from 'react-router-dom';
 import CodeForm from './code_form';
 import OffersShow from './offers_show';
 
-import { fetchRestaurant, fetchOffers, createCode } from '../actions';
+import { fetchRestaurant, fetchOffers, fetchStar, fetchNbOffersAvailable } from '../actions';
 
 // import Aside from '../components/aside';
 
@@ -16,57 +16,59 @@ class RestaurantsShow extends Component {
     if (!this.props.restaurant) {
       this.props.fetchRestaurant(this.props.match.params.id);
     }
+    if (!this.props.star) {
+      this.props.fetchStar(this.props.match.params.id);
+    }
     this.props.fetchOffers(this.props.match.params.id);
+    this.props.fetchNbOffersAvailable();
   }
 
 
 
   render () {
+
+
     return [
       <div className="card-restaurant no-shadow" >
         <img src="https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/greece.jpg" />
         <div className="card-restaurant-infos">
           <div>
             <h2>{this.props.restaurant.name}</h2>
-            <p>Solde : 8 <i className="fas fa-star"></i></p>
+            <p>Solde : {this.props.star || 0} <i className="fas fa-star"></i></p>
           </div>
-          <p className="card-restaurant-pricing">3 offres disponibles</p>
+          <p className="card-restaurant-pricing">Offres disponibles : {this.props.nb_offers_available[this.props.restaurant.id] || 0 } </p>
         </div>
       </div>,
       <div className="container">
         <h2>Mes offres</h2>
         <div className="row">
           {this.props.offers.map((offer) => {
-            if (offer.available === false) {
+            let classOfferAvailable = "inactive "
+            if ((this.props.star || 0) >= offer.stars_required) {
+              classOfferAvailable += "d-none"
+            }
+
               return (
-                <div className="col-6 col-sm-4">
-                  <div className="inactive">
+
+              <div className="col-6 col-sm-4 ">
+                <Link to={`${this.props.restaurant.id}/offers/${offer.id}`} className="link">
+                  <div className={classOfferAvailable}>
                     <i className="fas fa-lock" />
                   </div>
-                  <div key={offer.id} className="card-offer" >
-                    <div className="card-offer-img" style={{backgroundImage: 'url(https://picky-palate.com/wp-content/uploads/2020/04/IMG_7790-scaled-e1588014500955.jpg)'}} />
-                    <div className="card-offers-infos">
-                      <h2>{offer.title}</h2>
-                    </div>
-                    <div className="card-offer-stars-required">{offer.stars_required} <i className="fas fa-star"></i></div>
+                  <div className="">
+                      <div key={offer.id} className="card-offer" >
+                        <div className="card-offer-img" style={{backgroundImage: 'url(https://picky-palate.com/wp-content/uploads/2020/04/IMG_7790-scaled-e1588014500955.jpg)'}} />
+                        <h2>{offer.title}</h2>
+                        <div className="card-offer-stars-required">
+                          {offer.stars_required} <i className="fas fa-star"></i>
+                        </div>
+                        </div>
                   </div>
-                </div>);
-            } else {
-              return [
-              <div className="col-6 col-sm-4">
-                <Link to={`${this.props.restaurant.id}/offers/${offer.id}`} className="link">
-                  <div key={offer.id} className="card-offer" >
-                    <div className="card-offer-img" style={{backgroundImage: 'url(https://picky-palate.com/wp-content/uploads/2020/04/IMG_7790-scaled-e1588014500955.jpg)'}} />
-                    <h2>{offer.title}</h2>
-                    <div className="card-offer-stars-required">
-                      {offer.stars_required} <i className="fas fa-star"></i>
-                    </div>
-                    </div>
                 </Link>
               </div>
-            ];
+            );
             }
-          })}
+          )}
         </div>
         <h2>Informations sur le restaurant</h2>
         <ul className="order-option d-flex">
@@ -106,12 +108,14 @@ function mapStateToProps(state, ownProps) {
   const id = parseInt(ownProps.match.params.id);
   return {
     restaurant: state.restaurants.find((restaurant) => restaurant.id === id),
-    offers: state.offers
+    offers: state.offers,
+    star: state.stars[id],
+    nb_offers_available: state.nb_offers_available
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchRestaurant, fetchOffers, createCode }, dispatch);
+  return bindActionCreators({ fetchRestaurant, fetchOffers, fetchStar, fetchNbOffersAvailable }, dispatch);
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RestaurantsShow));

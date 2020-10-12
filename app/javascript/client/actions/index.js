@@ -8,6 +8,10 @@ export const CREATE_CODE = 'CREATE_CODE'
 export const CANCEL_CODE = 'CANCEL_CODE'
 
 export const EDIT_STAR = 'EDIT_STAR'
+export const FETCH_STARS = 'FETCH_STARS'
+export const FETCH_STAR = 'FETCH_STAR'
+
+export const FETCH_NB_OFFERS_AVAILABLE = 'FETCH_NB_OFFERS_AVAILABLE'
 
 
 export function fetchRestaurants() {
@@ -96,4 +100,36 @@ export function editStar(code) {
     type: EDIT_STAR,
     payload: promise
   };
+}
+
+
+export function fetchStars() {
+  const promise = fetch('/api/v1/stars', { credentials: "same-origin" })
+  .then(r => r.json())
+
+  return {
+    type: FETCH_STARS,
+    payload: promise
+  };
+}
+
+export function fetchStar(restaurant_id) {
+  const promise = fetch(`/api/v1/stars/${restaurant_id}`, { credentials: "same-origin" })
+  .then(r => r.json())
+
+  return {
+    type: FETCH_STAR,
+    payload: promise
+  };
+}
+
+export function fetchNbOffersAvailable() {
+  const promise = fetch('/api/v1/offers', { credentials: "same-origin" })
+  .then(r => r.json())
+
+  return {
+    type: FETCH_NB_OFFERS_AVAILABLE,
+    payload: promise
+  };
+
 }

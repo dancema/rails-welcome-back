@@ -14,8 +14,23 @@ class Api::V1::StarsController < ApplicationController
 
   def index
     stars_per_restaurant = current_user.stars.group(:restaurant).sum(:amount)
+    nb_stars = {}
+    stars_per_restaurant.each do |restaurant, value|
+      nb_stars[restaurant.id] = value
+    end
 
-    render json: stars_per_restaurant
+    render json: nb_stars
   end
 
+
+  def show
+    restaurant = Restaurant.find(params[:id])
+    stars_per_restaurant = current_user.stars.where(restaurant: restaurant).group(:restaurant).sum(:amount)
+    nb_stars = {}
+    stars_per_restaurant.each do |restaurant, value|
+      nb_stars[restaurant.id] = value
+    end
+
+    render json: nb_stars
+  end
 end

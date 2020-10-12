@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
+import { Link, withRouter } from 'react-router-dom';
+
 import { editStar } from '../actions';
 
 
@@ -29,7 +31,6 @@ class StarsEdit extends Component {
   }
 
 
-
   render() {
     return (
 
@@ -56,4 +57,4 @@ function mapDispatchToProps(dispatch) {
   return bindActionCreators({ editStar }, dispatch);
 }
 
-export default connect(null, mapDispatchToProps)(StarsEdit);
+export default withRouter(connect(null, mapDispatchToProps)(StarsEdit));

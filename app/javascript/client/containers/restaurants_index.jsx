@@ -1,21 +1,24 @@
 import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
-import { Link } from 'react-router-dom';
+import { Link, withRouter } from 'react-router-dom';
 
-import { fetchRestaurants } from '../actions/index';
+import { fetchRestaurants, fetchStars, fetchNbOffersAvailable } from '../actions/index';
 
-import Navbar from '../components/navbar';
 
 class RestaurantsIndex extends Component {
   componentDidMount() {
-    this.props.fetchRestaurants();
+    if (!this.props.restaurants){
+      this.props.fetchRestaurants();
+    }
+    this.props.fetchStars();
+    this.props.fetchNbOffersAvailable();
   }
 
   render () {
 
     return [
-      <div className="container" key="cars">
+      <div className="container">
         <h2>Mes Restaurants</h2>
         {this.props.restaurants.map((restaurant) => {
           return (
@@ -25,9 +28,9 @@ class RestaurantsIndex extends Component {
                 <div className="card-restaurant-infos">
                   <div>
                     <h2>{restaurant.name}</h2>
-                    <p>Solde : 8 <i className="fas fa-star"></i></p>
+                    <p>Solde : {this.props.stars[restaurant.id] || 0 } <i className="fas fa-star"></i></p>
                   </div>
-                  <p className="card-restauant-pricing">3 offres disponibles</p>
+                  <p className="card-restauant-pricing">Offres disponibles : {this.props.nb_offers_available[restaurant.id] || 0 }</p>
                 </div>
               </div>
             </Link>
@@ -36,7 +39,7 @@ class RestaurantsIndex extends Component {
       </div>,
       <div className="container text-center">
         <Link to="/stars" >
-          <button className="scan-qr">Scanner QR Code</button>
+          <button className="scan-qr">Entrer code</button>
         </Link>
         <p>Pour chaque commande passée auprès des restaurants partenaires, vous trouverez dans le sac un QR code donnant 1 étoile</p>
       </div>];
@@ -46,11 +49,13 @@ class RestaurantsIndex extends Component {
 function mapStateToProps(state) {
   return {
     restaurants: state.restaurants,
+    stars: state.stars,
+    nb_offers_available: state.nb_offers_available
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchRestaurants }, dispatch);
+  return bindActionCreators({ fetchRestaurants, fetchStars, fetchNbOffersAvailable }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(RestaurantsIndex);
+export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RestaurantsIndex));

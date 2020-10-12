@@ -22,6 +22,14 @@ class CodeForm extends Component {
     this.props.createCode(this.props.offer_id);
   }
 
+  textButtonActivation = () => {
+    if (this.props.disabled === false) {
+      return "Activer offre"
+    } else {
+      return "Offre indisponible"
+    }
+  }
+
 
   componentWillUnmount() {
     this.props.cancelCode()
@@ -32,7 +40,7 @@ class CodeForm extends Component {
       [
       <form onSubmit={this.handleSubmit} className="d-flex flex-column align-items-center justify-content-center">
         <input readOnly value={this.props.offer_id} className='d-none' />
-        <button type="submit" disabled={this.state.disabled} className='btn btn-secondary'>Activer offre</button>
+        <button type="submit" disabled={this.props.disabled} className='btn btn-secondary'>{this.textButtonActivation()}</button>
         <h2 className="mt-2">{this.props.code}</h2>
       </form>
     ]);

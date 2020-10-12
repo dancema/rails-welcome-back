@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter, Redirect } from 'react-router-dom';
 import CodeForm from './code_form';
-import { fetchOffer } from '../actions';
+import { fetchOffer, fetchStar, fetchNbOffersAvailable } from '../actions';
 
 
 class OffersShow extends Component {
@@ -11,9 +11,12 @@ class OffersShow extends Component {
 
 
   componentDidMount() {
-    // if (!this.props.offer) {
+    // if (this.props.offer === []) {
       this.props.fetchOffer(this.props.match.params.restaurant_id,this.props.match.params.id);
     // }
+    this.props.fetchStar(this.props.match.params.restaurant_id);
+    this.props.fetchNbOffersAvailable();
+
   }
 
 
@@ -26,21 +29,21 @@ class OffersShow extends Component {
           <div className="card-restaurant-infos">
             <div>
               <h2>{this.props.restaurant.name}</h2>
-              <p>Solde : 8 <i className="fas fa-star"></i></p>
+              <p>Solde : {this.props.star || 0} <i className="fas fa-star"></i></p>
             </div>
-            <p className="card-restaurant-pricing">3 offres disponibles</p>
+            <p className="card-restaurant-pricing">Offres disponibles : {this.props.nb_offers_available[this.props.restaurant.id] || 0 }</p>
           </div>
         </div>
       ,
             <div className="card-offer-show">
               <div className="card-offer-img" style={{backgroundImage: 'url(https://picky-palate.com/wp-content/uploads/2020/04/IMG_7790-scaled-e1588014500955.jpg)'}} />
               <div className="d-flex justify-content-between p-2">
-                <h2>{this.props.offers[0].title}</h2>
-                <h2>{this.props.offers[0].stars_required} <i className="fas fa-star"></i></h2>
+                <h2>{this.props.offer.title}</h2>
+                <h2>{this.props.offer.stars_required} <i className="fas fa-star"></i></h2>
               </div>
 
 
-              <CodeForm offer_id={this.props.offers[0].id} />
+              <CodeForm offer_id={this.props.offer.id} disabled={this.props.star < this.props.offer.stars_required} />
               <p>Offre valable uniquement à emporter/livré à domicile par le restaurant. Code à communiquer au restaurant</p>
               <div className="modal-footer">
                 <Link to={`/restaurants/${this.props.restaurant.id}`}>
@@ -59,19 +62,17 @@ class OffersShow extends Component {
 function mapStateToProps(state, ownProps) {
   const id = parseInt(ownProps.match.params.id, 10);
   const restaurant_id = parseInt(ownProps.match.params.restaurant_id, 10);
-  let offer = state.offers.find((offer) => offer.id === id);
-  if (!offer) {
-    offer = {}
-  }
 
   return {
     restaurant: state.restaurants.find((restaurant) => restaurant.id === restaurant_id),
-    offers: [offer],
-    code: state.code
+    offer: state.offers.find((offer) => offer.id === id) || [],
+    star: state.stars[restaurant_id],
+    code: state.code,
+    nb_offers_available: state.nb_offers_available
   };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchOffer }, dispatch);
+  return bindActionCreators({ fetchOffer, fetchStar, fetchNbOffersAvailable }, dispatch);
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(OffersShow));
