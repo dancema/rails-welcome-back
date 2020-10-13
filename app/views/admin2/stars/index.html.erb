@@ -2,8 +2,8 @@
 <div class="container">
   <h2>INDEX</h2>
 
-
   <form action="/admin2/stars?query=" method="get">
+
     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
     <label for="inputBatchName">Batch Name</label>
     <select id="inputBatchName" name="batch_name" class="form-control">
@@ -16,26 +16,25 @@
   </form>
 
   <% if  !@stars.nil? %>
-    <%= @stars.each do |star| %>
+    <% @stars.each_with_index do |star, index| %>
       <div class="card-flyer">
         <h2><%= star.code %></h2>
-
+        <table class="qr">
+          <% @qr[index].modules.each_index do |x| %>
+              <tr>
+                <% @qr[index].modules.each_index do |y| %>
+                    <% if @qr[index].qrcode.checked?(x,y) %>
+                        <td class="black"/>
+                    <% else %>
+                        <td class="white"/>
+                    <% end %>
+                <% end %>
+              </tr>
+          <% end %>
+        </table>
       </div>
     <% end %>
 
   <% end %>
 
-    <table class="qr">
-    <% @qr.modules.each_index do |x| %>
-        <tr>
-          <% @qr.modules.each_index do |y| %>
-              <% if @qr.qrcode.checked?(x,y) %>
-                  <td class="black"/>
-              <% else %>
-                  <td class="white"/>
-              <% end %>
-          <% end %>
-        </tr>
-    <% end %>
-  </table>
 </div>
