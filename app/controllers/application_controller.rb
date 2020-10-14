@@ -3,9 +3,14 @@ class ApplicationController < ActionController::Base
   before_action :authenticate_user!
 
 
-  private
 
   def after_sign_in_path_for(resource)
-    request.env['omniauth.origin'] || stored_location_for(resource) || root_url
+    if resource.role == 'admin'
+      rails_admin_path
+    elsif resource.role == 'restaurant'
+      restaurant_root_path
+    else
+      client_root_path
+    end
   end
 end

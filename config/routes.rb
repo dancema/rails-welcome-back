@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  get 'restaurants/home'
   devise_for :users, :controllers => { registrations: 'registrations' }
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
@@ -24,10 +25,11 @@ Rails.application.routes.draw do
   end
 
 
-  get "/restaurants/:restaurant_id/offers/:id", to: 'pages#home'
-  get "/restaurants/:id", to: 'pages#home'
-  get "/stars/:code", to: 'pages#home'
-  get "/stars", to: 'pages#home'
-  root to: 'pages#home'
+  get "/restaurants/:restaurant_id/offers/:id", to: 'clients#home'
+  get "/restaurants/:id", to: 'clients#home'
+  get "/stars/:code", to: 'clients#home'
+  get "/stars", to: 'clients#home'
+  root to: 'clients#home', :as => :client_root
+
 
 end

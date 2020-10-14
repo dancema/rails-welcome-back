@@ -24,7 +24,6 @@ require("channels")
 
 // External imports
 import "bootstrap";
-import '../client';
 
 
 // Internal imports, e.g:
