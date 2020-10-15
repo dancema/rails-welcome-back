@@ -1,6 +1,7 @@
 class Restaurant < ApplicationRecord
   has_many :offers
   has_many :stars
+  belongs_to :user
 
   validates :name, presence: true
   validates :street, presence: true

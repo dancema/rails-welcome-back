@@ -46,7 +46,7 @@ class OffersShow extends Component {
               <CodeForm offer_id={this.props.offer.id} disabled={this.props.star < this.props.offer.stars_required} />
               <p>Offre valable uniquement à emporter/livré à domicile par le restaurant. Code à communiquer au restaurant</p>
               <div className="modal-footer">
-                <Link to={`/restaurants/${this.props.restaurant.id}`}>
+                <Link to={`/c/restaurants/${this.props.restaurant.id}`}>
                   <button type="button" className="btn btn-secondary" >Retour</button>
                 </Link>
               </div>

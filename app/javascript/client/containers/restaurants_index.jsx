@@ -22,7 +22,7 @@ class RestaurantsIndex extends Component {
         <h2>Mes Restaurants</h2>
         {this.props.restaurants.map((restaurant) => {
           return (
-            <Link to={`/restaurants/${restaurant.id}`} key={restaurant.id} >
+            <Link to={`/c/restaurants/${restaurant.id}`} key={restaurant.id} >
               <div key={restaurant.id}  className="card-restaurant" >
                 <img src="https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/greece.jpg" />
                 <div className="card-restaurant-infos">
@@ -38,7 +38,7 @@ class RestaurantsIndex extends Component {
         })}
       </div>,
       <div className="container text-center">
-        <Link to="/stars" >
+        <Link to="c/stars" >
           <button className="scan-qr">Entrer code</button>
         </Link>
         <p>Pour chaque commande passée auprès des restaurants partenaires, vous trouverez dans le sac un QR code donnant 1 étoile</p>

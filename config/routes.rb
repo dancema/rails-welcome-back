@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
-  get 'restaurants/home'
-  devise_for :users, :controllers => { registrations: 'registrations' }
+
+  devise_for :users, :controllers => { registrations: 'registrations' }, path: '', path_names: { sign_in: 'login', sign_out: 'logout'}
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
@@ -24,12 +24,22 @@ Rails.application.routes.draw do
     resources :stars, only: [:new, :create, :index]
   end
 
+  namespace :c do
+    get "/restaurants/:restaurant_id/offers/:id", to: 'clients#home'
+    get "/restaurants/:id", to: 'clients#home'
+    get "/stars/:code", to: 'clients#home'
+    get "/stars", to: 'clients#home'
+    get "/" ,to: 'clients#home', :as => :client_root
+  end
 
-  get "/restaurants/:restaurant_id/offers/:id", to: 'clients#home'
-  get "/restaurants/:id", to: 'clients#home'
-  get "/stars/:code", to: 'clients#home'
-  get "/stars", to: 'clients#home'
-  root to: 'clients#home', :as => :client_root
+  namespace :r do
+    get "/restaurants/dashboard", to: 'restaurants#home'
+    get "/restaurants/:id", to: 'restaurants#show'
+    get "/" ,to: 'restaurants#home', :as => :restaurant_root
+  end
 
+  devise_scope :user do
+    root to: "devise/sessions#new"
+  end
 
 end
