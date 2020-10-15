@@ -5,6 +5,7 @@ class Api::V1::StarsController < ApplicationController
       message = "invalid"
     else
       star.user = current_user
+      star.status = "scanned"
       star.save
       message = "valid"
     end
