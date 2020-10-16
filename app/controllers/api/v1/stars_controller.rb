@@ -6,6 +6,7 @@ class Api::V1::StarsController < ApplicationController
     else
       star.user = current_user
       star.status = "scanned"
+      star.scanned_at = Time.now
       star.save
       message = "valid"
     end
