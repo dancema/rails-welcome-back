@@ -38,6 +38,7 @@ gem 'rqrcode'
 gem 'chartkick'
 gem 'groupdate'
 
+
 group :development, :test do
   gem 'pry-byebug'
   gem 'pry-rails'

@@ -33,9 +33,11 @@ Rails.application.routes.draw do
   end
 
   namespace :r do
-    get "/restaurants/dashboard", to: 'restaurants#home'
     get "/restaurants/:id", to: 'restaurants#show'
-    get "/" ,to: 'restaurants#home', :as => :restaurant_root
+    get "/codes/:code", to: 'codes#show'
+    post "/codes", to: 'codes#use'
+    get "/codes", to: 'codes#show'
+    get "/dashboard", to: 'restaurants#home', :as => :restaurant_root
   end
 
   devise_scope :user do

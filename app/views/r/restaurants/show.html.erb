@@ -1,0 +1,26 @@
+<h2><%= @restaurant.name %></h2>
+
+
+
+<h2>Nombre QR code actifs</h2>
+<%= @total_stars %>
+
+<h2>Nombre QR code scannés</h2>
+<%= @total_stars_scanned %>
+
+<h2>Nombre de QR code utilise pour une offre</h2>
+<%= @total_stars_used %>
+
+<h2>Nombre d etoiles par utilisateurs</h2>
+TO DO
+
+
+<h2>QR codes scanned per day</h2>
+<form action="?query=" method="get">
+  <input name="dates" value="<%= @field_dates %>" />
+  <button type="submit">Search</button>
+</form>
+
+<%= column_chart @orders_scanned %>
+
+<%= link_to "Retour", r_restaurant_root_path %>

@@ -10,7 +10,7 @@ require("channels")
 
 require("chartkick")
 require("chart.js")
-
+require("daterangepicker")
 
 // Uncomment to copy all static images under ../images to the output folder and reference
 // them with the image_pack_tag helper in views (e.g <%= image_pack_tag 'rails.png' %>)
@@ -35,5 +35,18 @@ import "bootstrap";
 document.addEventListener('turbolinks:load', () => {
   // Call your functions here, e.g:
   // initSelect2();
+  $('input[name="dates"]').daterangepicker(
+    {"locale": {
+      "format": "DD/MM/YYYY",
+      "applyLabel": "OK",
+      "fromLabel": "De",
+      "toLabel": "A",
+      "cancelLabel": "Annuler",
+      "daysOfWeek": ["D","L","M","M","J","V","S"],
+      "monthNames": ["Janvier", "Fevrier", "Mars", "Avril", "Mai", "Juin", "Juillet", "Aout", "Septembre", "Octobre","Novembre", "Decembre"],
+      "firstDay":1
+      }
+    });
 });
+
 

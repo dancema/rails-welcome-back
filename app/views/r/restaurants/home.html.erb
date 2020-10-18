@@ -1,12 +1,12 @@
 <h2>Dashboard</h2>
 
 
+<% @restaurants.each do |restaurant| %>
+  <h2> <%= link_to restaurant.name, r_path(restaurant.id) %></h2>
+<% end %>
 
-  <% @restaurants.each do |restaurant| %>
-    <h2><%= restaurant.name %></h2>
-    <%= column_chart restaurant.stars.where(status: "scanned").group_by_day(:scanned_at).count %>
 
-  <% end %>
+
 
 <li>
   <%= link_to('Logout', destroy_user_session_path, method: :delete) %>
