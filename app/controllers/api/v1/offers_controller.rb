@@ -10,12 +10,11 @@ class Api::V1::OffersController < ApplicationController
   end
 
   def available
-    nb_stars = current_user.stars.where(status: "valid").sum(:amount)
-    nb_offers = Offer.where("stars_required <= '#{nb_stars}'").group(:restaurant).count
-
+    stars_per_restaurant = ExplodedStar.joins(:star).where(exploded_stars: { status: "valid" }, stars: { user: current_user }).group(:restaurant_id).count
     nb_offers_available_per_restaurant = {}
-    nb_offers.each do |restaurant, value|
-      nb_offers_available_per_restaurant[restaurant.id] = value
+    stars_per_restaurant.each do |restaurant_id, nb_stars|
+      nb_offers = Offer.where("stars_required <= '#{nb_stars}' AND restaurant_id= #{restaurant_id}").count
+      nb_offers_available_per_restaurant[restaurant_id] = nb_offers
     end
 
     render json: nb_offers_available_per_restaurant

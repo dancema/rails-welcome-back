@@ -104,7 +104,7 @@ export function editStar(code) {
 
 
 export function fetchStars() {
-  const promise = fetch('/api/v1/stars', { credentials: "same-origin" })
+  const promise = fetch('/api/v1/exploded_stars', { credentials: "same-origin" })
   .then(r => r.json())
 
   return {
@@ -114,7 +114,7 @@ export function fetchStars() {
 }
 
 export function fetchStar(restaurant_id) {
-  const promise = fetch(`/api/v1/stars/${restaurant_id}`, { credentials: "same-origin" })
+  const promise = fetch(`/api/v1/exploded_stars/${restaurant_id}`, { credentials: "same-origin" })
   .then(r => r.json())
 
   return {

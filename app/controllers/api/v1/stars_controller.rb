@@ -7,32 +7,15 @@ class Api::V1::StarsController < ApplicationController
       star.user = current_user
       star.status = "scanned"
       star.scanned_at = Time.now
+      ExplodedStar.where(star: star).each do |exploded_star|
+        exploded_star.status = "valid"
+        exploded_star.save
+      end
       star.save
       message = "valid"
     end
 
+
     render json: [message]
-  end
-
-  def index
-    stars_per_restaurant = current_user.stars.group(:restaurant).sum(:amount)
-    nb_stars = {}
-    stars_per_restaurant.each do |restaurant, value|
-      nb_stars[restaurant.id] = value
-    end
-
-    render json: nb_stars
-  end
-
-
-  def show
-    restaurant = Restaurant.find(params[:id])
-    stars_per_restaurant = current_user.stars.where(restaurant: restaurant).group(:restaurant).sum(:amount)
-    nb_stars = {}
-    stars_per_restaurant.each do |restaurant, value|
-      nb_stars[restaurant.id] = value
-    end
-
-    render json: nb_stars
   end
 end

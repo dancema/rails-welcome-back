@@ -6,6 +6,10 @@
 #   movies = Movie.create([( name: 'Star Wars' ), ( name: 'Lord of the Rings' )])
 #   Character.create(name: 'Luke', movie: movies.first)
 
+
+
+
+
 kali = Restaurant.create(name: 'Kali Greek Food', street: '1, rue montera', city: 'Paris', postal_code: 75012, website_url: 'hello.com')
 elsy = Restaurant.create(name: 'Elsy', street: '1, rue montera', city: 'Paris', postal_code: 75012, website_url: 'hello.com')
 
@@ -18,5 +22,9 @@ Offer.create({ title: 'Souvlaki de poulet citronné', stars_required: 5, restaur
 Offer.create({ title: "Gyros ap'ola", stars_required: 6, restaurant:kali})
 Offer.create({ title: 'Souvlaki de poulet citronné + Boisson + Dessert', stars_required: 9, restaurant:kali})
 Offer.create({ title: '2 Gyros + 2 Boissons + 2 Desserts', stars_required: 12, restaurant:kali})
+
+
+
+
 
 User.create(email:"hello@hello.fr",password:"hellohello")

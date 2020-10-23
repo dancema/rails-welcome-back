@@ -1,5 +1,4 @@
 class Admin2::StarsController < ApplicationController
-
   before_action :authenticate_user!
   before_action :is_admin?
 
@@ -17,7 +16,12 @@ class Admin2::StarsController < ApplicationController
 
     nb_qr.times {
       star = Star.create(restaurant: restaurant, amount: amount, status: "valid", code: SecureRandom.hex(4), batch_name: batch_name)
+      amount.times {
+        ExplodedStar.create(star: star, status: "not-valid")
+
+      }
     }
+
 
     redirect_to action: "index",  batch_name: batch_name
   end

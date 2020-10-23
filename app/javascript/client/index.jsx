@@ -60,7 +60,7 @@ ReactDOM.render(
             <Route path="/c/restaurants/:restaurant_id/offers/:id" exact component={OffersShow} />
             <Route path="/c/settings" exact component={Settings} />
             <Route path="/c/stars/:code" exact component={StarsEdit} />
-            <Route path="/c/stars" exact component={StarsEdit} />
+            <Route path="/stars" exact component={StarsEdit} />
           </Switch>
         </div>
       </div>
