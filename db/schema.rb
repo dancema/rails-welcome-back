@@ -10,30 +10,25 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_10_18_163303) do
+ActiveRecord::Schema.define(version: 2020_10_31_133711) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "codes", force: :cascade do |t|
+  create_table "batches", force: :cascade do |t|
+    t.string "name"
+  end
+
+  create_table "offercodes", force: :cascade do |t|
     t.bigint "offer_id"
     t.bigint "user_id"
     t.string "status"
-    t.string "password"
+    t.string "code"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.datetime "used_at"
-    t.index ["offer_id"], name: "index_codes_on_offer_id"
-    t.index ["user_id"], name: "index_codes_on_user_id"
-  end
-
-  create_table "exploded_stars", force: :cascade do |t|
-    t.bigint "star_id"
-    t.string "status"
-    t.datetime "used_at"
-    t.datetime "created_at", precision: 6, null: false
-    t.datetime "updated_at", precision: 6, null: false
-    t.index ["star_id"], name: "index_exploded_stars_on_star_id"
+    t.datetime "scanned_at"
+    t.index ["offer_id"], name: "index_offercodes_on_offer_id"
+    t.index ["user_id"], name: "index_offercodes_on_user_id"
   end
 
   create_table "offers", force: :cascade do |t|
@@ -58,17 +53,25 @@ ActiveRecord::Schema.define(version: 2020_10_18_163303) do
     t.index ["user_id"], name: "index_restaurants_on_user_id"
   end
 
+  create_table "starcodes", force: :cascade do |t|
+    t.string "status"
+    t.datetime "scanned_at"
+    t.string "code"
+    t.bigint "batch_id"
+    t.index ["batch_id"], name: "index_starcodes_on_batch_id"
+  end
+
   create_table "stars", force: :cascade do |t|
     t.bigint "restaurant_id"
     t.bigint "user_id"
     t.string "status"
-    t.string "code"
-    t.integer "amount"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.string "batch_name"
-    t.datetime "scanned_at"
+    t.bigint "offercode_id"
+    t.bigint "starcode_id"
+    t.index ["offercode_id"], name: "index_stars_on_offercode_id"
     t.index ["restaurant_id"], name: "index_stars_on_restaurant_id"
+    t.index ["starcode_id"], name: "index_stars_on_starcode_id"
     t.index ["user_id"], name: "index_stars_on_user_id"
   end
 
@@ -85,10 +88,12 @@ ActiveRecord::Schema.define(version: 2020_10_18_163303) do
     t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
   end
 
-  add_foreign_key "codes", "offers"
-  add_foreign_key "codes", "users"
-  add_foreign_key "exploded_stars", "stars"
+  add_foreign_key "offercodes", "offers"
+  add_foreign_key "offercodes", "users"
   add_foreign_key "offers", "restaurants"
   add_foreign_key "restaurants", "users"
+  add_foreign_key "starcodes", "batches"
+  add_foreign_key "stars", "offercodes"
   add_foreign_key "stars", "restaurants"
+  add_foreign_key "stars", "starcodes"
 end
