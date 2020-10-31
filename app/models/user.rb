@@ -11,8 +11,7 @@ class User < ApplicationRecord
     self.role ||= :client
   end
 
-  has_many :codes
+  has_many :offercodes
   has_many :stars
-  has_many :exploded_stars, :through => :stars
   has_many :restaurants
 end
