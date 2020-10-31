@@ -1,4 +1,4 @@
-class Admin2::StarsController < ApplicationController
+class Admin2::StarcodesController < ApplicationController
   before_action :authenticate_user!
   before_action :is_admin?
 
@@ -13,29 +13,30 @@ class Admin2::StarsController < ApplicationController
     batch_name = params[:batch_name]
 
     #validation to do to refuse a batch_name already in DB
+    batch = Batch.create(name: batch_name)
 
     nb_qr.times {
-      star = Star.create(restaurant: restaurant, amount: amount, status: "valid", code: SecureRandom.hex(4), batch_name: batch_name)
+      starcode = Starcode.create(status: "valid", code: SecureRandom.hex(4), batch: batch)
       amount.times {
-        ExplodedStar.create(star: star, status: "not-valid")
-
+        Star.create(restaurant: restaurant, status: "valid", starcode: starcode)
       }
     }
-
 
     redirect_to action: "index",  batch_name: batch_name
   end
 
   def index
-    @batch_names = Star.select(:batch_name).map(&:batch_name).uniq
-    @stars = Star.where(batch_name: params[:batch_name]) if params[:batch_name].present?
+    @batch_names = Batch.all.map(&:name)
+    batch = Batch.where(name: params[:batch_name])
+    @starcodes = Starcode.where(batch: batch) if params[:batch_name].present?
 
     @qr = []
-    if !@stars.nil?
-      @stars.each do |star|
-        @qr << RQRCode::QRCode.new("http://localhost:3000/stars/#{star.code}")
+    if !@starcodes.nil?
+      @starcodes.each do |starcode|
+        @qr << RQRCode::QRCode.new("http://www.welcomeback.best/stars/#{starcode.code}")
       end
     end
+
   end
 
   private

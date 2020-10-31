@@ -1,7 +1,7 @@
 <div class="container">
 <h2>NEW QR CODES</h2>
 
-  <form action="/admin2/stars" method="post">
+  <form action="/admin2/starcodes" method="post">
     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
     <label for="inputRestaurant">Restaurant</label>
     <select id="inputRestaurant" name="restaurant_id" class="form-control">
@@ -27,3 +27,5 @@
     <button type="submit" class="btn btn-primary">Create</button>
   </form>
 </div>
+
+

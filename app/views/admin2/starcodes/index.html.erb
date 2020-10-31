@@ -2,7 +2,7 @@
 <div class="container">
   <h2>INDEX</h2>
 
-  <form action="/admin2/stars?query=" method="get">
+  <form action="/admin2/starcodes?query=" method="get">
 
     <input type="hidden" name="authenticity_token" value="<%= form_authenticity_token %>">
     <label for="inputBatchName">Batch Name</label>
@@ -15,10 +15,10 @@
     <button type="submit" class="btn btn-primary">Display</button>
   </form>
 
-  <% if  !@stars.nil? %>
-    <% @stars.each_with_index do |star, index| %>
+  <% if  !@starcodes.nil? %>
+    <% @starcodes.each_with_index do |starcode, index| %>
       <div class="card-flyer">
-        <h2><%= star.code %></h2>
+        <h2><%= starcode.code %></h2>
         <table class="qr">
           <% @qr[index].modules.each_index do |x| %>
               <tr>

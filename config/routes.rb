@@ -21,7 +21,7 @@ Rails.application.routes.draw do
   end
 
   namespace :admin2 do
-    resources :stars, only: [:new, :create, :index]
+    resources :starcodes, only: [:new, :create, :index]
   end
 
   namespace :c do
