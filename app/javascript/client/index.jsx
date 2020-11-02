@@ -6,6 +6,8 @@ import reduxPromise from 'redux-promise';
 import logger from 'redux-logger';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { createHistory as history } from 'history';
+import { reducer as formReducer } from 'redux-form';
+
 
 import RestaurantsIndex from './containers/restaurants_index';
 import RestaurantsShow from './containers/restaurants_show';
@@ -39,7 +41,8 @@ const reducers = combineReducers({
   offers: offersReducer,
   nb_offers_available: offersAvailabilityReducer,
   stars: starsReducer,
-  code: codesReducer
+  code: codesReducer,
+  form: formReducer
 });
 
 const middlewares = applyMiddleware(reduxPromise, logger);
@@ -60,7 +63,7 @@ ReactDOM.render(
             <Route path="/c/restaurants/:restaurant_id/offers/:id" exact component={OffersShow} />
             <Route path="/c/settings" exact component={Settings} />
             <Route path="/c/stars/:code" exact component={StarsEdit} />
-            <Route path="/stars" exact component={StarsEdit} />
+            <Route path="/c/stars" exact component={StarsEdit} />
           </Switch>
         </div>
       </div>

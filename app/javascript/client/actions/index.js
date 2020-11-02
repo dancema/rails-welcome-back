@@ -14,6 +14,8 @@ export const FETCH_STAR = 'FETCH_STAR'
 export const FETCH_NB_OFFERS_AVAILABLE = 'FETCH_NB_OFFERS_AVAILABLE'
 
 
+
+
 export function fetchRestaurants() {
   const promise = fetch('/api/v1/restaurants', { credentials: "same-origin" }).then(r => r.json())
 
@@ -81,10 +83,9 @@ export function cancelCode() {
   };
 }
 
-export function editStar(code) {
-  const body = { code };
+export function editStar(body, callback) {
   const csrfToken = document.querySelector('meta[name="csrf-token"]').attributes.content.value;
-  const promise = fetch(`/api/v1/stars`, {
+  const promise = fetch(`/api/v1/starcodes`, {
     method: 'POST',
     headers: {
       credentials:'include',
@@ -93,7 +94,10 @@ export function editStar(code) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(body)
-  }).then(r => r.json());
+  }).catch((r) => {
+    console.log(r)
+  })
+    ;
 
 
   return {

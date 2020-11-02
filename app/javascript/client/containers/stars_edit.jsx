@@ -4,47 +4,47 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
 import { editStar } from '../actions';
+import { Field, reduxForm, SubmissionError } from 'redux-form'
+
+
+
 
 
 
 class StarsEdit extends Component {
-  constructor(props){
-    super(props);
-    this.state = {
-      value: this.props.match.params.code
+
+  renderField(field) {
+    return (
+      <div className="form-group">
+        <label>{field.label}</label>
+        <div>
+          <input {...field.input} placeholder={field.label} type={field.type}/>
+          {field.meta.touched && field.meta.error && <span>{field.meta.error}</span>}
+        </div>
+      </div>
+    )
+  }
+
+  onSubmit = (values) => {
+    this.props.editStar(values, (r) => {
+      console.log(r)
+      throw new SubmissionError({code: 'false'})
     }
+    )
   }
-
-  componentDidMount() {
-    this.messageBox.focus();
-  }
-
-  handleChange = (event) => {
-    this.setState({value: event.target.value })
-  }
-
-
-  handleSubmit = (event) => {
-    event.preventDefault();
-    this.props.editStar(this.state.value);
-    this.setState({value: ""});
-  }
-
 
   render() {
     return (
 
       <div className="container">
-        <form onSubmit={this.handleSubmit} className="channel-editor">
-          <input
-            ref={input => this.messageBox = input}
+        <form onSubmit={this.props.handleSubmit(this.onSubmit)} className="channel-editor">
+          <Field
+            label="Staroffer code"
+            name="code"
             type="text"
-            className="form-control"
-            autoComplete="off"
-            value={this.state.value}
-            onChange={this.handleChange}
+            component={this.renderField}
           />
-          <button type="submit" className="scan-qr">Valider</button>
+          <button type="submit" disabled={this.props.pristine ||this.props.submitting}>Valider</button>
         </form>
       </div>
     );
@@ -53,8 +53,7 @@ class StarsEdit extends Component {
 
 
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ editStar }, dispatch);
-}
 
-export default withRouter(connect(null, mapDispatchToProps)(StarsEdit));
+export default withRouter(reduxForm({form: "editStarForm"})(
+  connect(null, { editStar })(StarsEdit))
+);

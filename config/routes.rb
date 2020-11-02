@@ -10,7 +10,7 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :codes, only: [:create]
-      post "/stars" => "stars#activate"
+      post "/starcodes" => "starcodes#activate"
       resources :exploded_stars, only: [:index, :show]
       resources :restaurants, only: [:index, :show] do
         resources :offers, only: [:index, :show]
