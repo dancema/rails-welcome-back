@@ -67,7 +67,7 @@ function mapStateToProps(state, ownProps) {
     restaurant: state.restaurants.find((restaurant) => restaurant.id === restaurant_id),
     offer: state.offers.find((offer) => offer.id === id) || [],
     star: state.stars[restaurant_id],
-    code: state.code,
+    offercode: state.offercode,
     nb_offers_available: state.nb_offers_available
   };
 }

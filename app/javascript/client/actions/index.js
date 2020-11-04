@@ -1,3 +1,7 @@
+import axios from 'axios';
+
+
+
 export const FETCH_RESTAURANTS = 'FETCH_RESTAURANTS'
 export const FETCH_RESTAURANT = 'FETCH_RESTAURANT'
 
@@ -58,7 +62,7 @@ export function fetchOffer(restaurant_id,id) {
 export function createCode(offer_id) {
   const body = { offer_id };
   const csrfToken = document.querySelector('meta[name="csrf-token"]').attributes.content.value;
-  const promise = fetch('/api/v1/codes', {
+  const promise = fetch('/api/v1/offercodes', {
     method: 'POST',
     headers: {
       credentials:'include',
@@ -79,7 +83,7 @@ export function cancelCode() {
 
   return {
     type: CANCEL_CODE,
-    payload: ""
+    payload: {}
   };
 }
 
@@ -94,9 +98,9 @@ export function editStar(body, callback) {
       'Content-Type': 'application/json'
     },
     body: JSON.stringify(body)
-  }).catch((r) => {
-    console.log(r)
-  })
+  }).then(callback)
+    // .catch((error) => console.log(error))
+
     ;
 
 

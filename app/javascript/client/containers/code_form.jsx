@@ -41,7 +41,7 @@ class CodeForm extends Component {
       <form onSubmit={this.handleSubmit} className="d-flex flex-column align-items-center justify-content-center">
         <input readOnly value={this.props.offer_id} className='d-none' />
         <button type="submit" disabled={this.props.disabled} className='btn btn-secondary'>{this.textButtonActivation()}</button>
-        <h2 className="mt-2">{this.props.code}</h2>
+        <h2 className="mt-2">{this.props.offercode.code}</h2>
       </form>
     ]);
   }
@@ -49,7 +49,7 @@ class CodeForm extends Component {
 
 function mapStateToProps(state) {
   return {
-    code: state.code
+    offercode: state.offercode
   };
 }
 

@@ -20,7 +20,7 @@ import Navbar from './components/navbar';
 
 import restaurantsReducer from './reducers/restaurants_reducer';
 import offersReducer from './reducers/offers_reducer';
-import codesReducer from './reducers/codes_reducer';
+import offercodesReducer from './reducers/offercodes_reducer';
 import starsReducer from './reducers/stars_reducer';
 import offersAvailabilityReducer from './reducers/offers_availability_reducer';
 
@@ -32,7 +32,7 @@ const initialState = {
   offers: [],
   nb_offers_available: [],
   stars: [],
-  code: []
+  offercode: {}
 };
 
 
@@ -41,7 +41,7 @@ const reducers = combineReducers({
   offers: offersReducer,
   nb_offers_available: offersAvailabilityReducer,
   stars: starsReducer,
-  code: codesReducer,
+  offercode: offercodesReducer,
   form: formReducer
 });
 
