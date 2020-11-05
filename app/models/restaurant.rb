@@ -1,6 +1,7 @@
 class Restaurant < ApplicationRecord
   has_many :offers
   has_many :stars
+  has_many :offercodes, through: :offers
   belongs_to :user
 
   validates :name, presence: true

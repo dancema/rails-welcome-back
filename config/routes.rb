@@ -34,9 +34,9 @@ Rails.application.routes.draw do
 
   namespace :r do
     get "/restaurants/:id", to: 'restaurants#show'
-    get "/codes/:code", to: 'codes#show'
-    post "/codes", to: 'codes#use'
-    get "/codes", to: 'codes#show'
+    get "/codes/:code", to: 'offercodes#show'
+    post "/offercodes", to: 'offercodes#use'
+    get "/codes", to: 'offercodes#show'
     get "/dashboard", to: 'restaurants#home', :as => :restaurant_root
   end
 

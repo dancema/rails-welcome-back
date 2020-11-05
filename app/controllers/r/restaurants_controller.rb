@@ -7,19 +7,22 @@ class R::RestaurantsController < ApplicationController
 
   def show
     @restaurant = Restaurant.find(params[:id])
-    @total_stars = Star.where(restaurant: @restaurant).count
-    @total_stars_scanned = Star.where(restaurant: @restaurant).where.not(scanned_at: nil).count
-    @total_stars_used = Star.where(restaurant: @restaurant).where.not(used_at: nil).count
-    @stars_per_user = Star.where(restaurant: @restaurant) #to dooooooo
+
+    @offercodes_scanned = Offercode.joins(:offer).where(:offercodes => {status: 'scanned'},:offers => {:restaurant => @restaurant})
+
+    # @total_stars = Star.where(restaurant: @restaurant).count
+    # @total_stars_scanned = Star.where(restaurant: @restaurant).where.not(scanned_at: nil).count
+    # @total_stars_used = Star.where(restaurant: @restaurant).where.not(used_at: nil).count
+    # @stars_per_user = Star.where(restaurant: @restaurant) #to dooooooo
     if params[:dates].present?
       @field_dates = params[:dates]
       start_date, end_date = params[:dates].split(' - ')
       start_date = Date.strptime(start_date, '%d/%m/%Y')
       end_date = Date.strptime(end_date, '%d/%m/%Y')
-      @orders_scanned = Star.where(restaurant: @restaurant, status: "scanned", :scanned_at => (start_date)..(end_date)).group_by_day(:scanned_at).count
+      # @orders_scanned = Star.where(restaurant: @restaurant, status: "scanned", :scanned_at => (start_date)..(end_date)).group_by_day(:scanned_at).count
     else
       @field_dates = (Date.today - 7).strftime('%d/%m%Y') + " - " + (Date.today).strftime('%d/%m%Y')
-      @orders_scanned = Star.where(restaurant: @restaurant, status: "scanned").group_by_day(:scanned_at).count
+      # @orders_scanned = Star.where(restaurant: @restaurant, status: "scanned").group_by_day(:scanned_at).count
     end
   end
 

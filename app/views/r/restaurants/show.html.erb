@@ -2,7 +2,7 @@
 
 
 
-<h2>Nombre QR code actifs</h2>
+<!-- <h2>Nombre QR code actifs</h2>
 <%= @total_stars %>
 
 <h2>Nombre QR code scannés</h2>
@@ -13,7 +13,7 @@
 
 <h2>Nombre d etoiles par utilisateurs</h2>
 TO DO
-
+ -->
 
 <h2>QR codes scanned per day</h2>
 <form action="?query=" method="get">
@@ -22,5 +22,27 @@ TO DO
 </form>
 
 <%= column_chart @orders_scanned %>
+
+
+
+<div style="overflow-x:auto;">
+  <table>
+    <tr>
+      <th>Date</th>
+      <th>Offre</th>
+      <th>Etoiles utilisées</th>
+    </tr>
+    <tbody>
+      <% @offercodes_scanned.each do |offercode| %>
+        <tr>
+          <td><%= offercode.scanned_at %></td>
+          <td><%= offercode.offer.title %></td>
+          <td><%= offercode.offer.stars_required %> </td>
+        </tr>
+      <% end %>
+    </tbody>
+  </table>
+</div>
+
 
 <%= link_to "Retour", r_restaurant_root_path %>
