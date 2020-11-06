@@ -1,6 +1,76 @@
 <h2><%= @restaurant.name %></h2>
 
 
+<% if flash[:notice] %>
+  <div class="notice"><%= flash[:notice] %></div>
+<% end %>
+
+
+<ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+  <li class="nav-item" role="presentation">
+    <a class="nav-link active" id="pills-home-tab" data-toggle="pill" href="#pills-home" role="tab" aria-controls="pills-home" aria-selected="true">Offres activées</a>
+  </li>
+  <li class="nav-item" role="presentation">
+    <a class="nav-link" id="pills-profile-tab" data-toggle="pill" href="#pills-profile" role="tab" aria-controls="pills-profile" aria-selected="false">Flyers</a>
+  </li>
+</ul>
+<div class="tab-content" id="pills-tabContent">
+  <div class="tab-pane fade show active" id="pills-home" role="tabpanel" aria-labelledby="pills-home-tab">
+    <div style="overflow-x:auto;">
+      <table>
+        <tr>
+          <th>Date</th>
+          <th>Offre</th>
+          <th>Etoiles utilisées</th>
+        </tr>
+        <tbody>
+          <% if !@offercodes_scanned.empty? %>
+            <% @offercodes_scanned.each do |offercode| %>
+              <tr>
+                <td><%= offercode.scanned_at %></td>
+                <td><%= offercode.offer.title %></td>
+                <td><%= offercode.offer.stars_required %> </td>
+              </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+    <div style="overflow-x:auto;">
+      <table>
+        <tr>
+          <th>Batch</th>
+          <th>Date création</th>
+          <th>Nombre flyers</th>
+          <th>Nombre scans</th>
+          <th>Ratio</th>
+        </tr>
+        <tbody>
+          <% if !@starcodes_total_by_batch.empty? %>
+            <% @starcodes_total_by_batch.keys.each do |batch| %>
+                <tr>
+                  <td><%= batch %></td>
+                  <td><%=  %> </td>
+                  <td><%= @starcodes_total_by_batch[batch] %></td>
+                  <td><%= @starcodes_scanned_by_batch[batch] %></td>
+                  <td> <%= (@starcodes_scanned_by_batch[batch].to_f / @starcodes_total_by_batch[batch].to_f).round(2)  %> </td>
+                </tr>
+            <% end %>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+  <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
+</div>
+
+
+
+<%= link_to "Retour", r_restaurant_root_path %>
+
 
 <!-- <h2>Nombre QR code actifs</h2>
 <%= @total_stars %>
@@ -15,34 +85,12 @@
 TO DO
  -->
 
-<h2>QR codes scanned per day</h2>
+<!-- <h2>QR codes scanned per day</h2>
 <form action="?query=" method="get">
   <input name="dates" value="<%= @field_dates %>" />
   <button type="submit">Search</button>
 </form>
 
+
 <%= column_chart @orders_scanned %>
-
-
-
-<div style="overflow-x:auto;">
-  <table>
-    <tr>
-      <th>Date</th>
-      <th>Offre</th>
-      <th>Etoiles utilisées</th>
-    </tr>
-    <tbody>
-      <% @offercodes_scanned.each do |offercode| %>
-        <tr>
-          <td><%= offercode.scanned_at %></td>
-          <td><%= offercode.offer.title %></td>
-          <td><%= offercode.offer.stars_required %> </td>
-        </tr>
-      <% end %>
-    </tbody>
-  </table>
-</div>
-
-
-<%= link_to "Retour", r_restaurant_root_path %>
+ -->

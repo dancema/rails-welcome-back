@@ -28,13 +28,13 @@ class R::OffercodesController < ApplicationController
         offercode.scanned_at = Time.now
         offercode.save
         flash[:notice] = "Code valide !"
+        redirect_to action: "restaurants#show", id: offercode.restaurant.id
       end
     else
-      flash[:warning] = "Code incorrect"
-    end
+    flash[:warning] = "Code incorrect"
     redirect_to action: "show"
+    end
   end
-
 
   private
 

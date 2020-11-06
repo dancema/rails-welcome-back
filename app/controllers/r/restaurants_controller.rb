@@ -8,10 +8,11 @@ class R::RestaurantsController < ApplicationController
   def show
     @restaurant = Restaurant.find(params[:id])
 
-    @offercodes_scanned = Offercode.joins(:offer).where(:offercodes => {status: 'scanned'},:offers => {:restaurant => @restaurant})
+    @offercodes_scanned = Offercode.joins(:offer).where(:offercodes => { status: 'scanned' }, :offers => { :restaurant => @restaurant })
+    @starcodes_scanned_by_batch = Starcode.joins(:batch, :stars).where({ :stars => { restaurant: @restaurant }, :starcodes => { status: "scanned" } }).group(:name).count
+    @starcodes_total_by_batch = Starcode.joins(:batch, :stars).where({ :stars => { restaurant: @restaurant } }).group(:name).count
 
-    # @total_stars = Star.where(restaurant: @restaurant).count
-    # @total_stars_scanned = Star.where(restaurant: @restaurant).where.not(scanned_at: nil).count
+
     # @total_stars_used = Star.where(restaurant: @restaurant).where.not(used_at: nil).count
     # @stars_per_user = Star.where(restaurant: @restaurant) #to dooooooo
     if params[:dates].present?
