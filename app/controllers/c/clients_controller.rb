@@ -1,5 +1,5 @@
 class C::ClientsController < ApplicationController
-  before_action :role_check
+  # before_action :role_check
 
 
   def home
@@ -8,9 +8,9 @@ class C::ClientsController < ApplicationController
 
   private
 
-  def role_check
-    if current_user.role != "client"
-      render template: "pages/error"
-    end
-  end
+  # def role_check
+  #   if current_user.role != "client"
+  #     render template: "pages/error"
+  #   end
+  # end
 end

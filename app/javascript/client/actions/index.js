@@ -17,6 +17,7 @@ export const FETCH_STAR = 'FETCH_STAR'
 
 export const FETCH_NB_OFFERS_AVAILABLE = 'FETCH_NB_OFFERS_AVAILABLE'
 
+export const CHECK_LOGGED_IN = 'CHECK_LOGGED_IN'
 
 
 
@@ -112,7 +113,7 @@ export function editStar(body, callback) {
 
 
 export function fetchStars() {
-  const promise = fetch('/api/v1/exploded_stars', { credentials: "same-origin" })
+  const promise = fetch('/api/v1/stars', { credentials: "same-origin" })
   .then(r => r.json())
 
   return {
@@ -137,6 +138,18 @@ export function fetchNbOffersAvailable() {
 
   return {
     type: FETCH_NB_OFFERS_AVAILABLE,
+    payload: promise
+  };
+
+}
+
+
+export function isLoggedIn() {
+  const promise = fetch('/api/v1/sessions')
+  .then(r => r.json())
+
+  return {
+    type: CHECK_LOGGED_IN,
     payload: promise
   };
 

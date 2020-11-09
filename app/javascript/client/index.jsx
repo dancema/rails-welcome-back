@@ -23,6 +23,8 @@ import offersReducer from './reducers/offers_reducer';
 import offercodesReducer from './reducers/offercodes_reducer';
 import starsReducer from './reducers/stars_reducer';
 import offersAvailabilityReducer from './reducers/offers_availability_reducer';
+import currentUserReducer from './reducers/current_user_reducer';
+
 
 
 const root = document.getElementById('root')
@@ -32,7 +34,8 @@ const initialState = {
   offers: [],
   nb_offers_available: [],
   stars: [],
-  offercode: {}
+  offercode: {},
+  logged_in: null
 };
 
 
@@ -42,7 +45,8 @@ const reducers = combineReducers({
   nb_offers_available: offersAvailabilityReducer,
   stars: starsReducer,
   offercode: offercodesReducer,
-  form: formReducer
+  form: formReducer,
+  logged_in: currentUserReducer
 });
 
 const middlewares = applyMiddleware(reduxPromise, logger);

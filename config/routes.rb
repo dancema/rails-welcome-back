@@ -10,8 +10,9 @@ Rails.application.routes.draw do
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
       resources :offercodes, only: [:create]
+      get "/sessions" => "sessions#logged_in?"
       post "/starcodes" => "starcodes#activate"
-      resources :exploded_stars, only: [:index, :show]
+      resources :stars, only: [:index, :show]
       resources :restaurants, only: [:index, :show] do
         resources :offers, only: [:index, :show]
       end

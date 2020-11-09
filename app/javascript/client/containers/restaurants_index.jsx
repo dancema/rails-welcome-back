@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
-import { fetchRestaurants, fetchStars, fetchNbOffersAvailable } from '../actions/index';
+import { fetchRestaurants, fetchStars, fetchNbOffersAvailable, isLoggedIn } from '../actions/index';
 
 
 class RestaurantsIndex extends Component {
@@ -11,8 +11,11 @@ class RestaurantsIndex extends Component {
     if (!this.props.restaurants){
       this.props.fetchRestaurants();
     }
-    this.props.fetchStars();
-    this.props.fetchNbOffersAvailable();
+    this.props.isLoggedIn().then(() => {
+      if (this.props.logged_in) {
+        this.props.fetchStars();
+      }
+    })
   }
 
   render () {
@@ -30,7 +33,6 @@ class RestaurantsIndex extends Component {
                     <h2>{restaurant.name}</h2>
                     <p>Solde : {this.props.stars[restaurant.id] || 0 } <i className="fas fa-star"></i></p>
                   </div>
-                  <p className="card-restauant-pricing">Offres disponibles : {this.props.nb_offers_available[restaurant.id] || 0 }</p>
                 </div>
               </div>
             </Link>
@@ -38,7 +40,7 @@ class RestaurantsIndex extends Component {
         })}
       </div>,
       <div className="container text-center">
-        <Link to="c/stars" >
+        <Link to="/stars" >
           <button className="scan-qr">Entrer code</button>
         </Link>
         <p>Pour chaque commande passée auprès des restaurants partenaires, vous trouverez dans le sac un QR code donnant 1 étoile</p>
@@ -50,12 +52,12 @@ function mapStateToProps(state) {
   return {
     restaurants: state.restaurants,
     stars: state.stars,
-    nb_offers_available: state.nb_offers_available
+    logged_in: state.logged_in
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchRestaurants, fetchStars, fetchNbOffersAvailable }, dispatch);
+  return bindActionCreators({ fetchRestaurants, fetchStars, fetchNbOffersAvailable, isLoggedIn }, dispatch);
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RestaurantsIndex));
