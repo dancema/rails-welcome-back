@@ -20,7 +20,6 @@ class RestaurantsShow extends Component {
       this.props.fetchStar(this.props.match.params.id);
     }
     this.props.fetchOffers(this.props.match.params.id);
-    this.props.fetchNbOffersAvailable();
   }
 
 
@@ -36,7 +35,6 @@ class RestaurantsShow extends Component {
             <h2>{this.props.restaurant.name}</h2>
             <p>Solde : {this.props.star || 0} <i className="fas fa-star"></i></p>
           </div>
-          <p className="card-restaurant-pricing">Offres disponibles : {this.props.nb_offers_available[this.props.restaurant.id] || 0 } </p>
         </div>
       </div>,
       <div className="container">
@@ -110,12 +108,11 @@ function mapStateToProps(state, ownProps) {
     restaurant: state.restaurants.find((restaurant) => restaurant.id === id),
     offers: state.offers,
     star: state.stars[id],
-    nb_offers_available: state.nb_offers_available
   };
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchRestaurant, fetchOffers, fetchStar, fetchNbOffersAvailable }, dispatch);
+  return bindActionCreators({ fetchRestaurant, fetchOffers, fetchStar }, dispatch);
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RestaurantsShow));

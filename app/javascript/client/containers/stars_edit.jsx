@@ -28,9 +28,6 @@ class StarsEdit extends Component {
   }
 
 
-
-
-
   onSubmit = (values) => {
     return this.props.editStar(values, (r) => {
 

@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter, Redirect } from 'react-router-dom';
 import CodeForm from './code_form';
-import { fetchOffer, fetchStar, fetchNbOffersAvailable } from '../actions';
+import { fetchOffer, fetchStar } from '../actions';
 
 
 class OffersShow extends Component {
@@ -15,7 +15,6 @@ class OffersShow extends Component {
       this.props.fetchOffer(this.props.match.params.restaurant_id,this.props.match.params.id);
     // }
     this.props.fetchStar(this.props.match.params.restaurant_id);
-    this.props.fetchNbOffersAvailable();
 
   }
 
@@ -31,7 +30,6 @@ class OffersShow extends Component {
               <h2>{this.props.restaurant.name}</h2>
               <p>Solde : {this.props.star || 0} <i className="fas fa-star"></i></p>
             </div>
-            <p className="card-restaurant-pricing">Offres disponibles : {this.props.nb_offers_available[this.props.restaurant.id] || 0 }</p>
           </div>
         </div>
       ,
@@ -68,11 +66,10 @@ function mapStateToProps(state, ownProps) {
     offer: state.offers.find((offer) => offer.id === id) || [],
     star: state.stars[restaurant_id],
     offercode: state.offercode,
-    nb_offers_available: state.nb_offers_available
   };
 }
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchOffer, fetchStar, fetchNbOffersAvailable }, dispatch);
+  return bindActionCreators({ fetchOffer, fetchStar }, dispatch);
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(OffersShow));
