@@ -30,6 +30,7 @@ class StarsEdit extends Component {
 
 
 
+
   onSubmit = (values) => {
     return this.props.editStar(values, (r) => {
 
@@ -49,7 +50,6 @@ class StarsEdit extends Component {
       <div className="container">
         <form onSubmit={this.props.handleSubmit(this.onSubmit)} className="channel-editor">
           <Field
-            label="Staroffer code"
             name="code"
             type="text"
             component={this.renderField}
@@ -66,6 +66,15 @@ class StarsEdit extends Component {
 
 
 
-export default withRouter(reduxForm({form: "editStarForm"})(
-  connect(null, { editStar })(StarsEdit))
-);
+function mapStateToProps(state, ownProps) {
+  const code = ownProps.match.params.code;
+  return {
+    initialValues: {code: code}
+  }
+}
+
+
+export default withRouter(connect(mapStateToProps, {editStar})(
+  reduxForm({
+    form: "editStarForm",
+    enableReinitialize: true})(StarsEdit)))
