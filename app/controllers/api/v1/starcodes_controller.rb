@@ -25,4 +25,23 @@ class Api::V1::StarcodesController < ApplicationController
       }, status: :not_found
     end
   end
+
+
+  def exist
+    starcode = Starcode.find_by(code: params[:code])
+
+    if starcode
+      # raise Error::AlreadyScannedError if starcode.status == "scanned"
+      if starcode.status == "scanned"
+        return render json: {
+        error: "Already scanned"
+        }, status: 409
+      end
+      render json: {restaurant_name: starcode.stars.first.restaurant.name}, status: :ok
+    else
+      render json: {
+        error: "Code invalide"
+      }, status: :not_found
+    end
+  end
 end

@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  devise_for :users, :controllers => { registrations: 'registrations' }, path: '', path_names: { sign_in: 'login', sign_out: 'logout'}
+  # devise_for :users, :controllers => { registrations: 'registrations' }, path: '', path_names: { sign_in: 'login', sign_out: 'logout'}
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
@@ -9,9 +9,13 @@ Rails.application.routes.draw do
 
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      resources :offercodes, only: [:create]
+      devise_for :users
+
       get "/sessions" => "sessions#logged_in?"
+
+      resources :offercodes, only: [:create]
       post "/starcodes" => "starcodes#activate"
+      get "/starcodes/:code" => "starcodes#exist"
       resources :stars, only: [:index, :show]
       resources :restaurants, only: [:index, :show] do
         resources :offers, only: [:index, :show]
@@ -30,6 +34,7 @@ Rails.application.routes.draw do
     get "/restaurants/:id", to: 'clients#home'
     get "/stars/:code", to: 'clients#home'
     get "/stars", to: 'clients#home'
+    get "/login", to: 'clients#home'
     get "/" ,to: 'clients#home', :as => :client_root
   end
 

@@ -14,6 +14,7 @@ import RestaurantsShow from './containers/restaurants_show';
 import OffersShow from './containers/offers_show';
 import Settings from './containers/settings';
 import StarsEdit from './containers/stars_edit';
+import StarsValidation from './containers/stars_validation';
 
 
 import Navbar from './components/navbar';
@@ -35,7 +36,7 @@ const initialState = {
   nb_offers_available: [],
   stars: [],
   offercode: {},
-  logged_in: null
+  logged_in: false
 };
 
 
@@ -66,7 +67,7 @@ ReactDOM.render(
             <Route path="/c/restaurants/:id" exact component={RestaurantsShow} />
             <Route path="/c/restaurants/:restaurant_id/offers/:id" exact component={OffersShow} />
             <Route path="/c/settings" exact component={Settings} />
-            <Route path="/c/stars/:code" exact component={StarsEdit} />
+            <Route path="/c/stars/:code" exact component={StarsValidation} />
             <Route path="/c/stars" exact component={StarsEdit} />
           </Switch>
         </div>

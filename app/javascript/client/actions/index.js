@@ -112,6 +112,10 @@ export function editStar(body, callback) {
 }
 
 
+
+
+
+
 export function fetchStars() {
   const promise = fetch('/api/v1/stars', { credentials: "same-origin" })
   .then(r => r.json())
@@ -153,4 +157,17 @@ export function isLoggedIn() {
     payload: promise
   };
 
+}
+
+export function checkStarcode(starcode) {
+  axios.get(`/api/v1/starcodes/${starcode}`,
+    { withCredentials: true })
+    .then(function (response) {
+      console.log(response)
+    })
+    .catch(function (er) {
+      if(er.response) {
+        console.log(er.response)
+      }
+    })
 }
