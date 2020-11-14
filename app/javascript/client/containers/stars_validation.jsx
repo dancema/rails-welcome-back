@@ -23,6 +23,8 @@ class StarsValidation extends Component {
       activationStarcode: false,
       showPopup: false,
       error_msg: null,
+      signIn_option: false,
+      signUp : false
     }
   }
 
@@ -43,10 +45,12 @@ class StarsValidation extends Component {
         this.setState({restaurant_name: response.data.restaurant_name, restaurant_id: response.data.restaurant_id,isLoading: false})
       })
       .catch((er) => {
-        if(er.response.status == 409) {
-          this.setState({isLoading: false, error_msg: "Code déjà utilisé"})
-        } else {
-          this.setState({isLoading: false, error_msg: "Code incorrect"})
+        if (er.response){
+          if(er.response.status == 409) {
+            this.setState({isLoading: false, error_msg: "Code déjà utilisé"})
+          } else {
+            this.setState({isLoading: false, error_msg: "Code incorrect"})
+          }
         }
       }
     )}
@@ -76,6 +80,40 @@ class StarsValidation extends Component {
     });
   }
 
+  signUp = (values,actions) => {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').attributes.content.value;
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
+    axios.defaults.headers.post['Content-Type'] = 'application/json';
+    axios.defaults.withCredentials = true
+    axios.defaults.headers.post['Accept'] = 'application/json';
+
+
+    let data = JSON.stringify({user:{
+      email: values.email,
+      password: values.password,
+      password_confirmation: values.password_confirmation
+    }})
+
+
+    axios.post('/api/v1/registrations', data
+    )
+    .then((response) => {
+      this.setState({signUp: "creation de compte reussie"});
+      this.activationStarcode(values,actions)
+    })
+    .catch((error) => {
+      if (error.response) {
+        if (error.response.status == 409){
+          actions.setSubmitting(false);
+          this.setState({signUp: error.response.data.message });
+        } else {
+          actions.setSubmitting(false);
+          this.setState({signUp: "le compte n'a pas pu se créer, réessayer plus tard"});
+        }
+      }
+    });
+
+  }
 
   signIn = (values,actions) => {
     const csrfToken = document.querySelector('meta[name="csrf-token"]').attributes.content.value;
@@ -165,7 +203,7 @@ class StarsValidation extends Component {
         </Formik>
     </div>
       )
-    } else if (this.state.restaurant_name != null) {
+    } else if (this.state.restaurant_name != null && this.props.logged_in==false && this.state.signIn_option == true) {
     return (
     <div>
 
@@ -218,9 +256,82 @@ class StarsValidation extends Component {
           </Form>
         )}
       </Formik>
-    </div>
-  )}
-};}
+      <div onClick={() => {this.setState({signIn_option: !this.state.signIn_option})}}>
+          {this.state.signIn_option ?
+            <p>Créer un compte</p>
+            : <p>J'ai déjà un compte</p>
+          }
+      </div>
+    </div>)}
+    else if (this.state.restaurant_name != null && this.props.logged_in==false && this.state.signIn_option == false) {
+      return (
+
+        <div>
+          <h1>Bravo !</h1>
+          <h2>Pour gagner un point chez {this.state.restaurant_name}, connecte toi ou inscris toi !</h2>
+          <Formik
+            initialValues={{
+              code: this.props.starcode,
+              email: '',
+              password: '',
+              password_confirmation:''
+            }}
+            enableReinitialize={true}
+            validationSchema={Yup.object({
+              code: Yup.string().length(8, 'Ne contient pas 8 charactères').required('required'),
+              email: Yup.string().email('Invalid email address').required('required'),
+              password: Yup.string().required('Password is required').min(6, "Doit contenir 6 charactères minimum"),
+              password_confirmation: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match')
+            })}
+            onSubmit={(values,actions) => {
+              this.signUp(values,actions)
+            }}
+            >
+            {({values,
+               errors,
+               touched,
+               handleChange,
+               handleBlur,
+               handleSubmit,
+               isSubmitting}) => (
+               <Form>
+                  <Field type="text" name="starcode" readOnly className="d-none"/>
+                  <Field type="email" name="email" placeholder="email" />
+                  <ErrorMessage name="email" component="div" />
+                  <Field type="password" name="password" placeholder="mot de passe" />
+                  <ErrorMessage name="password" component="div" />
+                  <Field type="password" name="password_confirmation" placeholder="confirmer mot de passe" />
+                  <ErrorMessage name="password_confirmation" component="div" />
+                  <button type="submit" disabled={isSubmitting} >
+                   Submit
+                  </button>
+                  {this.state.signUp && (
+                      <p className="">
+                        {this.state.signUp}
+                      </p>
+                    )}
+                  {this.state.showPopup ?
+                    <Popup
+                      text='Compte créé et Code validé ! Tu as gagné un point :)'
+                      closePopup={this.togglePopup.bind(this)}
+                    />
+                    : null
+                  }
+              </Form>
+            )}
+          </Formik>
+
+          <div onClick={() => {this.setState({signIn_option: !this.state.signIn_option})}}>
+              {this.state.signIn_option ?
+                <p>Créer un compte</p>
+                : <p>J'ai déjà un compte</p>
+              }
+          </div>
+        </div>
+
+    )}
+  ;}
+}
 
 function mapStateToProps(state, ownProps) {
   const starcode = ownProps.match.params.code;

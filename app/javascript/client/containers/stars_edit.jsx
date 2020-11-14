@@ -15,14 +15,9 @@ import Popup from '../components/popup'
 class StarsEdit extends Component {
 
 
-
-
-
   redirectToStarsValidation = (values,actions) => {
     this.props.history.push(`/c/stars/${values.starcode}`)
   }
-
-
 
 
   componentDidMount() {
