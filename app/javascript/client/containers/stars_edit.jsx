@@ -1,77 +1,78 @@
-import React, { Component } from 'react';
+import React, { useState, Component, PureComponent } from 'react';
+import { ErrorMessage, Field, Form, Formik } from 'formik';
+import * as Yup from 'yup';
+import axios from 'axios';
+
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
-import { editStar } from '../actions';
-import { Field, reduxForm, SubmissionError } from 'redux-form'
+import { isLoggedIn } from '../actions/index';
 
 
-const required = value => value ? undefined : 'Required'
-const maxLength = max => value =>
-  value && value.length != max ? `Must be ${max} characters` : undefined
-const maxLength8 = maxLength(8)
+import Popup from '../components/popup'
 
 class StarsEdit extends Component {
 
 
-  renderField(field) {
-    return (
-      <div className="form-group">
-        <label>{field.label}</label>
-        <div>
-          <input {...field.input} placeholder={field.label} type={field.type}/>
-          {field.meta.touched && field.meta.error && <span>{field.meta.error}</span>}
-        </div>
-      </div>
-    )
+
+
+
+  redirectToStarsValidation = (values,actions) => {
+    this.props.history.push(`/c/stars/${values.starcode}`)
   }
 
 
-  onSubmit = (values) => {
-    return this.props.editStar(values, (r) => {
 
-      if (r.status === 404){
-        throw new SubmissionError({_error:"code incorrect"})
-      } else if (r.status == 409) {
-        throw new SubmissionError({_error:"code deja utilise"})
-      } else if (r.status == 200) {
-        window.alert('Bravo')
-      }
-    })
+
+  componentDidMount() {
+    this.props.isLoggedIn()
   }
 
-  render() {
-    return (
 
-      <div className="container">
-        <form onSubmit={this.props.handleSubmit(this.onSubmit)} className="channel-editor">
-          <Field
-            name="code"
-            type="text"
-            component={this.renderField}
-            validate={maxLength8}
-          />
-          {this.props.error && <strong>{this.props.error}</strong>}
-          <button type="submit" disabled={this.props.pristine ||this.props.submitting}>Valider</button>
-        </form>
-      </div>
-    );
-  }
-}
-
-
-
-
-function mapStateToProps(state, ownProps) {
-  const code = ownProps.match.params.code;
-  return {
-    initialValues: {code: code}
+  render () {
+      return (
+      <div>
+        <h2>Entrez le code</h2>
+        <Formik
+          initialValues={{
+            starcode: ""
+          }}
+          validationSchema={Yup.object({
+            starcode: Yup.string().length(8, 'Ne contient pas 8 charactères').required('required'),
+          })}
+          onSubmit={(values,actions) => {
+            this.redirectToStarsValidation(values,actions)
+          }}
+          >
+          {({values,
+             errors,
+             touched,
+             handleChange,
+             handleBlur,
+             handleSubmit,
+             isSubmitting}) => (
+             <Form>
+                <Field type="text" name="starcode" />
+                <ErrorMessage name="starcode" component="div" />
+                <button type="submit" disabled={isSubmitting} >
+                 Valider
+                </button>
+            </Form>
+          )}
+        </Formik>
+    </div>
+      )
   }
 }
 
 
-export default withRouter(connect(mapStateToProps, {editStar})(
-  reduxForm({
-    form: "editStarForm",
-    enableReinitialize: true})(StarsEdit)))
+
+function mapDispatchToProps(dispatch) {
+  return bindActionCreators({ isLoggedIn }, dispatch);
+}
+
+
+export default withRouter(connect(null, mapDispatchToProps )(StarsEdit));
+
+

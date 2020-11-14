@@ -15,6 +15,7 @@ import OffersShow from './containers/offers_show';
 import Settings from './containers/settings';
 import StarsEdit from './containers/stars_edit';
 import StarsValidation from './containers/stars_validation';
+import LogIn from './containers/login';
 
 
 import Navbar from './components/navbar';
@@ -46,7 +47,6 @@ const reducers = combineReducers({
   nb_offers_available: offersAvailabilityReducer,
   stars: starsReducer,
   offercode: offercodesReducer,
-  form: formReducer,
   logged_in: currentUserReducer
 });
 
@@ -69,6 +69,7 @@ ReactDOM.render(
             <Route path="/c/settings" exact component={Settings} />
             <Route path="/c/stars/:code" exact component={StarsValidation} />
             <Route path="/c/stars" exact component={StarsEdit} />
+            <Route path="/c/login" exact component={LogIn} />
           </Switch>
         </div>
       </div>

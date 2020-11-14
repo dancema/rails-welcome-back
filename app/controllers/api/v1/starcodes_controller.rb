@@ -1,6 +1,5 @@
 class Api::V1::StarcodesController < ApplicationController
   def activate
-
     starcode = Starcode.find_by(code: params[:code])
 
     if starcode
@@ -12,13 +11,13 @@ class Api::V1::StarcodesController < ApplicationController
       end
       starcode.status = "scanned"
       starcode.scanned_at = Time.now
-      Star.where(starcode: starcode).each do |star|
+      starcode.stars.each do |star|
         star.status = "available"
         star.user = current_user
         star.save
       end
       starcode.save
-      render json: {message: 'Bravo !'}, status: :ok
+      render json: {message: 'Star added to account'}, status: :ok
     else
       render json: {
         error: "Code invalide"
@@ -37,7 +36,7 @@ class Api::V1::StarcodesController < ApplicationController
         error: "Already scanned"
         }, status: 409
       end
-      render json: {restaurant_name: starcode.stars.first.restaurant.name}, status: :ok
+      render json: {restaurant_name: starcode.stars.first.restaurant.name, restaurant_id: starcode.stars.first.restaurant.id}, status: :ok
     else
       render json: {
         error: "Code invalide"

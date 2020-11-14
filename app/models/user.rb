@@ -7,6 +7,9 @@ class User < ApplicationRecord
   enum role: [:client, :admin, :restaurant]
   after_initialize :set_default_role, :if => :new_record?
 
+
+  validates :email, uniqueness: { case_sensitive: false }, presence: true, allow_blank: false
+
   def set_default_role
     self.role ||= :client
   end

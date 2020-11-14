@@ -1,18 +1,28 @@
 Rails.application.routes.draw do
 
-  # devise_for :users, :controllers => { registrations: 'registrations' }, path: '', path_names: { sign_in: 'login', sign_out: 'logout'}
+  devise_for :users, :controllers => { registrations: 'api/v1/registrations', sessions: "api/v1/sessions" }, path: '', path_names: { sign_in: 'login', sign_out: 'logout'}
 
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
 
   #API
 
 
+
+
+
+  devise_scope :user do
+    namespace :api do
+      namespace :v1 do
+        resources :sessions, :only => [:create, :destroy]
+        get "/sessions" => "sessions#logged_in?"
+      end
+    end
+  end
+
+  resources :users
+
   namespace :api, defaults: { format: :json } do
     namespace :v1 do
-      devise_for :users
-
-      get "/sessions" => "sessions#logged_in?"
-
       resources :offercodes, only: [:create]
       post "/starcodes" => "starcodes#activate"
       get "/starcodes/:code" => "starcodes#exist"
@@ -28,6 +38,8 @@ Rails.application.routes.draw do
   namespace :admin2 do
     resources :starcodes, only: [:new, :create, :index]
   end
+
+
 
   namespace :c do
     get "/restaurants/:restaurant_id/offers/:id", to: 'clients#home'
@@ -46,8 +58,10 @@ Rails.application.routes.draw do
     get "/dashboard", to: 'restaurants#home', :as => :restaurant_root
   end
 
-  devise_scope :user do
-    root to: "devise/sessions#new"
-  end
+  # devise_scope :user do
+  #   root to: "devise/sessions#new"
+  # end
+
+
 
 end
