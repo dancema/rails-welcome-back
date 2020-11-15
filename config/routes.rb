@@ -2,8 +2,6 @@ Rails.application.routes.draw do
 
   devise_for :users, :controllers => { registrations: 'api/v1/registrations', sessions: "api/v1/sessions" }, path: '', path_names: { sign_in: 'login', sign_out: 'logout'}
 
-  mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
-
   #API
 
 
@@ -36,7 +34,7 @@ Rails.application.routes.draw do
     end
   end
 
-  namespace :admin2 do
+  namespace :admin do
     resources :starcodes, only: [:new, :create, :index]
   end
 

@@ -159,15 +159,3 @@ export function isLoggedIn() {
 
 }
 
-export function checkStarcode(starcode) {
-  axios.get(`/api/v1/starcodes/${starcode}`,
-    { withCredentials: true })
-    .then(function (response) {
-      console.log(response)
-    })
-    .catch(function (er) {
-      if(er.response) {
-        console.log(er.response)
-      }
-    })
-}

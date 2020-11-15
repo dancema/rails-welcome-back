@@ -1,4 +1,4 @@
-class Admin2::StarcodesController < ApplicationController
+class Admin::StarcodesController < ApplicationController
   before_action :authenticate_user!
   before_action :is_admin?
 
