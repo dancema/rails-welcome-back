@@ -4,5 +4,5 @@ class Offer < ApplicationRecord
 
   validates :title, presence: true
   validates :stars_required, presence: true, numericality: { only_integer: true }
-  validates :offer_type, presence: true, inclusion: { in: %w(discount free-item), message: "%{value} is not a valid offer type"}
+  validates :offer_type, presence: true, inclusion: { in: %w(exclusive-deal loyalty), message: "%{value} is not a valid offer type"}
 end

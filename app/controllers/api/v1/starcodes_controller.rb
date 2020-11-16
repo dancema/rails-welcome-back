@@ -25,7 +25,6 @@ class Api::V1::StarcodesController < ApplicationController
     end
   end
 
-
   def exist
     starcode = Starcode.find_by(code: params[:code])
 
