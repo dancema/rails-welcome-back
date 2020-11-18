@@ -1,4 +1,5 @@
 require "rails_helper"
+# require_relative "../support/devise"
 
 RSpec.describe Api::V1::RestaurantsController, :type => :controller do
   describe "GET index" do

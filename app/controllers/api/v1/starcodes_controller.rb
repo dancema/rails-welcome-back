@@ -1,6 +1,6 @@
 class Api::V1::StarcodesController < ApplicationController
   def activate
-    starcode = Starcode.find_by(code: params[:code])
+    starcode = Starcode.find_by(code_params)
 
     if starcode
       # raise Error::AlreadyScannedError if starcode.status == "scanned"
@@ -42,4 +42,11 @@ class Api::V1::StarcodesController < ApplicationController
       }, status: :not_found
     end
   end
+
+ private
+
+    def code_params
+      params.require(:starcode).permit(:code)
+    end
+
 end
