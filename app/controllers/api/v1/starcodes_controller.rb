@@ -1,7 +1,13 @@
 class Api::V1::StarcodesController < ApplicationController
   def activate
-    starcode = Starcode.find_by(code_params)
 
+    unless code_params[:code].match /^[0-9a-zA-Z]{8}$/
+      return render json: {
+        error: "code format not good"
+        }, status: 400
+    end
+
+    starcode = Starcode.find_by(code_params)
     if starcode
       # raise Error::AlreadyScannedError if starcode.status == "scanned"
       if starcode.status == "scanned"
@@ -26,6 +32,14 @@ class Api::V1::StarcodesController < ApplicationController
   end
 
   def exist
+
+    unless params[:code].match /^[0-9a-zA-Z]{8}$/
+      return render json: {
+        error: "code format not good"
+        }, status: 400
+    end
+
+
     starcode = Starcode.find_by(code: params[:code])
 
     if starcode

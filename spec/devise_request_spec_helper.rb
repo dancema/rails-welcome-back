@@ -3,7 +3,7 @@ module DeviseRequestSpecHelpers
 
   def sign_in(resource_or_scope, resource = nil)
     # @request.env["devise.mapping"] = Devise.mappings[:user]
-    debugger
+    # debugger
     resource ||= resource_or_scope
     scope = Devise::Mapping.find_scope!(resource_or_scope)
     login_as(resource, scope: scope)

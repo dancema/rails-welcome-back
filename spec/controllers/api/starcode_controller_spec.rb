@@ -65,23 +65,42 @@ RSpec.describe Api::V1::StarcodesController, :type => :controller do
     end
   end
 
-
   describe "#exist" do
     context 'when code is not valid' do
       it "responds with bad request when code is not made of 8 characters" do
-        post :exist, :params => { :code => "1111111226" }
+        code = '1111111226'
+        get :exist, :params => {:code => code}
         expect(response).to have_http_status(400)
       end
 
       it "responds with not found when code does not exist" do
-        post :exist, :params => { :code => "11111112" }
+        code = '11111112'
+        get :exist, :params => {:code => code}
         expect(response).to have_http_status(:not_found)
       end
 
       it "responds with conflict when code already scanned" do
         starcode = create(:starcode, status: 'scanned')
-        post :activate, :params => { starcode: {:code => "12345678"} }
+        code = '12345678'
+        get :exist, :params => {:code => code}
         expect(response).to have_http_status(409)
       end
     end
+
+    context "when code is valid" do
+      it "responds with status OK" do
+        star = create(:star)
+        code = '12345678'
+        get :exist, :params => {:code => code}
+        expect(response).to have_http_status(200)
+      end
+
+      it "responds with restaurant_name and restaurant_id" do
+        star = create(:star)
+        code = '12345678'
+        get :exist, :params => { :code => code }
+        expect(JSON.parse(response.body)).to eq({'restaurant_name' => star.restaurant.name, 'restaurant_id' => star.restaurant.id})
+      end
+    end
+  end
 end

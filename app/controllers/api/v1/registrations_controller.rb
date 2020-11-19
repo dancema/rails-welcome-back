@@ -17,7 +17,6 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
         if resource.persisted?
           if resource.active_for_authentication?
             sign_up(resource_name, resource)
-            debugger
             render json: { message: "compte n'a pas pu etre creer" },:status => 201
           else
             #in case confirmation needed

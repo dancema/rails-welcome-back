@@ -1,22 +1,39 @@
 class Api::V1::OffersController < ApplicationController
   def index
-    offers = Offer.where(restaurant: Restaurant.find(params[:restaurant_id]))
-    render json: offers
+    unless params[:restaurant_id].match /^[0-9]+$/
+      return render json: {
+        error: "Restaurant id format not good"
+        }, status: 400
+    end
+
+    restaurant = Restaurant.find_by(id: params[:restaurant_id])
+
+    if restaurant
+      offers = Offer.where(restaurant: restaurant)
+      render json: offers
+    else
+      render json: {
+        error: "Restaurant not found"
+      }, status: :not_found
+    end
   end
 
   def show
-    offer = Offer.find(params[:id])
-    render json: offer
-  end
-
-  def available
-    stars_per_restaurant = ExplodedStar.joins(:star).where(exploded_stars: { status: "valid" }, stars: { user: current_user }).group(:restaurant_id).count
-    nb_offers_available_per_restaurant = {}
-    stars_per_restaurant.each do |restaurant_id, nb_stars|
-      nb_offers = Offer.where("stars_required <= '#{nb_stars}' AND restaurant_id= #{restaurant_id}").count
-      nb_offers_available_per_restaurant[restaurant_id] = nb_offers
+    unless params[:id].match /^[0-9]+$/
+      return render json: {
+        error: "Offer id format not good"
+        }, status: 400
     end
 
-    render json: nb_offers_available_per_restaurant
+
+    offer = Offer.find_by(id: params[:id])
+
+    if offer
+      render json: offer
+    else
+      render json: {
+        error: "Offer not found"
+      }, status: :not_found
+    end
   end
 end
