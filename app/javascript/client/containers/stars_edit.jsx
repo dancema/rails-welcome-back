@@ -34,7 +34,7 @@ class StarsEdit extends Component {
             starcode: ""
           }}
           validationSchema={Yup.object({
-            starcode: Yup.string().length(8, 'Ne contient pas 8 charactères').required('required'),
+            starcode: Yup.string().length(6, 'Ne contient pas 6 charactères').required('required'),
           })}
           onSubmit={(values,actions) => {
             this.redirectToStarsValidation(values,actions)

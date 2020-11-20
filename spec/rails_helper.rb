@@ -70,7 +70,7 @@ RSpec.configure do |config|
   config.include Devise::Test::ControllerHelpers, :type => :controller
   # config.include ControllerMacros, type: :request
   # config.include Warden::Test::Helpers
-    config.include DeviseRequestSpecHelpers, type: :request
+  config.include DeviseRequestSpecHelpers, type: :request
 
 end
 

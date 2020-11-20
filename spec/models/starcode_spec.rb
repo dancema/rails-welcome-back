@@ -6,7 +6,7 @@ RSpec.describe Starcode, :type => :model do
     expect(starcode).to_not be_valid
   end
 
-  it "is not valid if code not made of 8 characters" do
+  it "is not valid if code not made of 6 characters" do
     starcode = build(:starcode, code: "123er")
     expect(starcode).to_not be_valid
   end

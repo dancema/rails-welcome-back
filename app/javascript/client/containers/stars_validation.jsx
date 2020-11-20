@@ -173,7 +173,7 @@ class StarsValidation extends Component {
           }}
           enableReinitialize={true}
           validationSchema={Yup.object({
-            code: Yup.string().length(8, 'Ne contient pas 8 charactères').required('required'),
+            code: Yup.string().length(6, 'Ne contient pas 6 charactères').required('required'),
           })}
           onSubmit={(values,actions) => {
             this.activationStarcode(values,actions)
@@ -217,7 +217,7 @@ class StarsValidation extends Component {
         }}
         enableReinitialize={true}
         validationSchema={Yup.object({
-          code: Yup.string().length(8, 'Ne contient pas 8 charactères').required('required'),
+          code: Yup.string().length(6, 'Ne contient pas 6 charactères').required('required'),
           email: Yup.string().email('Invalid email address').required('required'),
           password: Yup.string().required('required'),
         })}
@@ -278,7 +278,7 @@ class StarsValidation extends Component {
             }}
             enableReinitialize={true}
             validationSchema={Yup.object({
-              code: Yup.string().length(8, 'Ne contient pas 8 charactères').required('required'),
+              code: Yup.string().length(6, 'Ne contient pas 6 charactères').required('required'),
               email: Yup.string().email('Invalid email address').required('required'),
               password: Yup.string().required('Password is required').min(6, "Doit contenir 6 charactères minimum"),
               password_confirmation: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match')

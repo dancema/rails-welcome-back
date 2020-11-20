@@ -35,32 +35,32 @@ Offer.create({ title: '2 Gyros + 2 Boissons + 2 Desserts', stars_required: 12, r
 
 batch = Batch.create(name: "test")
 
-starcode = Starcode.create(code: "00000000", scanned_at: nil, status: "valid", batch: batch)
+starcode = Starcode.create(code: "000000", scanned_at: nil, status: "valid", batch: batch)
 Star.create(restaurant: kali, status: "valid", starcode: starcode)
 
-starcode = Starcode.create(code: "11111111", scanned_at: nil, status: "valid", batch: batch)
+starcode = Starcode.create(code: "111111", scanned_at: nil, status: "valid", batch: batch)
 Star.create(restaurant: kali, status: "valid", starcode: starcode)
 
-starcode = Starcode.create(code: "22222222", scanned_at: nil, status: "valid", batch: batch)
+starcode = Starcode.create(code: "222222", scanned_at: nil, status: "valid", batch: batch)
 Star.create(restaurant: kali, status: "valid", starcode: starcode)
 
-starcode = Starcode.create(code: "33333333", scanned_at: nil, status: "valid", batch: batch)
+starcode = Starcode.create(code: "333333", scanned_at: nil, status: "valid", batch: batch)
 Star.create(restaurant: kali, status: "valid", starcode: starcode)
 
-starcode = Starcode.create(code: "44444444", scanned_at: nil, status: "valid", batch: batch)
+starcode = Starcode.create(code: "444444", scanned_at: nil, status: "valid", batch: batch)
 Star.create(restaurant: kali, status: "valid", starcode: starcode)
 
-starcode = Starcode.create(code: "55555555", scanned_at: nil, status: "valid", batch: batch)
+starcode = Starcode.create(code: "555555", scanned_at: nil, status: "valid", batch: batch)
 Star.create(restaurant: kali, status: "valid", starcode: starcode)
 
-starcode = Starcode.create(code: "66666666", scanned_at: nil, status: "valid", batch: batch)
+starcode = Starcode.create(code: "666666", scanned_at: nil, status: "valid", batch: batch)
 Star.create(restaurant: kali, status: "valid", starcode: starcode)
 
-starcode = Starcode.create(code: "77777777", scanned_at: nil, status: "valid", batch: batch)
+starcode = Starcode.create(code: "777777", scanned_at: nil, status: "valid", batch: batch)
 Star.create(restaurant: kali, status: "valid", starcode: starcode)
 
-starcode = Starcode.create(code: "88888888", scanned_at: nil, status: "valid", batch: batch)
+starcode = Starcode.create(code: "888888", scanned_at: nil, status: "valid", batch: batch)
 Star.create(restaurant: kali, status: "valid", starcode: starcode)
 
-starcode = Starcode.create(code: "99999999", scanned_at: nil, status: "valid", batch: batch)
+starcode = Starcode.create(code: "999999", scanned_at: nil, status: "valid", batch: batch)
 Star.create(restaurant: kali, status: "valid", starcode: starcode)

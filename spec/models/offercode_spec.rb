@@ -6,7 +6,7 @@ RSpec.describe Offercode, :type => :model do
     expect(offercode).to_not be_valid
   end
 
-  it "is not valid if code not made of 8 characters" do
+  it "is not valid if code not made of 6 characters" do
     offercode = build(:offercode, code: "123er")
     expect(offercode).to_not be_valid
   end

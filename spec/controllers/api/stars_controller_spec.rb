@@ -38,12 +38,12 @@ RSpec.describe Api::V1::StarsController, :type => :controller do
         user = create(:user, :c)
         @restaurant = create(:restaurant)
         sign_in(user)
-        starcode = create(:starcode, code: "11112222")
+        starcode = create(:starcode, code: "111122")
         create(:star, restaurant: @restaurant, starcode: starcode)
         create(:star, user: user, status: 'available', restaurant: @restaurant)
 
         user2 = create(:user, :c, email: 'user2@gmail.com')
-        starcode2 = create(:starcode, code: "11113333")
+        starcode2 = create(:starcode, code: "111133")
         create(:star, user: user2, status: 'available', restaurant: @restaurant, starcode: starcode2)
 
         get :index
@@ -88,12 +88,12 @@ RSpec.describe Api::V1::StarsController, :type => :controller do
 
       it "responds with restaurant_id and the number of stars available" do
         @restaurant = create(:restaurant)
-        starcode = create(:starcode, code: "11112222")
+        starcode = create(:starcode, code: "111122")
         create(:star, restaurant: @restaurant, starcode: starcode)
         create(:star, user: @user, status: 'available', restaurant: @restaurant)
 
         user2 = create(:user, :c, email: 'user2@gmail.com')
-        starcode2 = create(:starcode, code: "11113333")
+        starcode2 = create(:starcode, code: "111133")
         create(:star, user: user2, status: 'available', restaurant: @restaurant, starcode: starcode2)
 
         get :show, params: {id: @restaurant.id}

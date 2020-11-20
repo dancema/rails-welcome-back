@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :offercode do
-    code { "12345678" }
+    code { "123456" }
     status { "valid" }
     association :offer, :loyalty
     association :user, :c
