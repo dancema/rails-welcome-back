@@ -59,8 +59,8 @@ class Api::V1::StarcodesController < ApplicationController
 
  private
 
-    def code_params
-      params.require(:starcode).permit(:code)
-    end
+  def code_params
+    params.require(:starcode).permit(:code)
+  end
 
 end

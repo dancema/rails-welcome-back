@@ -12,7 +12,7 @@ RSpec.describe Api::V1::OffercodesController, :type => :controller do
         create(:star, status: 'available', user: user, restaurant: restaurant)
         create(:star, status: 'available', user: user, restaurant: restaurant, starcode: starcode)
 
-        post :create, params: { offer_id: @offer.id }
+        post :create, params: { offer: {id: @offer.id} }
         expect(response.status).to eq(401)
       end
     end
@@ -30,7 +30,7 @@ RSpec.describe Api::V1::OffercodesController, :type => :controller do
         create(:star, status: 'available', user: @user, restaurant: @restaurant)
         create(:star, status: 'available', user: @user, restaurant: @restaurant, starcode: @starcode)
 
-        post :create, params: { offer_id: 50 }
+        post :create, params: { offer: {id: 50} }
         expect(response.status).to eq(404)
       end
 
@@ -39,14 +39,14 @@ RSpec.describe Api::V1::OffercodesController, :type => :controller do
         create(:star, status: 'available', user: @user, restaurant: @restaurant)
         create(:star, status: 'available', user: @user, restaurant: @restaurant, starcode: @starcode)
 
-        post :create, params: { offer_id: @offer.id }
+        post :create, params: { offer: {id: @offer.id} }
         expect(response.status).to eq(403)
       end
 
       it "responds with forbidden if user has no stars" do
         @offer = create(:offer_loyalty, stars_required: 3, restaurant: @restaurant)
 
-        post :create, params: { offer_id: @offer.id }
+        post :create, params: { offer: {id: @offer.id} }
         expect(response.status).to eq(403)
       end
 
@@ -57,7 +57,7 @@ RSpec.describe Api::V1::OffercodesController, :type => :controller do
 
         offercode = create(:offercode, offer: @offer, user: @user)
 
-        post :create, params: { offer_id: @offer.id }
+        post :create, params: { offer: {id: @offer.id} }
         expect(Offercode.find(offercode.id).status).to eq('cancel')
       end
 
@@ -66,7 +66,7 @@ RSpec.describe Api::V1::OffercodesController, :type => :controller do
         create(:star, status: 'available', user: @user, restaurant: @restaurant)
         create(:star, status: 'available', user: @user, restaurant: @restaurant, starcode: @starcode)
 
-        post :create, params: { offer_id: @offer.id }
+        post :create, params: { offer: {id: @offer.id} }
         expect(Offercode.first.user).to eq(@user)
       end
 
@@ -75,7 +75,7 @@ RSpec.describe Api::V1::OffercodesController, :type => :controller do
         create(:star, status: 'available', user: @user, restaurant: @restaurant)
         create(:star, status: 'available', user: @user, restaurant: @restaurant, starcode: @starcode)
 
-        post :create, params: { offer_id: @offer.id }
+        post :create, params: { offer: {id: @offer.id} }
         expect(Offercode.first.status).to eq('valid')
       end
 
@@ -84,7 +84,7 @@ RSpec.describe Api::V1::OffercodesController, :type => :controller do
         create(:star, status: 'available', user: @user, restaurant: @restaurant)
         create(:star, status: 'available', user: @user, restaurant: @restaurant, starcode: @starcode)
 
-        post :create, params: { offer_id: @offer.id }
+        post :create, params: { offer: {id: @offer.id} }
         expect(response.status).to eq(200)
       end
 
@@ -93,7 +93,7 @@ RSpec.describe Api::V1::OffercodesController, :type => :controller do
         create(:star, status: 'available', user: @user, restaurant: @restaurant)
         create(:star, status: 'available', user: @user, restaurant: @restaurant, starcode: @starcode)
 
-        post :create, params: { offer_id: @offer.id }
+        post :create, params: { offer: {id: @offer.id} }
         expect(JSON.parse(response.body)).to eq({ "code" => Offercode.first.code })
       end
     end
