@@ -2,7 +2,7 @@ class R::RestaurantsController < ApplicationController
   before_action :role_check
 
   def home
-    @restaurants = Restaurant.where(user:current_user)
+    @restaurants = Restaurant.where(user: current_user)
   end
 
   def show

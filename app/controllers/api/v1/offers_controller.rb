@@ -25,7 +25,6 @@ class Api::V1::OffersController < ApplicationController
         }, status: 400
     end
 
-
     offer = Offer.find_by(id: params[:id])
 
     if offer
