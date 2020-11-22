@@ -18,7 +18,7 @@ import StarsValidation from './containers/stars_validation';
 import LogIn from './containers/login';
 
 
-import Navbar from './components/navbar';
+import Navbar from './containers/navbar';
 
 import restaurantsReducer from './reducers/restaurants_reducer';
 import offersReducer from './reducers/offers_reducer';
