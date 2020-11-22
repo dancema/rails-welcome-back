@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import CodeForm from './code_form';
 import OffersShow from './offers_show';
 
 import { fetchRestaurant, fetchOffers, fetchStar, fetchNbOffersAvailable } from '../actions';

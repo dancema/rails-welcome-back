@@ -22,9 +22,7 @@ import Navbar from './components/navbar';
 
 import restaurantsReducer from './reducers/restaurants_reducer';
 import offersReducer from './reducers/offers_reducer';
-import offercodesReducer from './reducers/offercodes_reducer';
 import starsReducer from './reducers/stars_reducer';
-import offersAvailabilityReducer from './reducers/offers_availability_reducer';
 import currentUserReducer from './reducers/current_user_reducer';
 
 
@@ -34,19 +32,15 @@ const root = document.getElementById('root')
 const initialState = {
   restaurants: JSON.parse(root.dataset.restaurants),
   offers: [],
-  nb_offers_available: [],
   stars: [],
-  offercode: {},
-  logged_in: false
+  logged_in: null
 };
 
 
 const reducers = combineReducers({
   restaurants: restaurantsReducer,
   offers: offersReducer,
-  nb_offers_available: offersAvailabilityReducer,
   stars: starsReducer,
-  offercode: offercodesReducer,
   logged_in: currentUserReducer
 });
 

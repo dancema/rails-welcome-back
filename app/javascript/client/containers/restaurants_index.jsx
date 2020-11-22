@@ -3,7 +3,7 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
-import { fetchRestaurants, fetchStars, fetchNbOffersAvailable, isLoggedIn } from '../actions/index';
+import { fetchRestaurants, fetchStars, isLoggedIn } from '../actions/index';
 
 
 class RestaurantsIndex extends Component {
@@ -11,11 +11,14 @@ class RestaurantsIndex extends Component {
     if (!this.props.restaurants){
       this.props.fetchRestaurants();
     }
-    this.props.isLoggedIn().then(() => {
-      if (this.props.logged_in) {
-        this.props.fetchStars();
-      }
-    })
+
+    if (!this.props.logged_in) {
+      this.props.isLoggedIn()
+    }
+
+    if (this.props.logged_in === true) {
+      this.props.fetchStars();
+    }
   }
 
   render () {
@@ -57,7 +60,7 @@ function mapStateToProps(state) {
 }
 
 function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchRestaurants, fetchStars, fetchNbOffersAvailable, isLoggedIn }, dispatch);
+  return bindActionCreators({ fetchRestaurants, fetchStars, isLoggedIn }, dispatch);
 }
 
 export default withRouter(connect(mapStateToProps, mapDispatchToProps)(RestaurantsIndex));

@@ -1,6 +1,6 @@
 class Api::V1::OffercodesController < ApplicationController
   def create
-    unless offer_params[:id].match /^[0-9]+$/
+    unless offer_params[:id].is_a? Integer
       return render json: {
         error: "offer id format not good"
         }, status: 400
