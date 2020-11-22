@@ -57,10 +57,6 @@ Rails.application.routes.draw do
     get "/dashboard", to: 'restaurants#home', :as => :restaurant_root
   end
 
-  # devise_scope :user do
-  #   root to: "devise/sessions#new"
-  # end
-
-
+  root to: "pages#show"
 
 end
