@@ -1,6 +1,6 @@
 class Api::V1::RestaurantsController < ActionController::Base
   load_and_authorize_resource
-
+  rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
 
   def index
     @restaurants = Restaurant.all
@@ -9,12 +9,9 @@ class Api::V1::RestaurantsController < ActionController::Base
 
   def show
 
-    # unless params[:id].match(/^[0-9]+$/)
-    #   return render json:
-    #     { error: "Restaurant id format not good" }, status: 400
-    # end
 
-    restaurant = Restaurant.find_by(id: params[:id])
+
+    restaurant = Restaurant.find(params[:id])
 
     if restaurant
       render json: restaurant
@@ -23,11 +20,17 @@ class Api::V1::RestaurantsController < ActionController::Base
         { error: "Restaurant not found" }, status: :not_found
     end
 
-
-    #rescue from Notfound !
+    # rescue ActiveRecord::RecordNotFound
+    #   return render json: { error: "Restaurant not found" }, status: :not_found
   end
 
+
+
   private
+
+  def record_not_found
+    render json: { error: "Restaurant not found" }, status: :not_found
+  end
 
   def current_ability
     # I am sure there is a slicker way to capture the controller namespace

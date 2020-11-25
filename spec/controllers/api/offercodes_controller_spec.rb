@@ -13,6 +13,7 @@ RSpec.describe Api::V1::OffercodesController, :type => :controller do
         create(:star, status: 'available', user: user, restaurant: restaurant, starcode: starcode)
 
         post :create, params: { offer: {id: @offer.id} }, as: :json
+
         expect(response.status).to eq(401)
       end
     end

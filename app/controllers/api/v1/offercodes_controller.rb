@@ -1,13 +1,10 @@
 class Api::V1::OffercodesController < ApplicationController
+  before_action :authenticate_user!
+
   load_and_authorize_resource param_method: :offer_params
 
-  def create
-    # unless offer_params[:id].is_a? Integer
-    #   return render json: {
-    #     error: "offer id format not good"
-    #     }, status: 400
-    # end
 
+  def create
     offer = Offer.find_by(offer_params)
 
     if offer

@@ -3,9 +3,6 @@ class Api::V1::StarcodesController < ApplicationController
   # load_and_authorize_resource
 
   def activate
-    # if current_user.nil?
-    #   return render json: { error: 'not logged in' }, status: 401
-    # end
 
 
     # unless starcode_params[:code].match /^[0-9a-zA-Z]{6}$/
@@ -13,6 +10,8 @@ class Api::V1::StarcodesController < ApplicationController
     #     error: "code format not good"
     #     }, status: 400
     # end
+
+    authenticate_user!
     authorize! :activate, :starcode
     starcode = Starcode.find_by(starcode_params)
 
