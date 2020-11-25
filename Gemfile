@@ -37,7 +37,7 @@ gem 'rqrcode'
 gem 'chartkick'
 gem 'groupdate'
 gem 'cancancan'
-
+gem 'jsonapi-serializer'
 
 group :development, :test do
   gem 'pry-byebug'

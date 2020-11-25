@@ -3,18 +3,15 @@ class Api::V1::RestaurantsController < ActionController::Base
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
 
   def index
-    @restaurants = Restaurant.all
-    render json: @restaurants
+    restaurants = Restaurant.all
+    render json: RestaurantSerializer.new(restaurants, { params: { current_user: current_user } }).serializable_hash
   end
 
   def show
-
-
-
     restaurant = Restaurant.find(params[:id])
 
     if restaurant
-      render json: restaurant
+      render json: RestaurantSerializer.new(restaurant, { params: { current_user: current_user } }).serializable_hash
     else
       render json:
         { error: "Restaurant not found" }, status: :not_found
@@ -23,8 +20,6 @@ class Api::V1::RestaurantsController < ActionController::Base
     # rescue ActiveRecord::RecordNotFound
     #   return render json: { error: "Restaurant not found" }, status: :not_found
   end
-
-
 
   private
 
