@@ -1,5 +1,5 @@
 class R::RestaurantsController < ApplicationController
-  before_action :role_check
+  # before_action :role_check
 
   def home
     @restaurants = Restaurant.where(user: current_user)
@@ -28,11 +28,11 @@ class R::RestaurantsController < ApplicationController
   end
 
 
-  private
+  # private
 
-  def role_check
-    if current_user.role != "restaurant"
-      render template: "pages/error"
-    end
-  end
+  # def role_check
+  #   if current_user.role != "restaurant"
+  #     render template: "pages/error"
+  #   end
+  # end
 end

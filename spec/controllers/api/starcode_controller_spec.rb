@@ -11,19 +11,22 @@ RSpec.describe Api::V1::StarcodesController, :type => :controller do
     # end
 
     context 'when code is not valid' do
-      it "responds with bad request when code is not made of 6 characters" do
-        post :activate, :params => { starcode: {:code => "1111111226"} }
-        expect(response).to have_http_status(400)
+      it "responds with not found when code is not made of 6 characters" do
+        sign_in(create(:user, :c))
+        post :activate, :params => { starcode: {:code => "1111111226"} }, as: :json
+        expect(response).to have_http_status(404)
       end
 
       it "responds with not found when code does not exist" do
-        post :activate, :params => { starcode: {:code => "111111"} }
-        expect(response).to have_http_status(:not_found)
+        sign_in(create(:user, :c))
+        post :activate, :params => { starcode: {:code => "111111"} }, as: :json
+        expect(response).to have_http_status(404)
       end
 
       it "responds with conflict when code already scanned" do
+        sign_in(create(:user, :c))
         starcode = create(:starcode, status: 'scanned')
-        post :activate, :params => { starcode: {:code => "123456"} }
+        post :activate, :params => { starcode: {:code => "123456"} }, as: :json
         expect(response).to have_http_status(409)
       end
 
@@ -31,7 +34,7 @@ RSpec.describe Api::V1::StarcodesController, :type => :controller do
 
     context 'when user not logged in' do
       it "responds with unauthorized" do
-        post :activate, :params => { starcode: {:code => "111111"} }
+        post :activate, :params => { starcode: {:code => "111111"} }, as: :json
         expect(response).to have_http_status(401)
       end
     end
@@ -40,7 +43,7 @@ RSpec.describe Api::V1::StarcodesController, :type => :controller do
       before (:each) do
         create(:star)
         sign_in(create(:user, :c))
-        post :activate, :params => { starcode: {:code => "123456"} }
+        post :activate, :params => { starcode: {:code => "123456"} }, as: :json
       end
 
       it "responds with OK" do
@@ -67,10 +70,14 @@ RSpec.describe Api::V1::StarcodesController, :type => :controller do
 
   describe "#exist" do
     context 'when code is not valid' do
-      it "responds with bad request when code is not made of 6 characters" do
+      before :each do
+        request.headers["accept"] = 'application/json'
+      end
+
+      it "responds with not found when code is not made of 6 characters" do
         code = '1111111226'
         get :exist, :params => {:code => code}
-        expect(response).to have_http_status(400)
+        expect(response).to have_http_status(:not_found)
       end
 
       it "responds with not found when code does not exist" do
@@ -88,6 +95,10 @@ RSpec.describe Api::V1::StarcodesController, :type => :controller do
     end
 
     context "when code is valid" do
+      before :each do
+        request.headers["accept"] = 'application/json'
+      end
+
       it "responds with status OK" do
         star = create(:star)
         code = '123456'

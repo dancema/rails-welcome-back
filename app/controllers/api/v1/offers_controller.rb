@@ -1,10 +1,12 @@
 class Api::V1::OffersController < ApplicationController
+  load_and_authorize_resource
+
   def index
-    unless params[:restaurant_id].match /^[0-9]+$/
-      return render json: {
-        error: "Restaurant id format not good"
-        }, status: 400
-    end
+    # unless params[:restaurant_id].match /^[0-9]+$/
+    #   return render json: {
+    #     error: "Restaurant id format not good"
+    #     }, status: 400
+    # end
 
     restaurant = Restaurant.find_by(id: params[:restaurant_id])
 
@@ -19,11 +21,12 @@ class Api::V1::OffersController < ApplicationController
   end
 
   def show
-    unless params[:id].match /^[0-9]+$/
-      return render json: {
-        error: "Offer id format not good"
-        }, status: 400
-    end
+    # debugger
+    # unless params[:id].match /^[0-9]+$/
+    #   return render json: {
+    #     error: "Offer id format not good"
+    #     }, status: 400
+    # end
 
     offer = Offer.find_by(id: params[:id])
 
@@ -34,5 +37,15 @@ class Api::V1::OffersController < ApplicationController
         error: "Offer not found"
       }, status: :not_found
     end
+  end
+
+  private
+
+  def current_ability
+    # I am sure there is a slicker way to capture the controller namespace
+    controller_name_segments = params[:controller].split('/')
+    controller_name_segments.pop
+    controller_namespace = controller_name_segments.join('/').camelize
+    @current_ability ||= Ability.new(current_user, controller_namespace)
   end
 end

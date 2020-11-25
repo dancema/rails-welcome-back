@@ -1,9 +1,24 @@
 class ApplicationController < ActionController::Base
 
+
   protect_from_forgery unless: -> { request.format.json? }
+
 
   # before_action :authenticate_user!
   include Error::ErrorHandler
+
+
+  rescue_from CanCan::AccessDenied do |exception|
+    respond_to do |format|
+      format.json { render json: { error: "Forbidden" }, status: 403 }
+      format.html { redirect_to main_app.root_url, notice: exception.message }
+      format.js   { head :forbidden, content_type: 'text/html' }
+    end
+  end
+
+
+  private
+
 
 
   # def render_resource(resource)

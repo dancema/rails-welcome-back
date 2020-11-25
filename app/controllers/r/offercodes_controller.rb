@@ -1,5 +1,5 @@
 class R::OffercodesController < ApplicationController
-  before_action :role_check
+  # before_action :role_check
 
   def show
     @offercode = Offercode.new
@@ -38,11 +38,11 @@ class R::OffercodesController < ApplicationController
 
   private
 
-  def role_check
-    if current_user.role != "restaurant"
-      render template: "pages/error"
-    end
-  end
+  # def role_check
+  #   if current_user.role != "restaurant"
+  #     render template: "pages/error"
+  #   end
+  # end
 
   def strong_params
     # to dooo

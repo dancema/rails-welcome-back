@@ -8,6 +8,9 @@ RSpec.describe Api::V1::StarsController, :type => :controller do
       it "responds with unauthorized" do
         user = create(:user, :c)
         create(:star, user: user, status: 'available')
+
+        request.headers["accept"] = 'application/json'
+
         get :index
         expect(response.status).to eq(401)
       end
@@ -18,6 +21,7 @@ RSpec.describe Api::V1::StarsController, :type => :controller do
         user = create(:user, :c)
         sign_in(user)
 
+        request.headers["accept"] = 'application/json'
         get :index
         expect(response.status).to eq(200)
       end
@@ -29,6 +33,8 @@ RSpec.describe Api::V1::StarsController, :type => :controller do
 
         user2 = create(:user, :c, email: 'user2@gmail.com')
         create(:star, user: user2, status: 'available', restaurant: @restaurant)
+
+        request.headers["accept"] = 'application/json'
 
         get :index
         expect(JSON.parse(response.body)).to eq({})
@@ -45,6 +51,7 @@ RSpec.describe Api::V1::StarsController, :type => :controller do
         user2 = create(:user, :c, email: 'user2@gmail.com')
         starcode2 = create(:starcode, code: "111133")
         create(:star, user: user2, status: 'available', restaurant: @restaurant, starcode: starcode2)
+        request.headers["accept"] = 'application/json'
 
         get :index
         expect(JSON.parse(response.body)).to eq({ @restaurant.id.to_s => 1})
@@ -58,6 +65,8 @@ RSpec.describe Api::V1::StarsController, :type => :controller do
       it "responds with unauthorized" do
         user = create(:user, :c)
         star = create(:star, user: user, status: 'available')
+        request.headers["accept"] = 'application/json'
+
         get :show, params: {id: star.restaurant.id}
         expect(response.status).to eq(401)
       end
@@ -67,12 +76,14 @@ RSpec.describe Api::V1::StarsController, :type => :controller do
       before(:each) do
         @user = create(:user, :c)
         sign_in(@user)
+        request.headers["accept"] = 'application/json'
+
       end
 
       it "has a 200 status code" do
         star = create(:star, user: @user, status: 'available')
 
-        get :show, params: {id: star.restaurant.id}
+        get :show, :params => {:id => star.restaurant.id}
         expect(response.status).to eq(200)
       end
 
@@ -82,7 +93,7 @@ RSpec.describe Api::V1::StarsController, :type => :controller do
         user2 = create(:user, :c, email: 'user2@gmail.com')
         create(:star, user: user2, status: 'available', restaurant: @restaurant)
 
-        get :show, params: {id: @restaurant.id}
+        get :show,  :params => {:id =>  @restaurant.id}
         expect(JSON.parse(response.body)).to eq({})
       end
 

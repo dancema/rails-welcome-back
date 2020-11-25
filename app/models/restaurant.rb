@@ -8,4 +8,10 @@ class Restaurant < ApplicationRecord
   validates :street, presence: true
   validates :city, presence: true
   validates :postal_code, presence: true
+
+
+  def stars_count(user)
+    self.stars.where(status: 'available', user: user).count
+  end
+
 end

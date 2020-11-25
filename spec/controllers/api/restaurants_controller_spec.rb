@@ -23,12 +23,12 @@ RSpec.describe Api::V1::RestaurantsController, :type => :controller do
         @restaurant = create(:restaurant)
       end
 
-      it "responds with bad request when id is not a number" do
+      it "responds with not found when restaurant id is not a number" do
         get :show, :params => { :id => '1ef' }
-        expect(response.status).to eq(400)
+        expect(response.status).to eq(404)
       end
 
-      it "responds with not found when restaurant does not exist" do
+      it "responds with not found when restaurant id does not exist" do
         get :show, :params => { :id => 50 }
         expect(response.status).to eq(404)
       end

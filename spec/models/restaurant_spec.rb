@@ -30,4 +30,10 @@ RSpec.describe Restaurant, :type => :model do
     restaurant = create(:restaurant)
     expect(restaurant).to respond_to :user
   end
+
+  # it "counts the number of stars available for a user" do
+  #   user = create(:user, :c)
+  #   create(:star, status: 'available', user: user)
+  #   expect(Restaurant.first.stars_count(user)).to eq(1)
+  # end
 end

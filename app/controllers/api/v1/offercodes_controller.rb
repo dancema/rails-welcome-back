@@ -1,10 +1,12 @@
 class Api::V1::OffercodesController < ApplicationController
+  load_and_authorize_resource param_method: :offer_params
+
   def create
-    unless offer_params[:id].is_a? Integer
-      return render json: {
-        error: "offer id format not good"
-        }, status: 400
-    end
+    # unless offer_params[:id].is_a? Integer
+    #   return render json: {
+    #     error: "offer id format not good"
+    #     }, status: 400
+    # end
 
     offer = Offer.find_by(offer_params)
 
@@ -36,5 +38,13 @@ class Api::V1::OffercodesController < ApplicationController
 
   def offer_params
     params.require(:offer).permit(:id)
+  end
+
+  def current_ability
+    # I am sure there is a slicker way to capture the controller namespace
+    controller_name_segments = params[:controller].split('/')
+    controller_name_segments.pop
+    controller_namespace = controller_name_segments.join('/').camelize
+    @current_ability ||= Ability.new(current_user, controller_namespace)
   end
 end

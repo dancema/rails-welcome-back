@@ -6,15 +6,15 @@ RSpec.describe Api::V1::OffersController, :type => :controller do
 
 
     context "when restaurant_id is not valid" do
-      it 'responds with bad request when id is not a number' do
+      it 'responds with not found when restaurant id is not a number' do
         restaurant2 = create(:restaurant)
         create(:offer_loyalty, restaurant: restaurant2)
 
         get :index, params: { restaurant_id: '3aef' }
-        expect(response.status).to eq(400)
+        expect(response.status).to eq(404)
       end
 
-      it 'responds with not found when restaurant does not exist' do
+      it 'responds with not found when restaurant id does not exist' do
         restaurant2 = create(:restaurant)
         create(:offer_loyalty, restaurant: restaurant2)
 
@@ -55,12 +55,12 @@ RSpec.describe Api::V1::OffersController, :type => :controller do
         create(:offer_loyalty)
       end
 
-      it "responds with bad request when id is not a number" do
+      it "responds with not found when offer id is not a number" do
         get :show, params: { restaurant_id: 1, id: '1ef' }
-        expect(response.status).to eq(400)
+        expect(response.status).to eq(404)
       end
 
-      it "responds with not found when offer does not exist" do
+      it "responds with not found when offer id does not exist" do
         get :show, params: { restaurant_id: 1, id: 50 }
         expect(response.status).to eq(404)
       end

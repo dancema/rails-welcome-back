@@ -3,7 +3,7 @@
 class Ability
   include CanCan::Ability
 
-  def initialize(user)
+
     # Define abilities for the passed in user here. For example:
     #
     #   user ||= User.new # guest user (not logged in)
@@ -31,8 +31,28 @@ class Ability
     # See the wiki for details:
     # https://github.com/CanCanCommunity/cancancan/wiki/Defining-Abilities
 
-    can :read, [Restaurant, Offer]
-    return unless user.present?
+    # can :read, [Restaurant, Offer]
+    # return unless user.present?
 
+  def initialize(user, controller_namespace)
+    case controller_namespace
+    when 'Api::V1'
+      user ? client_rules : guest_user_rules
+    end
+  end
+
+  def client_rules
+    can :create, Offercode
+    can :read, Offer
+    can :read, Restaurant
+    can :read, Star
+    can :activate, :starcode
+    can :exist, :starcode
+  end
+
+  def guest_user_rules
+    can :read, Offer
+    can :read, Restaurant
+    can :exist, :starcode
   end
 end
