@@ -59,7 +59,7 @@ ReactDOM.render(
           <Switch>
             <Route path="/c" exact component={RestaurantsIndex} />
             <Route path="/c/restaurants/:id" exact component={RestaurantsShow} />
-            <Route path="/c/restaurants/:restaurant_id/offers/:id" exact component={OffersShow} />
+            <Route path="/c/offers/:id" exact component={OffersShow} />
             <Route path="/c/settings" exact component={Settings} />
             <Route path="/c/stars/:code" exact component={StarsValidation} />
             <Route path="/c/stars" exact component={StarsEdit} />

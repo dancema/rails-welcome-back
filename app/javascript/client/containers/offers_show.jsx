@@ -21,14 +21,14 @@ class OffersShow extends Component {
 
   componentDidMount() {
     // if (this.props.offer === []) {
-      this.props.fetchOffer(this.props.match.params.restaurant_id,this.props.match.params.id);
+      this.props.fetchOffer(this.props.match.params.id);
     // }
 
-    if (!this.props.logged_in) {
-      this.props.isLoggedIn()
-    }
+    // if (!this.props.logged_in) {
+    //   this.props.isLoggedIn()
+    // }
 
-    this.props.fetchStar(this.props.match.params.restaurant_id);
+    // this.props.fetchStar(this.props.match.params.restaurant_id);
   }
 
 

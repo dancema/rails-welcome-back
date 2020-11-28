@@ -45,8 +45,8 @@ export function fetchOffers(restaurant_id) {
   };
 }
 
-export function fetchOffer(restaurant_id,id) {
-  const promise = fetch(`/api/v1/restaurants/${restaurant_id}/offers/${id}`, { credentials: "same-origin" })
+export function fetchOffer(id) {
+  const promise = fetch(`/api/v1/offers/${id}`, { credentials: "same-origin" })
     .then(r => r.json())
 
   return {

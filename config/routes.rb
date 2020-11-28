@@ -26,11 +26,8 @@ Rails.application.routes.draw do
       post "/starcodes" => "starcodes#activate"
       get "/starcodes/:code" => "starcodes#exist"
       resources :stars, only: [:index, :show]
-      resources :restaurants, only: [:index, :show] do
-        resources :offers, only: [:index, :show]
-      end
-      get "/offers" => "offers#available"
-
+      resources :restaurants, only: [:index, :show]
+      resources :offers, only: [:show]
     end
   end
 
