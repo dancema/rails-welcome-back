@@ -38,7 +38,7 @@ Rails.application.routes.draw do
 
 
   namespace :c do
-    get "/restaurants/:restaurant_id/offers/:id", to: 'clients#home'
+    get "/offers/:id", to: 'clients#home'
     get "/restaurants/:id", to: 'clients#home'
     get "/stars/:code", to: 'clients#home'
     get "/stars", to: 'clients#home'

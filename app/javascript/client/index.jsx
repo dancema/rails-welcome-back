@@ -7,9 +7,8 @@ import logger from 'redux-logger';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
 import { createHistory as history } from 'history';
 import { reducer as formReducer } from 'redux-form';
+import thunk from 'redux-thunk';
 
-
-import RestaurantsIndex from './containers/restaurants_index';
 import RestaurantsShow from './containers/restaurants_show';
 import OffersShow from './containers/offers_show';
 import Settings from './containers/settings';
@@ -20,31 +19,44 @@ import LogIn from './containers/login';
 
 import Navbar from './containers/navbar';
 
-import restaurantsReducer from './reducers/restaurants_reducer';
-import offersReducer from './reducers/offers_reducer';
-import starsReducer from './reducers/stars_reducer';
+// import restaurantsReducer from './reducers/restaurants_reducer';
+// import offersReducer from './reducers/offers_reducer';
+// import starsReducer from './reducers/stars_reducer';
 import currentUserReducer from './reducers/current_user_reducer';
+import RestaurantsIndex from './containers/restaurants_index';
 
-
+import api from './middleware/api';
+import data from './reducers/data';
 
 const root = document.getElementById('root')
 
-const initialState = {
-  restaurants: JSON.parse(root.dataset.restaurants),
-  offers: [],
-  stars: [],
-  logged_in: null
-};
+
+const initialState = {logged_in: null};
 
 
 const reducers = combineReducers({
-  restaurants: restaurantsReducer,
-  offers: offersReducer,
-  stars: starsReducer,
+  data,
   logged_in: currentUserReducer
 });
 
-const middlewares = applyMiddleware(reduxPromise, logger);
+
+
+// const initialState = {
+//   restaurants: JSON.parse(root.dataset.restaurants),
+//   offers: [],
+//   stars: [],
+//   logged_in: null
+// };
+
+
+// const reducers = combineReducers({
+//   restaurants: restaurantsReducer,
+//   offers: offersReducer,
+//   stars: starsReducer,
+//   logged_in: currentUserReducer
+// });
+
+const middlewares = applyMiddleware(thunk, logger, api);
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 
