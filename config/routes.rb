@@ -40,10 +40,9 @@ Rails.application.routes.draw do
   namespace :c do
     get "/offers/:id", to: 'clients#home'
     get "/restaurants/:id", to: 'clients#home'
-    get "/stars/:code", to: 'clients#home'
-    get "/stars", to: 'clients#home'
-    get "/login", to: 'clients#home'
-    get "/" ,to: 'clients#home', :as => :client_root
+    get "/code/:code", to: 'clients#home'
+    get "/code", to: 'clients#home'
+    get "/restaurants" ,to: 'clients#home', :as => :client_root
   end
 
   namespace :r do

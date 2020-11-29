@@ -38,33 +38,22 @@ class Api::V1::StarcodesController < ApplicationController
     end
   end
 
-  def exist
-  # unless params[:code].match(/^[0-9a-zA-Z]{6}$/)
-  #   return render json: {
-  #     error: "code format not good"
-  #     }, status: 400
-  # end
+  def show
+    starcode = Starcode.find_by(code: params[:code])
 
-  authorize! :exist, :starcode
-
-  starcode = Starcode.find_by(code: params[:code])
-
-  if starcode
-    # raise Error::AlreadyScannedError if starcode.status == "scanned"
-    if starcode.status == "scanned"
-      return render json: {
-      error: "Already scanned"
-      }, status: 409
+    if starcode
+      # raise Error::AlreadyScannedError if starcode.status == "scanned"
+      if starcode.status == "scanned"
+        return render json: {
+        error: "Already scanned"
+        }, status: 409
+      end
+      render json: {restaurant_name: starcode.stars.first.restaurant.name, restaurant_id: starcode.stars.first.restaurant.id}, status: :ok
+    else
+      render json: {
+        error: "Code invalide"
+      }, status: :not_found
     end
-    render json: {restaurant_name: starcode.stars.first.restaurant.name, restaurant_id: starcode.stars.first.restaurant.id}, status: :ok
-  else
-    render json: {
-      error: "Code invalide"
-    }, status: :not_found
-  end
-
-  #rescue from not found !
-
   end
 
  private

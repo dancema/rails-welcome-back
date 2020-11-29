@@ -1,17 +1,17 @@
 // import fetch from 'isomorphic-fetch';
 import normalize from 'json-api-normalizer';
 
-// const API_ROOT = 'https://phoenix-json-api-example.herokuapp.com/api';
+const API_ROOT = 'http://localhost:3000/';
 
 export const API_DATA_REQUEST = 'API_DATA_REQUEST';
 export const API_DATA_SUCCESS = 'API_DATA_SUCCESS';
 export const API_DATA_FAILURE = 'API_DATA_FAILURE';
 
 function callApi(endpoint, options = {}) {
-  // const fullUrl = (endpoint.indexOf(API_ROOT) === -1) ? API_ROOT + endpoint : endpoint;
+  const fullUrl = API_ROOT + endpoint
 
-  // return fetch(fullUrl, options)
-  return fetch(endpoint, { credentials: "same-origin" })
+  console.log(endpoint)
+  return fetch(fullUrl, { credentials: "same-origin" })
     .then(response => response.json()
       .then((json) => {
         if (!response.ok) {

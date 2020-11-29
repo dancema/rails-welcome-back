@@ -12,11 +12,11 @@ import { isLoggedIn } from '../actions/index';
 
 import Popup from '../components/popup'
 
-class StarsEdit extends Component {
+class StarcodeSearchForm extends Component {
 
 
   redirectToStarsValidation = (values,actions) => {
-    this.props.history.push(`/c/stars/${values.starcode}`)
+    this.props.history.push(`/c/code/${values.starcode}`)
   }
 
 
@@ -68,6 +68,6 @@ function mapDispatchToProps(dispatch) {
 }
 
 
-export default withRouter(connect(null, mapDispatchToProps )(StarsEdit));
+export default withRouter(connect(null, mapDispatchToProps )(StarcodeSearchForm));
 
 

@@ -21,8 +21,9 @@ class RestaurantsIndex extends Component  {
 
 
   componentDidMount() {
-    console.log('yoloooo')
-    this.props.dispatch(apicall('api/v1/restaurants'));
+    if (this.props.restaurants.length === 0) {
+      this.props.dispatch(apicall('api/v1/restaurants'));
+    }
   }
 
   render() {

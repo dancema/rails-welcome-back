@@ -22,7 +22,10 @@ class RestaurantsShow extends Component  {
 
 
   componentDidMount() {
-    this.props.dispatch(apicall(`/api/v1/restaurants/${this.props.match.params.id}`));
+    // console.log(this.props.restaurant)
+    if (Object.keys(this.props.restaurant).length === 0) {
+      this.props.dispatch(apicall(`/api/v1/restaurants/${this.props.match.params.id}`));
+    }
   }
 
   render() {
@@ -51,8 +54,14 @@ RestaurantsShow.propTypes = propTypes;
 function mapStateToProps(state, ownProps) {
   const id = parseInt(ownProps.match.params.id);
 
+  const restaurant = build(state.data, 'restaurant', id);
+
+  if (restaurant) {
+    const offers = restaurant.offers;
+    return { restaurant, offers };
+  }
+
   const metaName = Object.keys(state.data.meta)[0]
-  // console.log(Object.keys(state.data.meta)[0])
   if (state.data.meta[metaName]) {
     const restaurant = build(state.data, 'restaurant', id);
     const offers = restaurant.offers;

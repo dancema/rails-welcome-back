@@ -16,7 +16,6 @@ class OffersShow extends Component {
     super()
     this.state = {
       offercode: null,
-      disable: null
     }
   }
 
@@ -27,13 +26,6 @@ class OffersShow extends Component {
     this.props.dispatch(apicall(`/api/v1/offers/${this.props.match.params.id}`))
       .then(this.props.dispatch(isLoggedIn()));
 
-
-
-    // if (this.props.loading === false) {
-    //   this.props.dispatch(isLoggedIn())
-    // }
-
-    // this.props.fetchStar(this.props.match.params.restaurant_id);
   }
 
 
