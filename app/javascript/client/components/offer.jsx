@@ -18,7 +18,7 @@ function Offer({ offer }) {
                 <div className="card-offer-img" style={{backgroundImage: 'url(https://picky-palate.com/wp-content/uploads/2020/04/IMG_7790-scaled-e1588014500955.jpg)'}} />
                 <h2>{offer.title}</h2>
                 <div className="card-offer-stars-required">
-                  {offer.stars_required} <i className="fas fa-star"></i>
+                  {offer.starsRequired} <i className="fas fa-star"></i>
                 </div>
               </div>
         </Link>

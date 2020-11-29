@@ -16,9 +16,6 @@ class Api::V1::RestaurantsController < ActionController::Base
       render json:
         { error: "Restaurant not found" }, status: :not_found
     end
-
-    # rescue ActiveRecord::RecordNotFound
-    #   return render json: { error: "Restaurant not found" }, status: :not_found
   end
 
   private

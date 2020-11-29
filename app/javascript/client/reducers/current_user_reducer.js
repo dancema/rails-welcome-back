@@ -15,7 +15,7 @@ import { CURRENT_USER_STARTED, CURRENT_USER_SUCCESS, CURRENT_USER_FAILURE } from
 
 
 const initialState = {
-  loading: false,
+  loading_user: false,
   logged_in: null,
   error: null
 };
@@ -25,19 +25,19 @@ export default function currentUserReducer(state = initialState, action) {
     case CURRENT_USER_STARTED:
       return {
         ...state,
-        loading: true
+        loading_user: true
       };
     case CURRENT_USER_SUCCESS:
       return {
         ...state,
-        loading: false,
+        loading_user: false,
         error: null,
-        logged_in: action.payload
+        logged_in: action.payload.logged_in
       };
     case CURRENT_USER_FAILURE:
       return {
         ...state,
-        loading: false,
+        loading_user: false,
         error: action.payload.error
       };
     default:

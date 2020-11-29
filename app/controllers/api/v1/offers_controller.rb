@@ -2,33 +2,7 @@ class Api::V1::OffersController < ApplicationController
   load_and_authorize_resource
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
 
-  def index
-
-    # restaurant = Restaurant.find(params[:restaurant_id])
-
-    # if restaurant
-    #   offers = Offer.where(restaurant: restaurant)
-    #   render json: offers
-    # else
-    #   render json: {
-    #     error: "Restaurant not found"
-    #   }, status: :not_found
-    # end
-  end
-
   def show
-
-    # offer = Offer.find(params[:id])
-
-    # if offer
-    #   render json: offer
-    # else
-    #   render json: {
-    #     error: "Offer not found"
-    #   }, status: :not_found
-    # end
-
-
     offer = Offer.find(params[:id])
 
     if offer

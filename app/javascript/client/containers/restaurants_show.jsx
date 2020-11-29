@@ -18,7 +18,6 @@ const propTypes = {
 class RestaurantsShow extends Component  {
   constructor(props){
     super(props);
-// { loading = false, dispatch, restaurants }
   }
 
 
@@ -35,7 +34,7 @@ class RestaurantsShow extends Component  {
           <div className="card-restaurant-infos">
             <div>
               <h2>{this.props.restaurant.name}</h2>
-              <p>Solde : {this.props.countStars} <i className="fas fa-star"></i></p>
+              <p>Solde : {this.props.restaurant.countStars} <i className="fas fa-star"></i></p>
             </div>
           </div>
         </div>

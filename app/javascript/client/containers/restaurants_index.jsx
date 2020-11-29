@@ -21,6 +21,7 @@ class RestaurantsIndex extends Component  {
 
 
   componentDidMount() {
+    console.log('yoloooo')
     this.props.dispatch(apicall('api/v1/restaurants'));
   }
 
@@ -37,7 +38,8 @@ class RestaurantsIndex extends Component  {
 RestaurantsIndex.propTypes = propTypes;
 
 function mapStateToProps(state) {
-  console.log(state.data.meta['api/v1/restaurants'])
+  console.log(state)
+  // console.log(state.data.meta['api/v1/restaurants'])
   if (state.data.meta['api/v1/restaurants']) {
     const restaurants = (state.data.meta['api/v1/restaurants'].data || []).map(object => build(state.data, 'restaurant', object.id));
     const loading = state.data.meta['api/v1/restaurants'].loading;
