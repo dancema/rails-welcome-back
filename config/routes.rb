@@ -5,9 +5,6 @@ Rails.application.routes.draw do
   #API
 
 
-
-
-
   devise_scope :user do
     namespace :api do
       namespace :v1 do
@@ -24,7 +21,7 @@ Rails.application.routes.draw do
     namespace :v1 do
       resources :offercodes, only: [:create]
       post "/starcodes" => "starcodes#activate"
-      get "/starcodes/:code" => "starcodes#exist"
+      resources :starcodes, only: [:index]
       resources :stars, only: [:index, :show]
       resources :restaurants, only: [:index, :show]
       resources :offers, only: [:show]

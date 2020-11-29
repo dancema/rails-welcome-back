@@ -2,17 +2,27 @@ class Api::V1::StarcodesController < ApplicationController
   # load_and_authorize_resource param_method: :starcode_params
   # load_and_authorize_resource
 
+  def index
+    starcode = Starcode.search(params)
+
+    if starcode
+      # raise Error::AlreadyScannedError if starcode.status == "scanned"
+      if starcode.status == "scanned"
+        return render json: {
+        error: "Already scanned"
+        }, status: 409
+      end
+      render json: {restaurant_name: starcode.stars.first.restaurant.name, restaurant_id: starcode.stars.first.restaurant.id}, status: :ok
+    else
+      render json: {
+        error: "Code invalide"
+      }, status: :not_found
+    end
+  end
+
   def activate
-
-
-    # unless starcode_params[:code].match /^[0-9a-zA-Z]{6}$/
-    #   return render json: {
-    #     error: "code format not good"
-    #     }, status: 400
-    # end
-
     authenticate_user!
-    authorize! :activate, :starcode
+    # authorize! :activate, :starcode
     starcode = Starcode.find_by(starcode_params)
 
     if starcode
@@ -38,25 +48,7 @@ class Api::V1::StarcodesController < ApplicationController
     end
   end
 
-  def show
-    starcode = Starcode.find_by(code: params[:code])
-
-    if starcode
-      # raise Error::AlreadyScannedError if starcode.status == "scanned"
-      if starcode.status == "scanned"
-        return render json: {
-        error: "Already scanned"
-        }, status: 409
-      end
-      render json: {restaurant_name: starcode.stars.first.restaurant.name, restaurant_id: starcode.stars.first.restaurant.id}, status: :ok
-    else
-      render json: {
-        error: "Code invalide"
-      }, status: :not_found
-    end
-  end
-
- private
+  private
 
   def starcode_params
     params.require(:starcode).permit(:code)

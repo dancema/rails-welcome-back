@@ -39,7 +39,7 @@ class StarsValidation extends Component {
 
 
   checkStarcode = (starcode) => {
-    axios.get(`/api/v1/starcodes/${starcode}`,
+    axios.get(`/api/v1/starcodes?code=${starcode}`,
       { withCredentials: true })
       .then((response) => {
         this.setState({restaurant_name: response.data.restaurant_name, restaurant_id: response.data.restaurant_id,isLoading: false})
