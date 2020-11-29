@@ -24,7 +24,6 @@ class StarcodeSearchForm extends Component {
     this.props.isLoggedIn()
   }
 
-
   render () {
       return (
       <div>

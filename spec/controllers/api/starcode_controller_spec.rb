@@ -4,7 +4,7 @@ require "devise"
 # RSpec.configure {|c| c.before { expect(controller).not_to be_nil }}
 RSpec.describe Api::V1::StarcodesController, :type => :controller do
 
-  describe "#edit" do
+  describe "#activate" do
     # it "sign_in works in specs" do
     #   sign_in(create(:user, :c))
     #   expect(request.session.empty?).to be(false)

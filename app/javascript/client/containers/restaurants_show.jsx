@@ -6,7 +6,7 @@ import { Link, withRouter } from 'react-router-dom';
 
 import build, { fetchFromMeta } from 'redux-object';
 import Offer from '../components/offer';
-import { apicall } from '../actions';
+import { apicall, isLoggedIn } from '../actions';
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -22,7 +22,11 @@ class RestaurantsShow extends Component  {
 
 
   componentDidMount() {
-    // console.log(this.props.restaurant)
+    // if (this.props.logged_in === null) {
+    //   this.props.dispatch(isLoggedIn())
+    // }
+
+
     if (Object.keys(this.props.restaurant).length === 0) {
       this.props.dispatch(apicall(`/api/v1/restaurants/${this.props.match.params.id}`));
     }
@@ -70,7 +74,7 @@ function mapStateToProps(state, ownProps) {
     return { restaurant, loading, offers };
   }
 
-  return { restaurant: {}, offers: [] };
+  return { restaurant: {}, offers: [], logged_in: null };
 }
 
 export default withRouter(connect(mapStateToProps)(RestaurantsShow));
