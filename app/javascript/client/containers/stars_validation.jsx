@@ -145,8 +145,11 @@ class StarsValidation extends Component {
   }
 
   componentDidMount() {
-    this.checkStarcode(this.props.starcode)
-    this.props.isLoggedIn()
+    console.log()
+    this.checkStarcode(this.props.match.params.code)
+    if (this.props.logged_in === null) {
+      this.props.isLoggedIn()
+    }
   }
 
 
@@ -169,7 +172,7 @@ class StarsValidation extends Component {
         <h2>Pour gagner un point chez {this.state.restaurant_name}, continue !</h2>
         <Formik
           initialValues={{
-            code: this.props.starcode,
+            code: this.props.match.params.code,
           }}
           enableReinitialize={true}
           validationSchema={Yup.object({
@@ -211,7 +214,7 @@ class StarsValidation extends Component {
       <h2>Pour gagner un point chez {this.state.restaurant_name}, connecte toi ou inscris toi !</h2>
       <Formik
         initialValues={{
-          code: this.props.starcode,
+          code: this.props.match.params.code,
           email: '',
           password: ''
         }}
@@ -271,7 +274,7 @@ class StarsValidation extends Component {
           <h2>Pour gagner un point chez {this.state.restaurant_name}, connecte toi ou inscris toi !</h2>
           <Formik
             initialValues={{
-              code: this.props.starcode,
+              code: this.props.match.params.code,
               email: '',
               password: '',
               password_confirmation:''
@@ -334,9 +337,7 @@ class StarsValidation extends Component {
 }
 
 function mapStateToProps(state, ownProps) {
-  const starcode = ownProps.match.params.code;
   return {
-    starcode: starcode,
     logged_in : state.logged_in
   }
 }

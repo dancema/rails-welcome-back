@@ -7,10 +7,6 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
-import { isLoggedIn } from '../actions/index';
-
-
-import Popup from '../components/popup'
 
 class StarcodeSearchForm extends Component {
 
@@ -20,9 +16,6 @@ class StarcodeSearchForm extends Component {
   }
 
 
-  componentDidMount() {
-    this.props.isLoggedIn()
-  }
 
   render () {
       return (
@@ -61,12 +54,6 @@ class StarcodeSearchForm extends Component {
 }
 
 
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ isLoggedIn }, dispatch);
-}
-
-
-export default withRouter(connect(null, mapDispatchToProps )(StarcodeSearchForm));
+export default withRouter(StarcodeSearchForm);
 
 
