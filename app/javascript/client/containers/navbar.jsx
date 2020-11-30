@@ -9,7 +9,12 @@ class NavBar extends Component {
   render () {
 
     const authLink = () => {
-        if (this.props.logged_in) {
+        if (this.props.logged_in === null) {
+          return (
+            <li className="nav-item active">
+              <a className="nav-link"  href="/login" >Se connecter</a>
+            </li>)
+        } else if (this.props.logged_in.logged_in) {
           return(
             <li className="nav-item active">
               <a className="nav-link"  href="/logout" data-method="delete" rel="nofollow">Se déconnecter</a>

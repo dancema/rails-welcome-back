@@ -32,6 +32,14 @@ class RestaurantsShow extends Component  {
     }
   }
 
+  starType = () => {
+    if (this.props.restaurant.countStars === null) {
+      return (<p>(Image of star without points)</p>)
+    } else {
+      return(<p>Solde : {this.props.restaurant.countStars} <i className="fas fa-star"></i></p>)
+    }
+  }
+
   render() {
 
     const qWidgets = this.props.offers.map(q => <Offer key={q.id} offer={q} />);
@@ -43,7 +51,7 @@ class RestaurantsShow extends Component  {
             <div className="card-restaurant-infos">
               <div>
                 <h2>{this.props.restaurant.name}</h2>
-                <p>Solde : {this.props.restaurant.countStars} <i className="fas fa-star"></i></p>
+                {this.starType()}
               </div>
             </div>
           </div>

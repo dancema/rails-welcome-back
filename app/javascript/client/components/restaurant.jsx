@@ -11,6 +11,16 @@ const propTypes = {
 
 
 function Restaurant({ restaurant }) {
+
+  const starType = () => {
+    if (restaurant.countStars === null) {
+      return (<p>(Image of star without points)</p>)
+    } else {
+      return(<p>Solde : {restaurant.countStars} <i className="fas fa-star"></i></p>)
+    }
+  }
+
+
   return (
     <Link to={`/c/restaurants/${restaurant.id}`} key={restaurant.id} >
       <div className="card-restaurant" >
@@ -18,7 +28,7 @@ function Restaurant({ restaurant }) {
         <div className="card-restaurant-infos">
           <div>
             <h2>{restaurant.name}</h2>
-            <p>Solde : {restaurant.countStars} <i className="fas fa-star"></i></p>
+            {starType()}
           </div>
         </div>
       </div>

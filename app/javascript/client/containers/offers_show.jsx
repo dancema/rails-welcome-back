@@ -33,6 +33,14 @@ class OffersShow extends Component {
 
   }
 
+  starType = () => {
+    if (this.props.restaurant.countStars === null) {
+      return (<p>(Image of star without points)</p>)
+    } else {
+      return(<p>Solde : {this.props.restaurant.countStars} <i className="fas fa-star"></i></p>)
+    }
+  }
+
 
   disable = () => {
       if (!this.props.logged_in) {
@@ -95,7 +103,7 @@ class OffersShow extends Component {
             <div className="card-restaurant-infos">
               <div>
                 <h2>{this.props.offer.restaurant.name}</h2>
-                <p> <i className="fas fa-star"></i></p>
+                {this.starType()}
               </div>
             </div>
           </div>
@@ -104,7 +112,7 @@ class OffersShow extends Component {
               <div className="card-offer-img" style={{backgroundImage: 'url(https://picky-palate.com/wp-content/uploads/2020/04/IMG_7790-scaled-e1588014500955.jpg)'}} />
               <div className="d-flex justify-content-between p-2">
                 <h2>{this.props.offer.title}</h2>
-                <h2>{this.props.offer.stars_required} <i className="fas fa-star"></i></h2>
+                <h2>{this.props.offer.starsRequired} <i className="fas fa-star"></i></h2>
               </div>
 
 
