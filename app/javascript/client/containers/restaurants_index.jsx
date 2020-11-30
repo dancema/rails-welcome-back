@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 import build, { fetchFromMeta } from 'redux-object';
 import Restaurant from '../components/restaurant';
-import { apicall } from '../actions';
+import { apicall, isLoggedIn } from '../actions';
 
 const propTypes = {
   dispatch: PropTypes.func.isRequired,
@@ -16,7 +16,6 @@ const propTypes = {
 class RestaurantsIndex extends Component  {
   constructor(props){
     super(props);
-// { loading = false, dispatch, restaurants }
   }
 
 
@@ -24,31 +23,46 @@ class RestaurantsIndex extends Component  {
     if (this.props.restaurants.length === 0) {
       this.props.dispatch(apicall('api/v1/restaurants'));
     }
+
+    if (this.props.logged_in === null) {
+      this.props.dispatch(isLoggedIn())
+    }
   }
 
   render() {
+
     const qWidgets = this.props.restaurants.map(q => <Restaurant key={q.id} restaurant={q} />);
-    return (
-      <div>
-        {qWidgets}
-      </div>
-    );
+
+    if ((this.props.loading_user === false)  && (this.props.loading===false)) {
+      return (
+        <div>
+          {qWidgets}
+        </div>
+        );
+    } else {
+      return(<div>Loading ...</div>)
+    }
   }
 }
 
 RestaurantsIndex.propTypes = propTypes;
 
 function mapStateToProps(state) {
-  console.log(state)
-  // console.log(state.data.meta['api/v1/restaurants'])
+  let restaurants = []
+  let loading = false
+  let loading_user = false
   if (state.data.meta['api/v1/restaurants']) {
-    const restaurants = (state.data.meta['api/v1/restaurants'].data || []).map(object => build(state.data, 'restaurant', object.id));
-    const loading = state.data.meta['api/v1/restaurants'].loading;
-
-    return { restaurants, loading };
+    restaurants = (state.data.meta['api/v1/restaurants'].data || []).map(object => build(state.data, 'restaurant', object.id));
+    loading = state.data.meta['api/v1/restaurants'].loading;
   }
 
-  return { restaurants: [] };
+  let logged_in = null
+  if (state.logged_in) {
+    logged_in = state.logged_in.logged_in
+    loading_user = state.logged_in.loading_user;
+  }
+
+  return { restaurants, loading, loading_user, logged_in};
 }
 
 export default withRouter(connect(mapStateToProps)(RestaurantsIndex));

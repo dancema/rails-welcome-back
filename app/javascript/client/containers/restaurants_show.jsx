@@ -22,34 +22,38 @@ class RestaurantsShow extends Component  {
 
 
   componentDidMount() {
-    // if (this.props.logged_in === null) {
-    //   this.props.dispatch(isLoggedIn())
-    // }
-
-
     if (Object.keys(this.props.restaurant).length === 0) {
       this.props.dispatch(apicall(`/api/v1/restaurants/${this.props.match.params.id}`));
+    }
+
+    if (this.props.logged_in === null) {
+      this.props.dispatch(isLoggedIn())
     }
   }
 
   render() {
+
     const qWidgets = this.props.offers.map(q => <Offer key={q.id} offer={q} />);
-    return (
-      <div>
-        <div className="card-restaurant no-shadow" >
-          <img src="https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/greece.jpg" />
-          <div className="card-restaurant-infos">
-            <div>
-              <h2>{this.props.restaurant.name}</h2>
-              <p>Solde : {this.props.restaurant.countStars} <i className="fas fa-star"></i></p>
+    if ((Object.keys(this.props.restaurant).length != 0) && (this.props.loading_user === false)  && (this.props.loading===false)) {
+      return (
+        <div>
+          <div className="card-restaurant no-shadow" >
+            <img src="https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/greece.jpg" />
+            <div className="card-restaurant-infos">
+              <div>
+                <h2>{this.props.restaurant.name}</h2>
+                <p>Solde : {this.props.restaurant.countStars} <i className="fas fa-star"></i></p>
+              </div>
             </div>
           </div>
+          <div>
+            {qWidgets}
+          </div>
         </div>
-        <div>
-          {qWidgets}
-        </div>
-      </div>
-    );
+      );
+    } else {
+      return(<div>Loading ....</div>)
+    }
   }
 }
 
@@ -58,23 +62,30 @@ RestaurantsShow.propTypes = propTypes;
 function mapStateToProps(state, ownProps) {
   const id = parseInt(ownProps.match.params.id);
 
-  const restaurant = build(state.data, 'restaurant', id);
-
-  if (restaurant) {
-    const offers = restaurant.offers;
-    return { restaurant, offers };
-  }
-
+  let restaurant = {}
+  let offers = []
+  let loading = false
+  let loading_user = false
   const metaName = Object.keys(state.data.meta)[0]
-  if (state.data.meta[metaName]) {
-    const restaurant = build(state.data, 'restaurant', id);
-    const offers = restaurant.offers;
-    const loading = state.data.meta[metaName].loading;
 
-    return { restaurant, loading, offers };
+
+  if (state.data.meta[metaName]) {
+    if (build(state.data, 'restaurant', id)) {
+      restaurant = build(state.data, 'restaurant', id)
+      offers = restaurant.offers
+    }
+    loading = state.data.meta[metaName].loading;
   }
 
-  return { restaurant: {}, offers: [], logged_in: null };
+  let logged_in = null
+  if (state.logged_in) {
+    logged_in = state.logged_in.logged_in
+    loading_user = state.logged_in.loading_user;
+  }
+
+
+  return { restaurant,offers, logged_in, loading, loading_user };
+
 }
 
 export default withRouter(connect(mapStateToProps)(RestaurantsShow));

@@ -23,8 +23,13 @@ class OffersShow extends Component {
 
   componentDidMount() {
 
-    this.props.dispatch(apicall(`/api/v1/offers/${this.props.match.params.id}`))
-      .then(this.props.dispatch(isLoggedIn()));
+    if (Object.keys(this.props.offer).length === 0) {
+      this.props.dispatch(apicall(`/api/v1/offers/${this.props.match.params.id}`))
+    }
+
+    if (this.props.logged_in === null) {
+      this.props.dispatch(isLoggedIn());
+    }
 
   }
 
@@ -64,11 +69,9 @@ class OffersShow extends Component {
 
 
     let data = JSON.stringify({offer :{id: values.id}})
-    console.log(data)
     axios.post('/api/v1/offercodes', data
     )
     .then((response) => {
-      console.log(response)
       this.setState({offercode: {code: response.data.code}});
 
     })
@@ -82,10 +85,8 @@ class OffersShow extends Component {
 
 
   render () {
-    const loading_user_status = this.props.loading_user
-    const loading_data = this.props.loading
 
-    if ((loading_user_status === false) && (loading_data===false)) {
+    if ((Object.keys(this.props.offer).length != 0) && (this.props.loading_user === false)  && (this.props.loading===false)) {
 
       return (
         <div>
@@ -155,7 +156,6 @@ class OffersShow extends Component {
     } else {
       return (
         <div>Loading ...</div>
-
       )
     }
   }
@@ -165,28 +165,30 @@ class OffersShow extends Component {
 
 
 function mapStateToProps(state, ownProps) {
-  // console.log(state)
-
-  let loading_user = true
-  let logged_in = {}
-  if (state.logged_in) {
-    loading_user = state.logged_in.loading_user
-    logged_in = state.logged_in.logged_in
-  }
 
   const id = parseInt(ownProps.match.params.id);
+  let restaurant = {}
+  let offer = {}
+  let loading = false
+  let loading_user = false
   const metaName = Object.keys(state.data.meta)[0]
 
-  let offer = {}
-  let loading = true
   if (state.data.meta[metaName]) {
-    offer = build(state.data, 'offer', id);
+    if (build(state.data, 'offer', id)){
+      offer = build(state.data, 'offer', id)
+      restaurant = offer.restaurant;
+    }
     loading = state.data.meta[metaName].loading;
   }
 
-  return { loading_user: loading_user, loading: loading, offer: offer, logged_in }
 
-  // return { restaurant: {}, offer: {} };
+  let logged_in = null
+  if (state.logged_in) {
+    logged_in = state.logged_in.logged_in
+    loading_user = state.logged_in.loading_user;
+  }
+
+  return { restaurant, offer, logged_in, loading, loading_user };
 }
 
 export default withRouter(connect(mapStateToProps)(OffersShow));
