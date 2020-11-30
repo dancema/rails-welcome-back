@@ -22,6 +22,7 @@ class RestaurantsShow extends Component  {
 
 
   componentDidMount() {
+    console.log(this.props)
     if (Object.keys(this.props.restaurant).length === 0) {
       this.props.dispatch(apicall(`/api/v1/restaurants/${this.props.match.params.id}`));
     }
@@ -66,15 +67,18 @@ function mapStateToProps(state, ownProps) {
   let offers = []
   let loading = false
   let loading_user = false
-  const metaName = Object.keys(state.data.meta)[0]
+  const metaNames = Object.keys(state.data.meta)
+  const urlNameShowRestaurant = `/api/v1/restaurants/${id}`
+  const urlNameIndexRestaurant = 'api/v1/restaurants'
 
+  if (metaNames.includes(urlNameIndexRestaurant) || metaNames.includes(urlNameShowRestaurant)) {
 
-  if (state.data.meta[metaName]) {
     if (build(state.data, 'restaurant', id)) {
       restaurant = build(state.data, 'restaurant', id)
       offers = restaurant.offers
     }
-    loading = state.data.meta[metaName].loading;
+
+    loading = state.data.meta[metaNames[0]].loading;
   }
 
   let logged_in = null

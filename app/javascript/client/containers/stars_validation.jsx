@@ -160,7 +160,7 @@ class StarsValidation extends Component {
       return (
         <div>
           <h1>{this.state.error_msg}</h1>
-          <Link to={`/c/stars`} >
+          <Link to={`/c/code`} >
             <div className="btn btn-secondary">Entrer le code manuellement</div>
           </Link>
         </div>

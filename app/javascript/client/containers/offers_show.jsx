@@ -46,16 +46,16 @@ class OffersShow extends Component {
 
 
   optionalMessage = () => {
-    if (this.props.offer.restaurant.countStars < this.props.offer.starsRequired) {
-        return (
-          <div>Tu n as pas assez de points pour activer l'offre</div>
-          )
-    } else if (!this.props.logged_in) {
+    if (!this.props.logged_in) {
       return (
           <div className ='btn btn-secondary'>
               <a href="/sign_up">Creer un compte pour en profiter !</a>
           </div>
         )
+    } else if (this.props.offer.restaurant.countStars < this.props.offer.starsRequired) {
+        return (
+          <div>Tu n as pas assez de points pour activer l'offre</div>
+          )
     }
   }
 
@@ -144,7 +144,7 @@ class OffersShow extends Component {
 
               <p>Offre valable uniquement à emporter/livré à domicile par le restaurant. Code à communiquer au restaurant</p>
               <div className="modal-footer">
-                <Link to={`/c/restaurants/${this.props.offer.restaurant.id}`}>
+                <Link to={`/c/restaurants/${this.props.offer.restaurant.id}`} >
                   <button type="button" className="btn btn-secondary" >Retour</button>
                 </Link>
               </div>
