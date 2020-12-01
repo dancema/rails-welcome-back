@@ -1,5 +1,8 @@
 import merge from 'lodash/merge';
-import { API_DATA_REQUEST, API_DATA_SUCCESS, ACTIVATE_STARCODE_SUCCESS, ACTIVATE_STARCODE_STARTED, ACTIVATE_STARCODE_FAILURE } from '../middleware/api';
+import { API_DATA_REQUEST, API_DATA_SUCCESS } from '../middleware/api';
+
+
+import { ACTIVATE_STARCODE_SUCCESS, ACTIVATE_STARCODE_STARTED, ACTIVATE_STARCODE_FAILURE } from '../actions';
 
 const initialState = {
   meta: {},
@@ -18,28 +21,31 @@ export default function (state = initialState, action) {
     case ACTIVATE_STARCODE_SUCCESS:
       const id = action.payload.restaurant_id
       const starsGained = action.payload.stars_gained
-      // console.log(state.data.restaurant[id])
-      // if (state.data) {
-      //   if (state.data.restaurant[id]) {
-      //     return {
-      //       ...state,
-      //       data: {...state.data,
-      //         restaurant: {
-      //           ...state.data.restaurant,
-      //           restaurant[id].attributes.countStars: state.data.restaurant[id].attributes.countStars + starsGained,
-      //         }
-      //       }
-      //       loading_starcode: false,
-      //       error: null,
-      //     }
-      //   }
-      // }
+      if (state.restaurant) {
+        if (state.restaurant[id]) {
+          return {
+            ...state,
+              restaurant: {
+              ...state.restaurant,
+                [id]: {
+                  ...state.restaurant[id],
+                  attributes: {
+                    ...state.restaurant[id].attributes,
+                    countStars: state.restaurant[id].attributes.countStars + starsGained,
+                  }
+                }
+              },
+            loading_starcode: false,
+            error_starcode: null,
+            }
+          }
+        }
 
-      // return {
-      //   ...state,
-      //   loading_starcode: false,
-      //   error: null,
-      // };
+      return {
+        ...state,
+        loading_starcode: false,
+        error_starcode: null,
+      };
     case ACTIVATE_STARCODE_STARTED:
       return {
         ...state,
@@ -49,7 +55,7 @@ export default function (state = initialState, action) {
       return {
         ...state,
         loading_starcode: false,
-        error: action.payload.error
+        error_starcode: action.payload.error
       };
     default:
       return state;

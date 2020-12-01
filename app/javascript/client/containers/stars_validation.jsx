@@ -119,8 +119,6 @@ class StarsValidation extends Component {
 
 
   render () {
-    console.log(this.props)
-
     if (this.state.isLoading === true ) {
       return <div>Loading ...........</div>
     } else if (this.state.restaurant_name == null ){
@@ -311,6 +309,18 @@ function mapDispatchToProps(dispatch) {
 
 
 function mapStateToProps(state, ownProps) {
+  let error_starcode = null
+  let loading_starcode = false
+
+  if (state.data.error_starcode) {
+    error_starcode = state.data.error_starcode
+  }
+
+  if (state.data.loading_starcode) {
+    loading_starcode = state.data.loading_starcode
+  }
+
+
   let logged_in = null
   let error_user = null
   let loading_user = false
@@ -319,7 +329,7 @@ function mapStateToProps(state, ownProps) {
     loading_user = state.logged_in.loading_user;
     error_user = state.logged_in.error
   }
-  return { logged_in, loading_user, error_user }
+  return { logged_in, loading_user, error_user, error_starcode, loading_starcode }
 }
 
 

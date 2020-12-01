@@ -64,3 +64,9 @@ Star.create(restaurant: kali, status: "valid", starcode: starcode)
 
 starcode = Starcode.create(code: "999999", scanned_at: nil, status: "valid", batch: batch)
 Star.create(restaurant: kali, status: "valid", starcode: starcode)
+
+starcode = Starcode.create(code: "121212", scanned_at: nil, status: "valid", batch: batch)
+Star.create(restaurant: kali, status: "valid", starcode: starcode)
+
+starcode = Starcode.create(code: "131313", scanned_at: nil, status: "valid", batch: batch)
+Star.create(restaurant: kali, status: "valid", starcode: starcode)

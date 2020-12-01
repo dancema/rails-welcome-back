@@ -122,6 +122,56 @@ const logInFailure = error => ({
 
 
 
+
+export const register = (data) => {
+  return dispatch => {
+    dispatch(registerStarted());
+
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').attributes.content.value;
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
+    axios.defaults.headers.post['Content-Type'] = 'application/json';
+    axios.defaults.withCredentials = true
+    axios.defaults.headers.post['Accept'] = 'application/json';
+
+
+
+    axios.post('/api/v1/registrations', data)
+    .then((response) => {
+        dispatch(registerSuccess(response.data));
+    })
+    .catch((error) => {
+      if (error.response) {
+        dispatch(registerFailure(error.message));
+      }
+    })
+  };
+};
+
+const registerSuccess = todo => ({
+  type: REGISTER_SUCCESS,
+  payload: {
+    ...todo
+  }
+});
+
+const registerStarted = () => ({
+  type: REGISTER_STARTED
+});
+
+const registerFailure = error => ({
+  type: REGISTER_FAILURE,
+  payload: {
+    error
+  }
+});
+
+
+
+
+
+
+
+
 export const activateStarcode = (data) => {
   return dispatch => {
     dispatch(activateStarcodeStarted());
@@ -167,7 +217,19 @@ const activateStarcodeFailure = error => ({
 
 
 
+export function logInAndActivateStarcode(values) {
+  let code = JSON.stringify({code: values.code})
+  let credentials = JSON.stringify({user:{
+      email: values.email,
+      password: values.password
+    }})
 
+  return (dispatch, getState) => {
+    return dispatch(logIn(credentials)).then(() => {
+      return dispatch(activateStarcode(code))
+    })
+  }
+}
 
 
 // export function fetchRestaurants() {
