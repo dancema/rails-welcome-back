@@ -6,8 +6,8 @@ import axios from 'axios';
 // import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
-import { bindActionCreators } from 'redux'
-import { isLoggedIn, logIn, activateStarcode } from '../actions/index';
+
+import { isLoggedIn } from '../actions/index';
 
 
 import Popup from '../components/popup'
@@ -58,11 +58,26 @@ class StarsValidation extends Component {
 
 
   activationStarcode = (values, actions) => {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').attributes.content.value;
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
+    axios.defaults.headers.post['Content-Type'] = 'application/json';
+    axios.defaults.withCredentials = true
+    axios.defaults.headers.post['Accept'] = 'application/json';
 
 
     let data = JSON.stringify({code: values.code})
-    console.log('in the first fct')
-    this.props.activateStarcode(data)
+    axios.post('/api/v1/starcodes', data
+    )
+    .then((response) => {
+      this.setState({activationStarcode: true, showPopup: true});
+
+    })
+    .catch((error) => {
+      if (error.response) {
+        actions.setSubmitting(false);
+        this.setState({activationStarcode: false});
+      }
+    });
   }
 
   signUp = (values,actions) => {
@@ -100,20 +115,38 @@ class StarsValidation extends Component {
   }
 
   signIn = (values,actions) => {
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').attributes.content.value;
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
+    axios.defaults.headers.post['Content-Type'] = 'application/json';
+    axios.defaults.withCredentials = true
+    axios.defaults.headers.post['Accept'] = 'application/json';
+
+
     let data = JSON.stringify({user:{
       email: values.email,
       password: values.password
     }})
-    this.props.logIn(data)
 
-    }
+    console.log('helloooo')
+    axios.post('/login', data
+    )
+    .then((response) => {
+      this.setState({signIn: 'connexion réussie'});
+      this.activationStarcode(values,actions)
+    })
+    .catch((error) => {
+      if (error.response) {
+        actions.setSubmitting(false);
+        this.setState({signIn: 'identifiants invalides'});
+      }
+    });
 
-
+  }
 
   componentDidMount() {
     this.checkStarcode(this.props.match.params.code)
     if (this.props.logged_in === null) {
-      this.props.isLoggedIn()
+      this.props.dispatch(isLoggedIn())
     }
   }
 
@@ -211,7 +244,6 @@ class StarsValidation extends Component {
               <button type="submit" disabled={isSubmitting} >
                Submit
               </button>
-              {this.props.error_user && (<p>{this.props.error_user}</p>)}
               {this.state.signIn && (
                   <p className="">
                     {this.state.signIn}
@@ -305,25 +337,19 @@ class StarsValidation extends Component {
 }
 
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ isLoggedIn ,logIn, activateStarcode }, dispatch)
-}
-
 
 function mapStateToProps(state, ownProps) {
   let logged_in = null
-  let error_user = null
   let loading_user = false
   if (state.logged_in) {
     logged_in = state.logged_in.logged_in
     loading_user = state.logged_in.loading_user;
-    error_user = state.logged_in.error
   }
-  return { logged_in, loading_user, error_user }
+  return { logged_in, loading_user }
 }
 
 
 
-export default withRouter(connect(mapStateToProps, mapDispatchToProps )(StarsValidation));
+export default withRouter(connect(mapStateToProps, null )(StarsValidation));
 
 

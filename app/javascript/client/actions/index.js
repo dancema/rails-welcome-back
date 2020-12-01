@@ -17,6 +17,17 @@ export const CURRENT_USER_SUCCESS = 'CURRENT_USER_SUCCESS'
 export const CURRENT_USER_FAILURE = 'CURRENT_USER_FAILURE'
 export const CURRENT_USER_STARTED = 'CURRENT_USER_STARTED'
 
+export const REGISTER_STARTED = "REGISTER_STARTED";
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
+export const REGISTER_FAILURE = "REGISTER_FAILURE";
+
+export const LOGIN_STARTED = "LOGIN_STARTED";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAILURE = "LOGIN_FAILURE";
+
+export const ACTIVATE_STARCODE_STARTED = "ACTIVATE_STARCODE_STARTED";
+export const ACTIVATE_STARCODE_SUCCESS = "ACTIVATE_STARCODE_SUCCESS";
+export const ACTIVATE_STARCODE_FAILURE = "ACTIVATE_STARCODE_FAILURE";
 
 
 import { CALL_API } from '../middleware/api';
@@ -28,11 +39,6 @@ export function apicall(endpoint) {
     },
   };
 }
-
-
-
-
-
 
 
 export const isLoggedIn = () => {
@@ -68,6 +74,99 @@ const currentUserFailure = error => ({
     error
   }
 });
+
+
+
+export const logIn = (data) => {
+  return dispatch => {
+    dispatch(logInStarted());
+
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').attributes.content.value;
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
+    axios.defaults.headers.post['Content-Type'] = 'application/json';
+    axios.defaults.withCredentials = true
+    axios.defaults.headers.post['Accept'] = 'application/json';
+
+
+
+    axios.post('/login', data
+    )
+    .then((response) => {
+        dispatch(logInSuccess(response.data));
+    })
+    .catch((error) => {
+      if (error.response) {
+        dispatch(logInFailure(error.message));
+      }
+    })
+  };
+};
+
+const logInSuccess = todo => ({
+  type: LOGIN_SUCCESS,
+  payload: {
+    ...todo
+  }
+});
+
+const logInStarted = () => ({
+  type: LOGIN_STARTED
+});
+
+const logInFailure = error => ({
+  type: LOGIN_FAILURE,
+  payload: {
+    error
+  }
+});
+
+
+
+export const activateStarcode = (data) => {
+  return dispatch => {
+    dispatch(activateStarcodeStarted());
+
+    const csrfToken = document.querySelector('meta[name="csrf-token"]').attributes.content.value;
+    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
+    axios.defaults.headers.post['Content-Type'] = 'application/json';
+    axios.defaults.withCredentials = true
+    axios.defaults.headers.post['Accept'] = 'application/json';
+
+
+    axios.post('/api/v1/starcodes', data
+    )
+    .then((response) => {
+        dispatch(activateStarcodeSuccess(response.data));
+    })
+    .catch((error) => {
+      if (error.response) {
+        dispatch(activateStarcodeFailure(error.message));
+      }
+    })
+  };
+};
+
+const activateStarcodeSuccess = todo => ({
+  type: ACTIVATE_STARCODE_SUCCESS,
+  payload: {
+    ...todo
+  }
+});
+
+const activateStarcodeStarted = () => ({
+  type: ACTIVATE_STARCODE_STARTED
+});
+
+const activateStarcodeFailure = error => ({
+  type: ACTIVATE_STARCODE_FAILURE,
+  payload: {
+    error
+  }
+});
+
+
+
+
 
 
 

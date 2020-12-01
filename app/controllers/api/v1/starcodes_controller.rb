@@ -4,6 +4,7 @@ class Api::V1::StarcodesController < ApplicationController
 
   def index
     starcode = Starcode.search(params)
+    # authorize! :read, :starcode
 
     if starcode
       # raise Error::AlreadyScannedError if starcode.status == "scanned"
@@ -22,7 +23,7 @@ class Api::V1::StarcodesController < ApplicationController
 
   def activate
     authenticate_user!
-    # authorize! :activate, :starcode
+    authorize! :activate, :starcode
     starcode = Starcode.find_by(starcode_params)
 
     if starcode
@@ -40,7 +41,7 @@ class Api::V1::StarcodesController < ApplicationController
         star.save
       end
       starcode.save
-      render json: {message: 'Star added to account'}, status: :ok
+      render json: { restaurant_id: starcode.stars.first.restaurant.id ,stars_gained: starcode.stars.count }, status: :ok
     else
       render json: {
         error: "Code invalide"
