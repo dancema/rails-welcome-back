@@ -35,6 +35,7 @@ export default function (state = initialState, action) {
                   }
                 }
               },
+            stars_gained: starsGained,
             loading_starcode: false,
             error_starcode: null,
             }
@@ -43,17 +44,20 @@ export default function (state = initialState, action) {
 
       return {
         ...state,
+        stars_gained: starsGained,
         loading_starcode: false,
         error_starcode: null,
       };
     case ACTIVATE_STARCODE_STARTED:
       return {
         ...state,
+        stars_gained: starsGained,
         loading_starcode: true
       };
     case ACTIVATE_STARCODE_FAILURE:
       return {
         ...state,
+        stars_gained: starsGained,
         loading_starcode: false,
         error_starcode: action.payload.error
       };

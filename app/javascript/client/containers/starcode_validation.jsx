@@ -12,7 +12,7 @@ import { isLoggedIn } from '../actions/index';
 
 import Popup from '../components/popup'
 
-class StarsValidation extends Component {
+class StarcodeValidation extends Component {
   constructor(){
     super()
     this.state = {
@@ -152,10 +152,12 @@ class StarsValidation extends Component {
 
 
   render () {
-    console.log(this.props)
-
     if (this.state.isLoading === true ) {
       return <div>Loading ...........</div>
+    } else if (this.props.loading_user === true ){
+      return (
+        <div>Loading ...........</div>
+        )
     } else if (this.state.restaurant_name == null ){
       return (
         <div>
@@ -194,16 +196,16 @@ class StarsValidation extends Component {
                 <button type="submit" disabled={isSubmitting} >
                  Valider
                 </button>
-                {this.state.showPopup ?
-                  <Popup
-                    text='Code validé ! Tu as gagné un point :)'
-                    closePopup={this.togglePopup.bind(this)}
-                  />
-                  : null
-                }
             </Form>
           )}
         </Formik>
+        {this.state.showPopup ?
+          <Popup
+            text='Code validé ! Tu as gagné un point :)'
+            restaurant_id={this.state.restaurant_id}
+          />
+          : null
+        }
     </div>
       )
     } else if (this.state.restaurant_name != null && this.props.logged_in==false && this.state.signIn_option == true) {
@@ -249,16 +251,16 @@ class StarsValidation extends Component {
                     {this.state.signIn}
                   </p>
                 )}
-              {this.state.showPopup ?
-                <Popup
-                  text='Code validé ! Tu as gagné un point :)'
-                  closePopup={this.togglePopup.bind(this)}
-                />
-                : null
-              }
           </Form>
         )}
       </Formik>
+      {this.state.showPopup ?
+        <Popup
+          text='Code validé ! Tu as gagné un point :)'
+          restaurant_id={this.state.restaurant_id}
+        />
+        : null
+      }
       <div onClick={() => {this.setState({signIn_option: !this.state.signIn_option})}}>
           {this.state.signIn_option ?
             <p>Créer un compte</p>
@@ -313,16 +315,16 @@ class StarsValidation extends Component {
                         {this.state.signUp}
                       </p>
                     )}
-                  {this.state.showPopup ?
-                    <Popup
-                      text='Compte créé et Code validé ! Tu as gagné un point :)'
-                      closePopup={this.togglePopup.bind(this)}
-                    />
-                    : null
-                  }
               </Form>
             )}
           </Formik>
+          {this.state.showPopup ?
+            <Popup
+              text='Compte créé et Code validé ! Tu as gagné un point :)'
+              restaurant_id={this.state.restaurant_id}
+            />
+            : null
+          }
 
           <div onClick={() => {this.setState({signIn_option: !this.state.signIn_option})}}>
               {this.state.signIn_option ?
@@ -350,6 +352,6 @@ function mapStateToProps(state, ownProps) {
 
 
 
-export default withRouter(connect(mapStateToProps, null )(StarsValidation));
+export default withRouter(connect(mapStateToProps, null )(StarcodeValidation));
 
 

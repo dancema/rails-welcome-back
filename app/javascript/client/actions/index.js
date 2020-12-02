@@ -77,159 +77,177 @@ const currentUserFailure = error => ({
 
 
 
-export const logIn = (data) => {
-  return dispatch => {
-    dispatch(logInStarted());
+// export const logIn = (values) => {
+//   return dispatch => {
+//     dispatch(logInStarted());
 
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').attributes.content.value;
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
-    axios.defaults.headers.post['Content-Type'] = 'application/json';
-    axios.defaults.withCredentials = true
-    axios.defaults.headers.post['Accept'] = 'application/json';
+//     const csrfToken = document.querySelector('meta[name="csrf-token"]').attributes.content.value;
+//     axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
+//     axios.defaults.headers.post['Content-Type'] = 'application/json';
+//     axios.defaults.withCredentials = true
+//     axios.defaults.headers.post['Accept'] = 'application/json';
 
+//     const data = JSON.stringify({user:{
+//         email: values.email,
+//         password: values.password
+//       }})
 
+//     axios.post('/login', data
+//     )
+//     .then((response) => {
+//         dispatch(logInSuccess(response.data));
+//     })
+//     .catch((error) => {
+//       if (error.response) {
+//         dispatch(logInFailure(error.message));
+//       }
+//     })
+//   };
+// };
 
-    axios.post('/login', data
-    )
-    .then((response) => {
-        dispatch(logInSuccess(response.data));
-    })
-    .catch((error) => {
-      if (error.response) {
-        dispatch(logInFailure(error.message));
-      }
-    })
-  };
-};
+// const logInSuccess = todo => ({
+//   type: LOGIN_SUCCESS,
+//   payload: {
+//     ...todo
+//   }
+// });
 
-const logInSuccess = todo => ({
-  type: LOGIN_SUCCESS,
-  payload: {
-    ...todo
-  }
-});
+// const logInStarted = () => ({
+//   type: LOGIN_STARTED
+// });
 
-const logInStarted = () => ({
-  type: LOGIN_STARTED
-});
-
-const logInFailure = error => ({
-  type: LOGIN_FAILURE,
-  payload: {
-    error
-  }
-});
-
-
-
-
-export const register = (data) => {
-  return dispatch => {
-    dispatch(registerStarted());
-
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').attributes.content.value;
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
-    axios.defaults.headers.post['Content-Type'] = 'application/json';
-    axios.defaults.withCredentials = true
-    axios.defaults.headers.post['Accept'] = 'application/json';
-
-
-
-    axios.post('/api/v1/registrations', data)
-    .then((response) => {
-        dispatch(registerSuccess(response.data));
-    })
-    .catch((error) => {
-      if (error.response) {
-        dispatch(registerFailure(error.message));
-      }
-    })
-  };
-};
-
-const registerSuccess = todo => ({
-  type: REGISTER_SUCCESS,
-  payload: {
-    ...todo
-  }
-});
-
-const registerStarted = () => ({
-  type: REGISTER_STARTED
-});
-
-const registerFailure = error => ({
-  type: REGISTER_FAILURE,
-  payload: {
-    error
-  }
-});
+// const logInFailure = error => ({
+//   type: LOGIN_FAILURE,
+//   payload: {
+//     error
+//   }
+// });
 
 
 
 
+// export const register = (data) => {
+//   return dispatch => {
+//     dispatch(registerStarted());
+
+//     const csrfToken = document.querySelector('meta[name="csrf-token"]').attributes.content.value;
+//     axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
+//     axios.defaults.headers.post['Content-Type'] = 'application/json';
+//     axios.defaults.withCredentials = true
+//     axios.defaults.headers.post['Accept'] = 'application/json';
+
+
+
+//     axios.post('/api/v1/registrations', data)
+//     .then((response) => {
+//         dispatch(registerSuccess(response.data));
+//     })
+//     .catch((error) => {
+//       if (error.response) {
+//         dispatch(registerFailure(error.message));
+//       }
+//     })
+//   };
+// };
+
+// const registerSuccess = todo => ({
+//   type: REGISTER_SUCCESS,
+//   payload: {
+//     ...todo
+//   }
+// });
+
+// const registerStarted = () => ({
+//   type: REGISTER_STARTED
+// });
+
+// const registerFailure = error => ({
+//   type: REGISTER_FAILURE,
+//   payload: {
+//     error
+//   }
+// });
 
 
 
 
-export const activateStarcode = (data) => {
-  return dispatch => {
-    dispatch(activateStarcodeStarted());
-
-    const csrfToken = document.querySelector('meta[name="csrf-token"]').attributes.content.value;
-    axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
-    axios.defaults.headers.post['Content-Type'] = 'application/json';
-    axios.defaults.withCredentials = true
-    axios.defaults.headers.post['Accept'] = 'application/json';
-
-
-    axios.post('/api/v1/starcodes', data
-    )
-    .then((response) => {
-        dispatch(activateStarcodeSuccess(response.data));
-    })
-    .catch((error) => {
-      if (error.response) {
-        dispatch(activateStarcodeFailure(error.message));
-      }
-    })
-  };
-};
-
-const activateStarcodeSuccess = todo => ({
-  type: ACTIVATE_STARCODE_SUCCESS,
-  payload: {
-    ...todo
-  }
-});
-
-const activateStarcodeStarted = () => ({
-  type: ACTIVATE_STARCODE_STARTED
-});
-
-const activateStarcodeFailure = error => ({
-  type: ACTIVATE_STARCODE_FAILURE,
-  payload: {
-    error
-  }
-});
 
 
 
 
-export function logInAndActivateStarcode(values) {
-  let code = JSON.stringify({code: values.code})
-  let credentials = JSON.stringify({user:{
-      email: values.email,
-      password: values.password
-    }})
+// export const activateStarcode = (data, callback = null) => {
+//   return dispatch => {
+//     dispatch(activateStarcodeStarted());
 
-  return (dispatch, getState) => {
-    return dispatch(logIn(credentials)).then(() => {
-      return dispatch(activateStarcode(code))
-    })
-  }
-}
+//     const csrfToken = document.querySelector('meta[name="csrf-token"]').attributes.content.value;
+//     axios.defaults.headers.common['X-CSRF-TOKEN'] = csrfToken
+//     axios.defaults.headers.post['Content-Type'] = 'application/json';
+//     axios.defaults.withCredentials = true
+//     axios.defaults.headers.post['Accept'] = 'application/json';
+
+
+//     axios.post('/api/v1/starcodes', data
+//     )
+//     .then((response) => {
+//         dispatch(activateStarcodeSuccess(response.data));
+//         callback
+//     })
+//     .catch((error) => {
+//       if (error.response) {
+//         dispatch(activateStarcodeFailure(error.message));
+//       }
+//     })
+//   };
+// };
+
+// const activateStarcodeSuccess = todo => ({
+//   type: ACTIVATE_STARCODE_SUCCESS,
+//   payload: {
+//     ...todo
+//   }
+// });
+
+// const activateStarcodeStarted = () => ({
+//   type: ACTIVATE_STARCODE_STARTED
+// });
+
+// const activateStarcodeFailure = error => ({
+//   type: ACTIVATE_STARCODE_FAILURE,
+//   payload: {
+//     error
+//   }
+// });
+
+
+// export function logInAndActivateStarcode(values, callback) {
+
+
+//     let code = JSON.stringify({code: values.code})
+//     let credentials = JSON.stringify({user:{
+//         email: values.email,
+//         password: values.password
+//       }})
+
+//     logIn(credentials)
+//       // return dispatch(activateStarcode(code, callback))
+// }
+
+
+
+
+// export function logInAndActivateStarcode(values, callback) {
+
+//   return (dispatch, getState) => {
+//     let code = JSON.stringify({code: values.code})
+//     let credentials = JSON.stringify({user:{
+//         email: values.email,
+//         password: values.password
+//       }})
+//     return dispatch(logIn(credentials)).then(() => {
+//       return dispatch(activateStarcode(code, callback))
+//     })
+//   }
+// }
 
 
 // export function fetchRestaurants() {

@@ -12,7 +12,6 @@ export const API_DATA_FAILURE = 'API_DATA_FAILURE';
 function callApi(endpoint, options = {}) {
   const fullUrl = API_ROOT + endpoint
 
-  console.log(endpoint)
   return fetch(fullUrl, { credentials: "same-origin" })
     .then(response => response.json()
       .then((json) => {
