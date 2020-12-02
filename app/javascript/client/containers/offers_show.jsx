@@ -1,34 +1,70 @@
 import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter, Redirect } from 'react-router-dom';
-import { fetchOffer, fetchStar, isLoggedIn } from '../actions';
 
 import React, { useState, Component, PureComponent } from 'react';
 import { ErrorMessage, Field, Form, Formik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
 
+import build, { fetchFromMeta } from 'redux-object';
+
+import { apicall, isLoggedIn } from '../actions';
 
 class OffersShow extends Component {
   constructor(){
     super()
     this.state = {
-      offercode: null
+      offercode: null,
     }
   }
 
 
 
   componentDidMount() {
-    // if (this.props.offer === []) {
-      this.props.fetchOffer(this.props.match.params.id);
-    // }
 
-    // if (!this.props.logged_in) {
-    //   this.props.isLoggedIn()
-    // }
+    if (Object.keys(this.props.offer).length === 0) {
+      this.props.dispatch(apicall(`/api/v1/offers/${this.props.match.params.id}`))
+    }
 
-    // this.props.fetchStar(this.props.match.params.restaurant_id);
+    if (this.props.logged_in === null) {
+      this.props.dispatch(isLoggedIn());
+    }
+
+  }
+
+  starType = () => {
+    if (this.props.restaurant.countStars === null) {
+      return (<p>(Image of star without points)</p>)
+    } else {
+      return(<p>Solde : {this.props.restaurant.countStars} <i className="fas fa-star"></i></p>)
+    }
+  }
+
+
+  disable = () => {
+      if (!this.props.logged_in) {
+        return true
+      } else if (this.props.offer.restaurant.countStars < this.props.offer.starsRequired) {
+        return true
+      } else {
+        return false
+      }
+  }
+
+
+  optionalMessage = () => {
+    if (!this.props.logged_in) {
+      return (
+          <div className ='btn btn-secondary'>
+              <a href="/sign_up">Creer un compte pour en profiter !</a>
+          </div>
+        )
+    } else if (this.props.offer.restaurant.countStars < this.props.offer.starsRequired) {
+        return (
+          <div>Tu n as pas assez de points pour activer l'offre</div>
+          )
+    }
   }
 
 
@@ -41,11 +77,9 @@ class OffersShow extends Component {
 
 
     let data = JSON.stringify({offer :{id: values.id}})
-    console.log(data)
     axios.post('/api/v1/offercodes', data
     )
     .then((response) => {
-      console.log(response)
       this.setState({offercode: {code: response.data.code}});
 
     })
@@ -59,98 +93,26 @@ class OffersShow extends Component {
 
 
   render () {
-      if (this.props.logged_in === null)
-        return (<div>Loading....</div>)
-      else if (this.props.logged_in === false)
-        return (
-        [
-        <div className="card-restaurant no-shadow" >
-          <img src="https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/greece.jpg" />
-          <div className="card-restaurant-infos">
-            <div>
-              <h2>{this.props.restaurant.name}</h2>
-              <p>Pas connecte <i className="fas fa-star"></i></p>
-            </div>
-          </div>
-        </div>
-      ,
-            <div className="card-offer-show">
-              <div className="card-offer-img" style={{backgroundImage: 'url(https://picky-palate.com/wp-content/uploads/2020/04/IMG_7790-scaled-e1588014500955.jpg)'}} />
-              <div className="d-flex justify-content-between p-2">
-                <h2>{this.props.offer.title}</h2>
-                <h2>{this.props.offer.stars_required} <i className="fas fa-star"></i></h2>
-              </div>
 
-              <div className ='btn btn-secondary'>
-                <a href="/sign_up">Creer un compte pour en profiter !</a>
-              </div>
+    if ((Object.keys(this.props.offer).length != 0) && (this.props.loading_user === false)  && (this.props.loading===false)) {
 
-              <p>Offre valable uniquement à emporter/livré à domicile par le restaurant. Code à communiquer au restaurant</p>
-              <div className="modal-footer">
-                <Link to={`/c/restaurants/${this.props.restaurant.id}`}>
-                  <button type="button" className="btn btn-secondary" >Retour</button>
-                </Link>
-              </div>
-            </div>
-              ]
-        )
-      else if (this.props.star === undefined)
-        return (<div>Loading....</div>)
-      else if (this.props.star < this.props.offer.stars_required)
-        return (
-        [
-        <div className="card-restaurant no-shadow" >
-          <img src="https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/greece.jpg" />
-          <div className="card-restaurant-infos">
-            <div>
-              <h2>{this.props.restaurant.name}</h2>
-              <p>{this.props.star || 0}  <i className="fas fa-star"></i></p>
-            </div>
-          </div>
-        </div>
-      ,
-            <div className="card-offer-show">
-              <div className="card-offer-img" style={{backgroundImage: 'url(https://picky-palate.com/wp-content/uploads/2020/04/IMG_7790-scaled-e1588014500955.jpg)'}} />
-              <div className="d-flex justify-content-between p-2">
-                <h2>{this.props.offer.title}</h2>
-                <h2>{this.props.offer.stars_required} <i className="fas fa-star"></i></h2>
-              </div>
-
-
-              <div className ='btn btn-secondary'>
-                Non disponible
-              </div>
-
-              <p>Tu n as pas assez de points pour activer l'offre</p>
-
-              <p>Offre valable uniquement à emporter/livré à domicile par le restaurant. Code à communiquer au restaurant</p>
-              <div className="modal-footer">
-                <Link to={`/c/restaurants/${this.props.restaurant.id}`}>
-                  <button type="button" className="btn btn-secondary" >Retour</button>
-                </Link>
-              </div>
-            </div>
-              ]
-        )
-
-      else if (this.props.star >= this.props.offer.stars_required)
       return (
-        [
-        <div className="card-restaurant no-shadow" >
-          <img src="https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/greece.jpg" />
-          <div className="card-restaurant-infos">
-            <div>
-              <h2>{this.props.restaurant.name}</h2>
-              <p>Solde : {this.props.star || 0} <i className="fas fa-star"></i></p>
+        <div>
+          <div className="card-restaurant no-shadow" >
+            <img src="https://raw.githubusercontent.com/lewagon/fullstack-images/master/uikit/greece.jpg" />
+            <div className="card-restaurant-infos">
+              <div>
+                <h2>{this.props.offer.restaurant.name}</h2>
+                {this.starType()}
+              </div>
             </div>
           </div>
-        </div>
-      ,
-            <div className="card-offer-show">
+
+          <div className="card-offer-show">
               <div className="card-offer-img" style={{backgroundImage: 'url(https://picky-palate.com/wp-content/uploads/2020/04/IMG_7790-scaled-e1588014500955.jpg)'}} />
               <div className="d-flex justify-content-between p-2">
                 <h2>{this.props.offer.title}</h2>
-                <h2>{this.props.offer.stars_required} <i className="fas fa-star"></i></h2>
+                <h2>{this.props.offer.starsRequired} <i className="fas fa-star"></i></h2>
               </div>
 
 
@@ -175,7 +137,7 @@ class OffersShow extends Component {
                    isSubmitting}) => (
                    <Form>
                       <Field type="text" name="id" readOnly className="d-none"/>
-                      <button type="submit" disabled={isSubmitting} >
+                      <button type="submit" disabled={isSubmitting || this.disable()} >
 
                         {this.state.offercode ?
                           this.state.offercode.code
@@ -186,36 +148,55 @@ class OffersShow extends Component {
                 )}
               </Formik>
 
+              {this.optionalMessage()}
 
               <p>Offre valable uniquement à emporter/livré à domicile par le restaurant. Code à communiquer au restaurant</p>
               <div className="modal-footer">
-                <Link to={`/c/restaurants/${this.props.restaurant.id}`}>
+                <Link to={`/c/restaurants/${this.props.offer.restaurant.id}`} >
                   <button type="button" className="btn btn-secondary" >Retour</button>
                 </Link>
               </div>
             </div>
-              ]);
-            }
-            ;
+
+
+        </div>
+      )
+    } else {
+      return (
+        <div>Loading ...</div>
+      )
+    }
+  }
 }
 
 
 
 
 function mapStateToProps(state, ownProps) {
-  const id = parseInt(ownProps.match.params.id, 10);
-  const restaurant_id = parseInt(ownProps.match.params.restaurant_id, 10);
 
-  return {
-    restaurant: state.restaurants.find((restaurant) => restaurant.id === restaurant_id),
-    offer: state.offers.find((offer) => offer.id === id) || [],
-    star: state.stars[restaurant_id],
-    logged_in: state.logged_in
-  };
+  const id = parseInt(ownProps.match.params.id);
+  let restaurant = {}
+  let offer = {}
+  let loading = false
+  let loading_user = false
+  const metaName = Object.keys(state.data.meta)[0]
+
+  if (state.data.meta[metaName]) {
+    if (build(state.data, 'offer', id)){
+      offer = build(state.data, 'offer', id)
+      restaurant = offer.restaurant;
+    }
+    loading = state.data.meta[metaName].loading;
+  }
+
+
+  let logged_in = null
+  if (state.logged_in) {
+    logged_in = state.logged_in.logged_in
+    loading_user = state.logged_in.loading_user;
+  }
+
+  return { restaurant, offer, logged_in, loading, loading_user };
 }
 
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ fetchOffer, fetchStar, isLoggedIn }, dispatch);
-}
-
-export default withRouter(connect(mapStateToProps, mapDispatchToProps)(OffersShow));
+export default withRouter(connect(mapStateToProps)(OffersShow));

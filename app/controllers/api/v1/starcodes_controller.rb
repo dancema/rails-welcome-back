@@ -2,15 +2,26 @@ class Api::V1::StarcodesController < ApplicationController
   # load_and_authorize_resource param_method: :starcode_params
   # load_and_authorize_resource
 
+  def index
+    starcode = Starcode.search(params)
+    # authorize! :read, :starcode
+
+    if starcode
+      # raise Error::AlreadyScannedError if starcode.status == "scanned"
+      if starcode.status == "scanned"
+        return render json: {
+        error: "Already scanned"
+        }, status: 409
+      end
+      render json: {restaurant_name: starcode.stars.first.restaurant.name, restaurant_id: starcode.stars.first.restaurant.id}, status: :ok
+    else
+      render json: {
+        error: "Code invalide"
+      }, status: :not_found
+    end
+  end
+
   def activate
-
-
-    # unless starcode_params[:code].match /^[0-9a-zA-Z]{6}$/
-    #   return render json: {
-    #     error: "code format not good"
-    #     }, status: 400
-    # end
-
     authenticate_user!
     authorize! :activate, :starcode
     starcode = Starcode.find_by(starcode_params)
@@ -30,7 +41,7 @@ class Api::V1::StarcodesController < ApplicationController
         star.save
       end
       starcode.save
-      render json: {message: 'Star added to account'}, status: :ok
+      render json: { restaurant_id: starcode.stars.first.restaurant.id ,stars_gained: starcode.stars.count }, status: :ok
     else
       render json: {
         error: "Code invalide"
@@ -38,36 +49,7 @@ class Api::V1::StarcodesController < ApplicationController
     end
   end
 
-  def exist
-  # unless params[:code].match(/^[0-9a-zA-Z]{6}$/)
-  #   return render json: {
-  #     error: "code format not good"
-  #     }, status: 400
-  # end
-
-  authorize! :exist, :starcode
-
-  starcode = Starcode.find_by(code: params[:code])
-
-  if starcode
-    # raise Error::AlreadyScannedError if starcode.status == "scanned"
-    if starcode.status == "scanned"
-      return render json: {
-      error: "Already scanned"
-      }, status: 409
-    end
-    render json: {restaurant_name: starcode.stars.first.restaurant.name, restaurant_id: starcode.stars.first.restaurant.id}, status: :ok
-  else
-    render json: {
-      error: "Code invalide"
-    }, status: :not_found
-  end
-
-  #rescue from not found !
-
-  end
-
- private
+  private
 
   def starcode_params
     params.require(:starcode).permit(:code)

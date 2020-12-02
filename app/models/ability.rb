@@ -47,12 +47,12 @@ class Ability
     can :read, Restaurant
     can :read, Star
     can :activate, :starcode
-    can :exist, :starcode
+    can :read, Starcode
   end
 
   def guest_user_rules
     can :read, Offer
     can :read, Restaurant
-    can :exist, :starcode
+    can :read, Starcode
   end
 end

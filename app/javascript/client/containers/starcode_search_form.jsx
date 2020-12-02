@@ -7,22 +7,14 @@ import { bindActionCreators } from 'redux';
 import { connect } from 'react-redux';
 import { Link, withRouter } from 'react-router-dom';
 
-import { isLoggedIn } from '../actions/index';
 
-
-import Popup from '../components/popup'
-
-class StarsEdit extends Component {
+class StarcodeSearchForm extends Component {
 
 
   redirectToStarsValidation = (values,actions) => {
-    this.props.history.push(`/c/stars/${values.starcode}`)
+    this.props.history.push(`/c/code/${values.starcode}`)
   }
 
-
-  componentDidMount() {
-    this.props.isLoggedIn()
-  }
 
 
   render () {
@@ -62,12 +54,6 @@ class StarsEdit extends Component {
 }
 
 
-
-function mapDispatchToProps(dispatch) {
-  return bindActionCreators({ isLoggedIn }, dispatch);
-}
-
-
-export default withRouter(connect(null, mapDispatchToProps )(StarsEdit));
+export default withRouter(StarcodeSearchForm);
 
 

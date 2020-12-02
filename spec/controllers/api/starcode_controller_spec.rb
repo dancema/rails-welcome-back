@@ -68,48 +68,48 @@ RSpec.describe Api::V1::StarcodesController, :type => :controller do
     end
   end
 
-  describe "#exist" do
+  describe "#index" do
     context 'when code is not valid' do
       before :each do
-        request.headers["accept"] = 'application/json'
+        # request.headers["accept"] = 'application/json'
       end
 
       it "responds with not found when code is not made of 6 characters" do
         code = '1111111226'
-        get :exist, :params => {:code => code}
+        get :index, params: {code: code}
         expect(response).to have_http_status(:not_found)
       end
 
       it "responds with not found when code does not exist" do
         code = '111111'
-        get :exist, :params => {:code => code}
+        get :index, params: {code: code}
         expect(response).to have_http_status(:not_found)
       end
 
       it "responds with conflict when code already scanned" do
         starcode = create(:starcode, status: 'scanned')
         code = '123456'
-        get :exist, :params => {:code => code}
+        get :index, params: {code: code}
         expect(response).to have_http_status(409)
       end
     end
 
     context "when code is valid" do
       before :each do
-        request.headers["accept"] = 'application/json'
+        # request.headers["accept"] = 'application/json'
       end
 
       it "responds with status OK" do
         star = create(:star)
         code = '123456'
-        get :exist, :params => {:code => code}
+        get :index, params: {code: code}
         expect(response).to have_http_status(200)
       end
 
       it "responds with restaurant_name and restaurant_id" do
         star = create(:star)
         code = '123456'
-        get :exist, :params => { :code => code }
+        get :index, params: {code: code}
         expect(JSON.parse(response.body)).to eq({'restaurant_name' => star.restaurant.name, 'restaurant_id' => star.restaurant.id})
       end
     end

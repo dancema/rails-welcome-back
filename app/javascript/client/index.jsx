@@ -5,65 +5,57 @@ import { createStore, combineReducers, applyMiddleware } from 'redux';
 import reduxPromise from 'redux-promise';
 import logger from 'redux-logger';
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
-import { createHistory as history } from 'history';
+// import { createHistory as history } from 'history';
 import { reducer as formReducer } from 'redux-form';
+import thunk from 'redux-thunk';
 
-
-import RestaurantsIndex from './containers/restaurants_index';
 import RestaurantsShow from './containers/restaurants_show';
 import OffersShow from './containers/offers_show';
-import Settings from './containers/settings';
-import StarsEdit from './containers/stars_edit';
-import StarsValidation from './containers/stars_validation';
-import LogIn from './containers/login';
+import StarcodeSearchForm from './containers/starcode_search_form';
+import StarcodeValidation from './containers/starcode_validation';
 
 
 import Navbar from './containers/navbar';
 
-import restaurantsReducer from './reducers/restaurants_reducer';
-import offersReducer from './reducers/offers_reducer';
-import starsReducer from './reducers/stars_reducer';
+
 import currentUserReducer from './reducers/current_user_reducer';
+import RestaurantsIndex from './containers/restaurants_index';
 
-
+import api from './middleware/api';
+import data from './reducers/data';
 
 const root = document.getElementById('root')
 
-const initialState = {
-  restaurants: JSON.parse(root.dataset.restaurants),
-  offers: [],
-  stars: [],
-  logged_in: null
-};
+
+const initialState = {logged_in: null};
 
 
 const reducers = combineReducers({
-  restaurants: restaurantsReducer,
-  offers: offersReducer,
-  stars: starsReducer,
+  data,
   logged_in: currentUserReducer
 });
 
-const middlewares = applyMiddleware(reduxPromise, logger);
+
+
+
+
+const middlewares = applyMiddleware(thunk, logger, api);
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
 
-// render an instance of the component in restaurants/1the DOM
 ReactDOM.render(
 
   <Provider store={createStore(reducers, initialState, composeEnhancers(middlewares))}>
-    <Router history={history}>
+    <Router >
       <div className="app">
         <Navbar />
         <div className="view-container">
           <Switch>
-            <Route path="/c" exact component={RestaurantsIndex} />
+            <Route path="/c/restaurants" exact component={RestaurantsIndex} />
             <Route path="/c/restaurants/:id" exact component={RestaurantsShow} />
             <Route path="/c/offers/:id" exact component={OffersShow} />
-            <Route path="/c/settings" exact component={Settings} />
-            <Route path="/c/stars/:code" exact component={StarsValidation} />
-            <Route path="/c/stars" exact component={StarsEdit} />
-            <Route path="/c/login" exact component={LogIn} />
+            <Route path="/c/code/:code" exact component={StarcodeValidation} />
+            <Route path="/c/code" exact component={StarcodeSearchForm} />
           </Switch>
         </div>
       </div>
