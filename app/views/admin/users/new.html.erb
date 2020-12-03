@@ -1,0 +1,14 @@
+<%= form_for [:admin,@user] do |f| %>
+
+  <div class="form-inputs">
+
+    <%= f.label :email %>
+    <%= f.text_field :email %>
+    <%= f.label :password %>
+    <%= f.text_field :password %>
+    <%= f.label :role %>
+    <%= f.text_field :role %>
+  </div>
+  <%= f.submit "Create" %>
+
+<% end %>

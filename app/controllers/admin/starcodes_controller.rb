@@ -11,12 +11,12 @@ class Admin::StarcodesController < ApplicationController
     amount = params[:nb_stars_per_qr].to_i
     nb_qr = params[:nb_qr].to_i
     batch_name = params[:batch_name]
-
+    debugger
     #validation to do to refuse a batch_name already in DB
     batch = Batch.create(name: batch_name)
 
     nb_qr.times {
-      starcode = Starcode.create(status: "valid", code: SecureRandom.hex(4), batch: batch)
+      starcode = Starcode.create(status: "valid", code: SecureRandom.hex(3), batch: batch)
       amount.times {
         Star.create(restaurant: restaurant, status: "valid", starcode: starcode)
       }
