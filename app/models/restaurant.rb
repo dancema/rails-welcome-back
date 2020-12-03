@@ -3,6 +3,8 @@ class Restaurant < ApplicationRecord
 
   has_many :offers
   has_many :stars
+  has_many :starcodes, through: :stars
+
   has_many :offercodes, through: :offers
   belongs_to :user
 
@@ -15,4 +17,7 @@ class Restaurant < ApplicationRecord
     self.stars.where(status: 'available', user: user).count
   end
 
+  def batchs
+    Batch.joins(:starcodes, :stars).where({ stars: { restaurant: self } }).uniq
+  end
 end

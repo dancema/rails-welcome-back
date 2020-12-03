@@ -31,6 +31,21 @@ RSpec.describe Restaurant, :type => :model do
     expect(restaurant).to respond_to :user
   end
 
+
+  it "has many starcodes" do
+    restaurant = create(:restaurant)
+    starcode = create(:starcode)
+    create(:star, starcode: starcode, restaurant: restaurant)
+    expect(restaurant).to respond_to :starcodes
+  end
+
+  it "has many batchs" do
+    restaurant = create(:restaurant)
+    starcode = create(:starcode)
+    create(:star, starcode: starcode, restaurant: restaurant)
+    expect(restaurant).to respond_to :batchs
+  end
+
   # it "counts the number of stars available for a user" do
   #   user = create(:user, :c)
   #   create(:star, status: 'available', user: user)
