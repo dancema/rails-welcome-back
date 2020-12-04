@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
+      format.pdf { redirect_to main_app.root_url, notice: exception.message }
       format.json { render json: { error: "Forbidden" }, status: 403 }
       format.html { redirect_to main_app.root_url, notice: exception.message }
       format.js   { head :forbidden, content_type: 'text/html' }
