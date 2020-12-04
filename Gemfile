@@ -38,6 +38,8 @@ gem 'chartkick'
 gem 'groupdate'
 gem 'cancancan'
 gem 'jsonapi-serializer'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
 
 group :development, :test do
   gem 'pry-byebug'

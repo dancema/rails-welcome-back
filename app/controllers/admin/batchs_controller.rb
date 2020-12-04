@@ -16,5 +16,11 @@ class Admin::BatchsController < ApplicationController
     @starcodes.each do |starcode|
       @qr << RQRCode::QRCode.new("http://www.welcomeback.best/stars/#{starcode.code}")
     end
+    respond_to do |format|
+      format.html
+      format.pdf do
+        render pdf: "hello"
+      end
+    end
   end
 end
