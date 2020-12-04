@@ -15,6 +15,13 @@ class Admin::RestaurantsController < ApplicationController
     end
   end
 
+  def index
+    @restaurants = Restaurant.all
+  end
+
+  def show
+    @restaurant = Restaurant.find(params[:id])
+  end
 
   private
 

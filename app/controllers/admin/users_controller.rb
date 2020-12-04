@@ -13,6 +13,10 @@ class Admin::UsersController < ApplicationController
     end
   end
 
+  def index
+
+  end
+
   private
 
   def strong_params

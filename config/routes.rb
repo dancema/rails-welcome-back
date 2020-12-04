@@ -32,7 +32,7 @@ Rails.application.routes.draw do
     get '/', to: 'pages#home'
     resources :users, :only => [:new, :create]
     resources :batchs, :only => [:index, :show]
-    resources :restaurants, :only => [:create, :new]
+    resources :restaurants, :only => [:create, :new, :index, :show]
     resources :offers, :only => [:create, :new]
     resources :starcodes, only: [:new, :create]
   end
