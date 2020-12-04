@@ -1,6 +1,6 @@
 class Admin::OffersController < ApplicationController
   before_action :authenticate_user!
-  # before_action :is_admin?
+  load_and_authorize_resource param_method: :strong_params
 
   def new
     @offer = Offer.new
@@ -21,7 +21,12 @@ class Admin::OffersController < ApplicationController
   def strong_params
     params.require(:offer).permit(:title, :offer_type, :stars_required, :restaurant_id)
   end
-  # def is_admin?
-  #   redirect_to main_app.root_path unless current_user.role === "admin"
-  # end
+
+  def current_ability
+    # I am sure there is a slicker way to capture the controller namespace
+    controller_name_segments = params[:controller].split('/')
+    controller_name_segments.pop
+    controller_namespace = controller_name_segments.join('/').camelize
+    @current_ability ||= Ability.new(current_user, controller_namespace)
+  end
 end
