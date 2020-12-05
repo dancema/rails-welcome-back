@@ -33,20 +33,6 @@
 </table>
 
 
-<h2>Offer activations</h2>
-<ul>
-  <% if @restaurant.offercodes != [] %>
-    <% @restaurant.offercodes.each do |offercode| %>
-      <% if offercode.status == 'scanned' %>
-        <li><%= offercode.scanned_at %> - <%= offercode.offer.name %> - user : <%= offercode.user.id  %> </li>
-      <% else %>
-        <li>No offercode scanned</li>
-      <% end %>
-    <% end %>
-  <% else %>
-    <li>No offercode created</li>
-  <% end %>
-</ul>
 
 <h2>Users owning stars</h2>
 
@@ -67,6 +53,27 @@
 
 </table>
 
+
+<h2>Offercodes scanned</h2>
+
+<table>
+  <tr>
+    <th>Offer</th>
+    <th>Stars required</th>
+    <th>Offer type</th>
+    <th>Nb scanned</th>
+  </tr>
+
+  <% @restaurant.offers.each do |offer| %>
+  <tr>
+    <td><%= offer.title %></td>
+    <td><%= offer.stars_required %></td>
+    <td><%= offer.offer_type %></td>
+    <td><%= offer.count_offercodes_scanned %></td>
+  </tr>
+  <% end %>
+
+</table>
 
 
 
