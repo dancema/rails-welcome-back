@@ -4,6 +4,6 @@ class RestaurantSerializer
   has_many :offers
 
   attribute :count_stars do |restaurant, params|
-    restaurant.stars.where(user: params[:current_user], status: 'available').count if params[:current_user]
+    restaurant.stars_count_available(params[:current_user]) if params[:current_user]
   end
 end

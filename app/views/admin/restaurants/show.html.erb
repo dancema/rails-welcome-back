@@ -7,15 +7,30 @@
 
 
 <h2>Batchs performance</h2>
-<ul>
-  <% if @restaurant.batchs != [] %>
+
+
+<table>
+  <tr>
+    <th>Batch</th>
+    <th>Nb Starcodes</th>
+    <th>Nb scanned</th>
+    <th>Nb valid</th>
+    <th>Nb cancel</th>
+    <th>Ratio scanned / total</th>
+  </tr>
+
     <% @restaurant.batchs.each do |batch| %>
-      <li><%= batch.name %></li>
+    <tr>
+      <td><%= batch.name %></td>
+      <td><%= batch.starcodes.count %></td>
+      <td><%= batch.starcodes.scanned.count %></td>
+      <td><%= batch.starcodes.valid.count %></td>
+      <td><%= batch.starcodes.cancel.count %></td>
+      <td><%= (batch.starcodes.scanned.count.to_f / batch.starcodes.count.to_f).round(2)  %></td>
+    </tr>
     <% end %>
-  <% else %>
-    <li>No batches</li>
-  <% end %>
-</ul>
+
+</table>
 
 
 <h2>Offer activations</h2>
@@ -32,6 +47,26 @@
     <li>No offercode created</li>
   <% end %>
 </ul>
+
+<h2>Users owning stars</h2>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Nb stars available</th>
+    <th>Nb stars used</th>
+  </tr>
+
+    <% @restaurant.users.each do |user| %>
+    <tr>
+      <td><%= user.email %></td>
+      <td><%= @restaurant.stars_count_available(user) %></td>
+      <td><%= @restaurant.stars_count_used(user)  %></td>
+    </tr>
+    <% end %>
+
+</table>
+
 
 
 

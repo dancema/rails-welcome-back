@@ -23,6 +23,19 @@ class Admin::RestaurantsController < ApplicationController
     @restaurant = Restaurant.find(params[:id])
   end
 
+  def edit
+    @restaurant = Restaurant.find(params[:id])
+  end
+
+  def update
+    @restaurant = Restaurant.find(params[:id])
+    if @restaurant.update_attributes(strong_params)
+      redirect_to admin_restaurant_path(@restaurant), notice: "Restaurant successfully updated."
+    else
+      redirect_to edit_admin_restaurant_path(@restaurant), alert: "Error updating restaurant."
+    end
+  end
+
   private
 
   def strong_params

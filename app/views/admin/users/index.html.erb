@@ -1,0 +1,33 @@
+<h1>Users</h1>
+
+
+<h2>Search for users</h2>
+<%= form_tag(admin_users_path, method: :get) do  %>
+  <%= text_field_tag(:search, params[:search]) %>
+  <%= submit_tag ("Search")  %>
+<% end %>
+
+
+<table>
+  <tr>
+    <th>Email</th>
+    <th>Role</th>
+    <th>Created At</th>
+    <th></th>
+  </tr>
+
+
+
+  <% @users.each do |user| %>
+  <tr>
+    <td><%= user.email %></td>
+    <td><%= user.role %></td>
+    <td><%= user.created_at %></td>
+    <td><%= link_to('show', admin_user_path(user)) %></td>
+  </tr>
+  <% end %>
+
+
+</table>
+
+<%= link_to('Retour', admin_path) %>

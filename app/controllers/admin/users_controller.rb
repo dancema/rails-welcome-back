@@ -4,8 +4,11 @@ class Admin::UsersController < ApplicationController
 
 
   def new
-
     @user = User.new(role: 'restaurant')
+  end
+
+  def show
+    @user = User.find(params[:id])
   end
 
   def create
@@ -18,7 +21,11 @@ class Admin::UsersController < ApplicationController
   end
 
   def index
-
+    if params[:search]
+      @users = User.where('email LIKE ?', "%#{params[:search]}%")
+    else
+      @users = User.all
+    end
   end
 
   private
