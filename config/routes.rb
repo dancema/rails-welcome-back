@@ -30,7 +30,7 @@ Rails.application.routes.draw do
 
   namespace :admin do
     get '/', to: 'pages#home'
-    resources :users, :only => [:new, :create]
+    resources :users, :only => [:new, :create, :index]
     resources :batchs, :only => [:index, :show]
     resources :restaurants, :only => [:create, :new, :index, :show]
     resources :offers, :only => [:create, :new]
