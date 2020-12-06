@@ -1,51 +1,30 @@
-import React, {Component} from 'react';
+import React, { useEffect } from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { Link, withRouter } from 'react-router-dom';
-import build, { fetchFromMeta } from 'redux-object';
+import { withRouter } from 'react-router-dom';
+import build  from 'redux-object';
 import Restaurant from '../components/restaurant';
 import { apicall, isLoggedIn } from '../actions';
 
-const propTypes = {
+const RestaurantsIndex = ({ restaurants, logged_in, loading_user, loading, dispatch }) => {
+
+  useEffect(() =>  {
+   (restaurants.length === 0) && dispatch(apicall('api/v1/restaurants'));
+   (logged_in === null) && dispatch(isLoggedIn());
+  }, [])
+
+  return (
+    <>
+      {(loading_user || loading) && <div>Loading ...</div>}
+      {(!loading_user && !loading) && restaurants.map(q => <Restaurant key={q.id} restaurant={q}/>)}
+    </>
+  )
+}
+
+RestaurantsIndex.propTypes = {
   dispatch: PropTypes.func.isRequired,
   loading: PropTypes.bool,
 };
-
-
-
-class RestaurantsIndex extends Component  {
-  constructor(props){
-    super(props);
-  }
-
-
-  componentDidMount() {
-    if (this.props.restaurants.length === 0) {
-      this.props.dispatch(apicall('api/v1/restaurants'));
-    }
-
-    if (this.props.logged_in === null) {
-      this.props.dispatch(isLoggedIn())
-    }
-  }
-
-  render() {
-
-    const qWidgets = this.props.restaurants.map(q => <Restaurant key={q.id} restaurant={q} />);
-
-    if ((this.props.loading_user === false)  && (this.props.loading===false)) {
-      return (
-        <div>
-          {qWidgets}
-        </div>
-        );
-    } else {
-      return(<div>Loading ...</div>)
-    }
-  }
-}
-
-RestaurantsIndex.propTypes = propTypes;
 
 function mapStateToProps(state) {
   let restaurants = []

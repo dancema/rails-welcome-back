@@ -1,5 +1,6 @@
-class Admin::RestaurantsController < ApplicationController
+class Admin::RestaurantsController<ApplicationController
   before_action :authenticate_user!
+  before action :find_restaurant, only: [:show, :edit, :update]
   load_and_authorize_resource param_method: :strong_params
 
   def new
@@ -20,15 +21,12 @@ class Admin::RestaurantsController < ApplicationController
   end
 
   def show
-    @restaurant = Restaurant.find(params[:id])
   end
 
   def edit
-    @restaurant = Restaurant.find(params[:id])
   end
 
   def update
-    @restaurant = Restaurant.find(params[:id])
     if @restaurant.update_attributes(strong_params)
       redirect_to admin_restaurant_path(@restaurant), notice: "Restaurant successfully updated."
     else
@@ -42,11 +40,15 @@ class Admin::RestaurantsController < ApplicationController
     params.require(:restaurant).permit(:name, :street, :city, :postal_code, :website_url, :user_id)
   end
 
+  def find_restaurant
+    @restaurant = Restaurant.find(params[:id])
+  end
+
   def current_ability
     # I am sure there is a slicker way to capture the controller namespace
     controller_name_segments = params[:controller].split('/')
     controller_name_segments.pop
     controller_namespace = controller_name_segments.join('/').camelize
-    @current_ability ||= Ability.new(current_user, controller_namespace)
+    @current_ability     ||= Ability.new(current_user, controller_namespace)
   end
 end

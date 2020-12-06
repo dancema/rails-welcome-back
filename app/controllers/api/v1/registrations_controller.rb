@@ -17,7 +17,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
         if resource.persisted?
           if resource.active_for_authentication?
             sign_up(resource_name, resource)
-            render json: { message: "compte n'a pas pu etre creer" },:status => 201
+            render json: { message: "compte n'a pas pu etre créé" },:status => 201
           else
             #in case confirmation needed
             # set_flash_message! :notice, :"signed_up_but_#{resource.inactive_message}"
@@ -27,7 +27,7 @@ class Api::V1::RegistrationsController < Devise::RegistrationsController
         else
           clean_up_passwords resource
           set_minimum_password_length
-          render json: { message: "compte n'a pas pu etre creer" }, :status => 400
+          render json: { message: "compte n'a pas pu etre créé" }, :status => 400
         end
       }
     end

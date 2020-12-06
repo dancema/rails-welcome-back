@@ -2,6 +2,8 @@ class Api::V1::OffersController < ApplicationController
   load_and_authorize_resource
   rescue_from ActiveRecord::RecordNotFound, :with => :record_not_found
 
+  scope :valid, -> { where(status: :valid) }
+
   def show
     offer = Offer.find(params[:id])
 
