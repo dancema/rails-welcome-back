@@ -1,0 +1,56 @@
+<h1><%= @user.email %></h1>
+
+<ul>
+  <li>id : <%= @user.id %></li>
+  <li>email : <%= @user.email %></li>
+  <li>role : <%= @user.role %></li>
+  <li>created_at : <%= @user.created_at %></li>
+</div>
+
+
+<h2>Stars per restaurant</h2>
+
+<table>
+  <tr>
+    <th>Restaurant</th>
+    <th>Nb stars available</th>
+    <th>Nb stars used</th>
+  </tr>
+
+    <% Restaurant.all.each do |restaurant| %>
+    <tr>
+      <td><%= restaurant.name %></td>
+      <td><%= restaurant.stars_count_available(@user) %></td>
+      <td><%= restaurant.stars_count_used(@user) %></td>
+    </tr>
+    <% end %>
+
+</table>
+
+
+<h2>Offercodes</h2>
+
+<table>
+  <tr>
+    <th>Offer</th>
+    <th>Restaurant</th>
+    <th>Offer type</th>
+    <th>Nb stars required</th>
+    <th>Nb scans</th>
+  </tr>
+
+    <% Offer.all.each do |offer| %>
+    <tr>
+      <td><%= offer.title %></td>
+      <td><%= offer.restaurant.name %></td>
+      <td><%= offer.offer_type %></td>
+      <td><%= offer.stars_required %></td>
+      <td><%= offer.count_offercodes_scanned_by(@user) %></td>
+    </tr>
+    <% end %>
+
+</table>
+
+
+
+<%= link_to('Retour', admin_path) %>

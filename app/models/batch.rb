@@ -1,3 +1,6 @@
 class Batch < ApplicationRecord
-  has_many :starcode
+  has_many :starcodes
+  has_many :stars, through: :starcodes
+
+  validates :name, presence: true
 end

@@ -1,0 +1,37 @@
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <%= wicked_pdf_stylesheet_link_tag "flyer" %>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  </head>
+
+  <body>
+      <% @starcodes.each_with_index do |starcode, index| %>
+        <div class="card-flyer">
+    <div class="face face-front">
+          <h2><%= starcode.code %></h2>
+          <table class="qr">
+            <% @qr[index].modules.each_index do |x| %>
+                <tr>
+                  <% @qr[index].modules.each_index do |y| %>
+                      <% if @qr[index].qrcode.checked?(x,y) %>
+                          <td class="black"/>
+                      <% else %>
+                          <td class="white"/>
+                      <% end %>
+                  <% end %>
+                </tr>
+            <% end %>
+          </table>
+        </div>
+      <% end %>
+
+    </div>
+
+  </body>
+</html>
+
+
+
+

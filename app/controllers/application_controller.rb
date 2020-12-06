@@ -10,6 +10,7 @@ class ApplicationController < ActionController::Base
 
   rescue_from CanCan::AccessDenied do |exception|
     respond_to do |format|
+      format.pdf { redirect_to main_app.root_url, notice: exception.message }
       format.json { render json: { error: "Forbidden" }, status: 403 }
       format.html { redirect_to main_app.root_url, notice: exception.message }
       format.js   { head :forbidden, content_type: 'text/html' }
@@ -19,6 +20,15 @@ class ApplicationController < ActionController::Base
 
   private
 
+  def after_sign_in_path_for(resource)
+    if resource.role == 'admin'
+      admin_path
+    elsif resource.role == 'restaurant'
+      r_path
+    else
+      c_client_root_path
+    end
+  end
 
 
   # def render_resource(resource)
@@ -54,12 +64,3 @@ end
   #   @current_user_id.present?
   # end
 
-  # def after_sign_in_path_for(resource)
-  #   if resource.role == 'admin'
-  #     rails_admin_path
-  #   elsif resource.role == 'restaurant'
-  #     r_restaurant_root_path
-  #   else
-  #     c_client_root_path
-  #   end
-  # end

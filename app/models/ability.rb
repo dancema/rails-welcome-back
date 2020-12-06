@@ -38,7 +38,10 @@ class Ability
     case controller_namespace
     when 'Api::V1'
       user ? client_rules : guest_user_rules
+    when 'Admin'
+      admin_rules if user.role == 'admin'
     end
+
   end
 
   def client_rules
@@ -54,5 +57,9 @@ class Ability
     can :read, Offer
     can :read, Restaurant
     can :read, Starcode
+  end
+
+  def admin_rules
+    can :manage, :all
   end
 end

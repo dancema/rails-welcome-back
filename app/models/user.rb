@@ -19,4 +19,6 @@ class User < ApplicationRecord
   has_many :offercodes
   has_many :stars
   has_many :restaurants
+
+
 end

@@ -1,0 +1,80 @@
+
+
+<h1>
+  <%= @restaurant.name %>
+</h1>
+
+
+
+<h2>Batchs performance</h2>
+
+
+<table>
+  <tr>
+    <th>Batch</th>
+    <th>Nb Starcodes</th>
+    <th>Nb scanned</th>
+    <th>Nb valid</th>
+    <th>Nb cancel</th>
+    <th>Ratio scanned / total</th>
+  </tr>
+
+    <% @restaurant.batchs.each do |batch| %>
+    <tr>
+      <td><%= batch.name %></td>
+      <td><%= batch.starcodes.count %></td>
+      <td><%= batch.starcodes.scanned.count %></td>
+      <td><%= batch.starcodes.valid.count %></td>
+      <td><%= batch.starcodes.cancel.count %></td>
+      <td><%= (batch.starcodes.scanned.count.to_f / batch.starcodes.count.to_f).round(2)  %></td>
+    </tr>
+    <% end %>
+
+</table>
+
+
+
+<h2>Users owning stars</h2>
+
+<table>
+  <tr>
+    <th>User</th>
+    <th>Nb stars available</th>
+    <th>Nb stars used</th>
+  </tr>
+
+    <% @restaurant.users.each do |user| %>
+    <tr>
+      <td><%= user.email %></td>
+      <td><%= @restaurant.stars_count_available(user) %></td>
+      <td><%= @restaurant.stars_count_used(user)  %></td>
+    </tr>
+    <% end %>
+
+</table>
+
+
+<h2>Offercodes scanned</h2>
+
+<table>
+  <tr>
+    <th>Offer</th>
+    <th>Stars required</th>
+    <th>Offer type</th>
+    <th>Nb scanned</th>
+  </tr>
+
+  <% @restaurant.offers.each do |offer| %>
+  <tr>
+    <td><%= offer.title %></td>
+    <td><%= offer.stars_required %></td>
+    <td><%= offer.offer_type %></td>
+    <td><%= offer.count_offercodes_scanned %></td>
+  </tr>
+  <% end %>
+
+</table>
+
+
+
+<%= link_to('Retour', admin_path) %>

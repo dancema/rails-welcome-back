@@ -1,0 +1,34 @@
+
+<h1>Restaurants</h1>
+
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th>Street</th>
+    <th>City</th>
+    <th>Postal code</th>
+    <th>Website url</th>
+    <th>User email</th>
+    <th></th>
+    <th></th>
+  </tr>
+
+  <% @restaurants.each do |restaurant| %>
+  <tr>
+    <td><%= restaurant.name %></td>
+    <td><%= restaurant.street %></td>
+    <td><%= restaurant.city %></td>
+    <td><%= restaurant.postal_code %></td>
+    <td><%= restaurant.website_url %></td>
+    <td><%= restaurant.user.email %></td>
+    <td><%= link_to 'Show', admin_restaurant_path(restaurant) %></td>
+    <td><%= link_to 'Edit', edit_admin_restaurant_path(restaurant) %></td>
+  </tr>
+  <% end %>
+
+</table>
+
+
+
+<%= link_to('Retour', admin_path) %>

@@ -1,0 +1,16 @@
+
+<h1>Batchs</h1>
+<div>
+  <% Restaurant.all.each do |restaurant| %>
+    <h2><%= restaurant.name %></h2>
+    <ul>
+      <% restaurant.batchs.each do |batch| %>
+        <li><a href="<%= admin_batch_path(batch.id, format: :pdf)%>" target='_blank'> id: <%= batch.id %> - name: <%= batch.name %> - nbStarcodes: <%= batch.starcodes.count %></a></li>
+      <% end %>
+    </ul>
+  <% end %>
+</div>
+
+
+
+<%= link_to('Retour', admin_path) %>

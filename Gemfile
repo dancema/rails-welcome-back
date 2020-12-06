@@ -38,6 +38,8 @@ gem 'chartkick'
 gem 'groupdate'
 gem 'cancancan'
 gem 'jsonapi-serializer'
+gem 'wicked_pdf'
+gem 'wkhtmltopdf-binary'
 
 group :development, :test do
   gem 'pry-byebug'
@@ -50,6 +52,7 @@ group :development, :test do
   gem 'rspec-rails', '~> 4.0.1'
   gem 'factory_bot_rails'
   gem 'shoulda-matchers'
+  gem 'rails-controller-testing'
 end
 
 group :development do

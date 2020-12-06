@@ -1,0 +1,28 @@
+<div>WELCOME TO ADMIN</div>
+
+
+
+
+<h2>Steps for new restaurant</h2>
+<ol>
+  <li><%= link_to('Create user with role restaurant', new_admin_user_path) %></li>
+  <li><%= link_to('Create restaurant', new_admin_restaurant_path) %></li>
+  <li><%= link_to('Create offer', new_admin_offer_path) %></li>
+  <li>Send invitation to user</li>
+</ol>
+
+<h2>Steps for new starcodes</h2>
+<ol>
+  <li><%= link_to('Create starcodes for a restaurant', new_admin_starcode_path) %></li>
+  <li><%= link_to('Download PDF of starcode batches', admin_batchs_path) %></li>
+</ol>
+
+<h2>Analytics</h2>
+
+<ul>
+  <li><%= link_to('Restaurants', admin_restaurants_path) %></li>
+  <li><%= link_to('Users', admin_users_path) %></li>
+</ul>
+
+
+<%= link_to('Logout', destroy_user_session_path, method: :delete) %>
