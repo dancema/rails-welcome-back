@@ -6,6 +6,7 @@ class Admin::StarcodesController < ApplicationController
     @restaurants = Restaurant.all
   end
 
+  # TODO REWRITE
   def create
     restaurant = Restaurant.find(params[:restaurant_id])
     amount = params[:nb_stars_per_qr].to_i

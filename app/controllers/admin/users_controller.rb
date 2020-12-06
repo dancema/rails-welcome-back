@@ -4,7 +4,7 @@ class Admin::UsersController < ApplicationController
 
 
   def new
-    @user = User.new(role: 'restaurant')
+    @user = Restaurator.new
   end
 
   def show

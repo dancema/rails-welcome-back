@@ -1,34 +1,12 @@
-class Api::V1::OffercodesController < ApplicationController
+class Api::V1::OffercodesController<ApplicationController
   before_action :authenticate_user!
-
+  before_action :find_offer, only: :create
   load_and_authorize_resource param_method: :offer_params
 
-
+  # TODO rewrite
   def create
-    offer = Offer.find_by(offer_params)
-
-    if offer
-      user = current_user
-      code = SecureRandom.hex(3)
-
-      if user.stars.where(status: 'available').count < offer.stars_required
-        return render json: {error: 'User without enough stars'}, status: 403
-      end
-
-      if !Offercode.where(user: user, status: 'valid').empty?
-        Offercode.where(user: user, status: 'valid').each do |offercode|
-          offercode.status = 'cancel'
-          offercode.save
-        end
-      end
-
-      offercode = Offercode.create(offer: offer, user: user, code: code, status: 'valid')
-      render json: { code: offercode.code }, status: :ok
-    else
-      render json: {
-        error: "Offer id invalide"
-      }, status: :not_found
-    end
+      offercode = Offercode.create!(offer: @offer, user: current_user, status: 'valid')
+      render json: offercode, status: :ok
   end
 
   private
@@ -37,11 +15,15 @@ class Api::V1::OffercodesController < ApplicationController
     params.require(:offer).permit(:id)
   end
 
+  def find_offer
+    @offer = Offer.find_by(offer_params)
+  end
+
   def current_ability
     # I am sure there is a slicker way to capture the controller namespace
     controller_name_segments = params[:controller].split('/')
     controller_name_segments.pop
     controller_namespace = controller_name_segments.join('/').camelize
-    @current_ability ||= Ability.new(current_user, controller_namespace)
+    @current_ability     ||= Ability.new(current_user, controller_namespace)
   end
 end

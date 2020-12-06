@@ -17,6 +17,7 @@ class User < ApplicationRecord
   end
 
   has_many :offercodes
+  has_one :active_offercode, -> { valid }, class_name: 'Offercode', required: false
   has_many :stars
   has_many :restaurants
 
